@@ -6,9 +6,12 @@ use App\Repository\ProfesseurRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ProfesseurRepository::class)
+ * @UniqueEntity("email")
  */
 class Professeur {
     /**
@@ -20,16 +23,28 @@ class Professeur {
     
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner le nom."
+     * )
      */
     private $nom;
     
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner le prénom."
+     * )
      */
     private $prenom;
     
     /**
      * @ORM\Column(type="string", unique=true, length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner l'email."
+     * )
+     * @Assert\Email(
+     *      message = "Le format de l'email est invalide."
+     * )
      */
     private $email;
 
@@ -46,6 +61,10 @@ class Professeur {
     public function __construct() {
         $this->avis = new ArrayCollection();
         $this->matieres = new ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->prenom . ' ' . $this->nom;
     }
 
     public function getId(): ?int {

@@ -4,12 +4,13 @@ namespace App\Entity;
 
 use App\Repository\AvisRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AvisRepository::class)
  */
-class Avis
-{
+class Avis {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -19,22 +20,38 @@ class Avis
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner la note."
+     * )
+     * @Assert\Range(min=0, max=5)
      */
     private $note;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner le commentaire."
+     * )
      */
     private $commentaire;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner l'email."
+     * )
+     * @Assert\Email(
+     *      message = "Le format de l'email est invalide."
+     * )
      */
     private $emailEtudiant;
 
     /**
      * @ORM\ManyToOne(targetEntity=Professeur::class, inversedBy="avis")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner le professeur."
+     * )
      */
     private $professeur;
 
