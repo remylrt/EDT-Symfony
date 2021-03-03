@@ -9,6 +9,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AvisRepository::class)
+ * @UniqueEntity(
+ *  fields={"professeur","emailEtudiant"},
+ *  errorPath="emailEtudiant",
+ *  message="Cet étudiant a déjà noté ce professeur."
+ * )
  */
 class Avis {
     /**
