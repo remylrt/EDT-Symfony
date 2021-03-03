@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use JsonSerializable;
+
 use App\Repository\AvisRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,7 +17,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *  message="Cet étudiant a déjà noté ce professeur."
  * )
  */
-class Avis {
+class Avis implements JsonSerializable{
+    use Updatable;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -59,6 +63,22 @@ class Avis {
      * )
      */
     private $professeur;
+
+    public function __construct(array $data = []) {
+        $this->note = $data['note'] ?? null;
+        $this->commentaire = $data['commentaire'] ?? null;
+        $this->emailEtudiant = $data['emailEtudiant'] ?? null;
+        $this->professeur = $data['professeur'] ?? null;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'note' => $this->note,
+            'commentaire' => $this->commentaire,
+            'emailEtudiant' => $this->emailEtudiant
+        ];
+    }
 
     public function getId(): ?int {
         return $this->id;

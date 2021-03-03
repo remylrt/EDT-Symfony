@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use JsonSerializable;
+
 use App\Repository\MatiereRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=MatiereRepository::class)
  * @UniqueEntity("reference")
  */
-class Matiere {
+class Matiere implements JsonSerializable{
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -48,6 +50,14 @@ class Matiere {
 
     public function __toString() {
         return $this->reference . ': ' . $this->titre;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'titre' => $this->titre,
+            'reference' => $this->reference,
+        ];
     }
 
     public function getId(): ?int {

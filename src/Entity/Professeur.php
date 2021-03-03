@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use JsonSerializable;
+
 use App\Repository\ProfesseurRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=ProfesseurRepository::class)
  * @UniqueEntity("email")
  */
-class Professeur {
+class Professeur implements JsonSerializable {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -67,6 +69,16 @@ class Professeur {
         return $this->prenom . ' ' . $this->nom;
     }
 
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'nom' => $this->nom,
+            'prenom' => $this->prenom,
+            'email' => $this->email,
+            'matieres' => $this->matieres->toArray()
+        ];
+    }
+
     public function getId(): ?int {
         return $this->id;
     }
@@ -101,7 +113,10 @@ class Professeur {
         return $this;
     }
 
-    public function getAvis(): ArrayCollection {
+    /**
+     * @return Collection|Avis[]
+     */
+    public function getAvis(): Collection {
         return $this->avis;
     }
 
