@@ -33,7 +33,7 @@ class AvisController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}", name="create", methods={"POST"})
+     * @Route("/{id}", name="create_avis", methods={"POST"})
      */
     public function create(Request $request, Professeur $professeur = null, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse {
         if (!$professeur) {
