@@ -6,6 +6,7 @@
 {% endblock %}
 {% block body %}
 <v-container ma-0 pa-0>
+
     <v-container ma-0 pa-0 class="hidden-sm-and-down">
         <v-app-bar app :value="value" :dark="darkMode" color="primary">
             <v-btn @click="getPreviousDate()">
@@ -26,8 +27,8 @@
         </v-app-bar>
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >
-                <v-sheet style="height: calc(100vh - 56px);">
-                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEvent">
+                <v-sheet style="height: 100vh; padding-top: 64px">
+                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
 
                     </v-calendar>
                 </v-sheet>
@@ -40,16 +41,56 @@
         </v-row>
     </v-container>
 
+    {# <v-card>
+        <v-toolbar
+                dark
+                color="primary"
+        >
+            <v-btn
+                    icon
+                    dark
+                    @click="dialog = false"
+            >
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Settings</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+                <v-btn
+                        dark
+                        text
+                        @click="dialog = false"
+                >
+                    Save
+                </v-btn>
+            </v-toolbar-items>
+        </v-toolbar>
+    </v-card>#}
+
     <v-container ma-0 pa-0 class="hidden-md-and-up" >
         <v-row no-gutters>
             <v-col cols="12" >
                 <v-sheet style="height: calc(100vh - 56px);">
-                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEvent">
-
+                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
                     </v-calendar>
                 </v-sheet>
             </v-col>
         </v-row>
+
+        <v-dialog v-model="showSmallSizeDialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
+            <v-card>
+                <v-toolbar dark color="primary" >
+                    <v-btn icon dark @click="showSmallSizeDialog = false" >
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Information sur le cours "${ currentClassInformations.name }"</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                </v-toolbar>
+
+
+            </v-card>
+        </v-dialog>
+
         <v-bottom-navigation app :value="value" :dark="darkMode" color="primary">
             <v-btn @click="getPreviousDate()">
                 <span>Précédent</span>

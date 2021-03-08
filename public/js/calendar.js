@@ -11,6 +11,8 @@ var app = new Vue({
         appName: "EDT",
         today: new Date(),
         darkMode: false,
+        showSmallSizeDialog: false,
+        currentClassInformations: {},
         events: [
             {
                 "id": 1,
@@ -26,7 +28,7 @@ var app = new Vue({
                 "type": "TP",
                 "salle": "126",
                 "start": "2021-03-10 12:07:00",
-                "end": "2021-03-24 12:07:00"
+                "end": "2021-03-10 12:58:00"
             },
             {
                 "id": 3,
@@ -50,8 +52,21 @@ var app = new Vue({
         backToCurrentDate(){
             this.today = new Date()
         },
-        showEvent ({ nativeEvent, event }) {
+        showEventDetails ({ nativeEvent, event }) {
             console.log(event)
+
+            this.currentClassInformations = {
+                id: event.id,
+                name: event.name,
+                salle: event.salle,
+                start: event.start,
+                end: event.end,
+            }
+
+
+
+            this.showSmallSizeDialog = true;
+
 
             nativeEvent.stopPropagation()
         },
