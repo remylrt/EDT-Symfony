@@ -44,8 +44,14 @@ class Matiere implements JsonSerializable{
      */
     private $professeurs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Cours::class, mappedBy="matiere")
+     */
+    private $cours;
+
     public function __construct() {
         $this->professeurs = new ArrayCollection();
+        $this->cours = new ArrayCollection();
     }
 
     public function __toString() {
@@ -101,6 +107,36 @@ class Matiere implements JsonSerializable{
 
     public function removeProfesseur(Professeur $professeur): self {
         $this->professeurs->removeElement($professeur);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cours[]
+     */
+    public function getCours(): Collection
+    {
+        return $this->cours;
+    }
+
+    public function addCour(Cours $cour): self
+    {
+        if (!$this->cours->contains($cour)) {
+            $this->cours[] = $cour;
+            $cour->setMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCour(Cours $cour): self
+    {
+        if ($this->cours->removeElement($cour)) {
+            // set the owning side to null (unless already changed)
+            if ($cour->getMatiere() === $this) {
+                $cour->setMatiere(null);
+            }
+        }
 
         return $this;
     }
