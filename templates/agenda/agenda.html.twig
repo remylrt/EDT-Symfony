@@ -32,17 +32,17 @@
 
 
     <v-bottom-navigation app :value="value" color="primary">
-        <v-btn v-on:click="getPreviousDate()">
+        <v-btn @click="getPreviousDate()">
             <span>Précédent</span>
 
             <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
 
-        <v-btn>
-            <h4>${ todayDate }</h4>
+        <v-btn @click="backToCurrentDate()">
+            <span>Aujourd'hui</span>
         </v-btn>
 
-        <v-btn v-on:click="getNextDate()">
+        <v-btn @click="getNextDate()">
             <span>Suivant</span>
 
             <v-icon>mdi-chevron-right</v-icon>
