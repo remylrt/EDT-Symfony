@@ -48,7 +48,7 @@ var app = new Vue({
         errors: [],
         mesAvis: [],
         showNoticeDialog: false,
-
+        showCreateNoticeDialog: false
     },
     methods: {
         getPreviousDate(){
@@ -96,8 +96,13 @@ var app = new Vue({
             this.showNoticeDialog = true;
             this.getAvis(avisCourant);
         },
+        showCreateNotice(professeur){
+            this.showCreateNoticeDialog = true;
+            this.professeurCourant = professeur;
+        },
+
         getAvis: function (professeur) {
-            this.nouvelAvis = this.newAvis();
+            //this.nouvelAvis = this.newAvis();
             this.errors = [];
             axios.get(this.apiBase + '/avis/' + professeur.id)
                 .then(response => {

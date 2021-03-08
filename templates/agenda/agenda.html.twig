@@ -62,7 +62,7 @@
                                         <v-btn outlined rounded text @click="showNotice(professeur)" :disabled="professeur.id === professeurCourant?.id">
                                             Afficher les avis
                                         </v-btn>
-                                        <v-btn outlined rounded text>
+                                        <v-btn outlined rounded text @click="showCreateNotice(professeur)">
                                             Noter
                                         </v-btn>
                                     </v-card-actions>
@@ -150,6 +150,45 @@
                     </v-list-item>
                 </v-card>
             </div>
+        </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="showCreateNoticeDialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
+        <v-card>
+            <v-toolbar dark color="primary" >
+                <v-btn icon dark @click="showCreateNoticeDialog = false, professeurCourant = {}" >
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title>Créer un avis sur ${ professeurCourant?.prenom } ${ professeurCourant?.nom }</v-toolbar-title>
+                <v-spacer></v-spacer>
+            </v-toolbar>
+            <v-container>
+                <v-form ref="form" v-model="valid" lazy-validation >
+
+                     <v-text-field v-model="nouvelAvis.emailEtudiant" :rules="emailRules" label="Email étudiant" required ></v-text-field>
+
+                    <v-textarea v-model="nouvelAvis.commentaire"  label="Commentaire" required ></v-textarea>
+
+                    <label>Note :</label>
+                    <v-rating
+                            v-model="nouvelAvis.note"
+                            background-color="green lighten-3"
+                            hover
+                            color="green"
+                    ></v-rating>
+
+                    <v-divider class="py-5"></v-divider>
+                    <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate" >
+                        Ajouter l'avis
+                    </v-btn>
+
+                    <v-btn color="error" class="mr-4" @click="showCreateNoticeDialog = false, professeurCourant = {}" >
+                        Annuler
+                    </v-btn>
+                </v-form>
+            </v-container>
+
+
         </v-card>
     </v-dialog>
 
