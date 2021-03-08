@@ -9,7 +9,6 @@ var app = new Vue({
     data: {
         windowsHeigt: window.innerHeight,
         appName: "EDT",
-        todayDate: new Date().toLocaleDateString(),
         today: new Date(),
         events: [
             {
@@ -21,16 +20,12 @@ var app = new Vue({
     },
     methods: {
         getPreviousDate(){
-            var dateStr = this.today;
-            var days = 1;
-            var result = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() - days));
-            this.today = result.toISOString().substr(0, 10);
+           let dateStr = this.today;
+            this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() - 1));
         },
         getNextDate(){
-            var dateStr = this.today;
-            var days = 1;
-            var result = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() + days));
-            this.today = result.toISOString().substr(0, 10);
+            let dateStr = this.today;
+            this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() + 1));
         },
         backToCurrentDate(){
             this.today = new Date()

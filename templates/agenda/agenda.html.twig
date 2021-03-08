@@ -9,7 +9,7 @@
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >
                 <v-sheet style="height: calc(100vh - 56px);">
-                    <v-calendar color="primary" type="day" first-interval="15" interval-count="24" interval-minutes="30" :events="events" :value="today">
+                    <v-calendar color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" >
                         <template v-slot:day-header="{ present }">
                             <template v-if="present" class="text-center" >
                                 Today
