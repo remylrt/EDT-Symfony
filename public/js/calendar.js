@@ -42,6 +42,12 @@ var app = new Vue({
 
         apiBase: 'http://localhost:8000/api',
         professeurs: [],
+        professeurCourant: null,
+        avis: [],
+        nouvelAvis: {},
+        errors: [],
+        mesAvis: [],
+        showNoticeDialog: false,
 
     },
     methods: {
@@ -86,7 +92,51 @@ var app = new Vue({
                     console.log(error);
                 })
         },
-
+        showNotice(avisCourant){
+            this.showNoticeDialog = true;
+            this.getAvis(avisCourant);
+        },
+        getAvis: function (professeur) {
+            this.nouvelAvis = this.newAvis();
+            this.errors = [];
+            axios.get(this.apiBase + '/avis/' + professeur.id)
+                .then(response => {
+                    this.professeurCourant = professeur;
+                    this.avis = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+        newAvis: function () {
+            return {
+                note: 0,
+                commentaire: '',
+                emailEtudiant: '',
+            };
+        },
+        postAvis: function () {
+            this.errors = [];
+            axios.post(this.apiBase + '/avis/' + this.professeurCourant.id, this.nouvelAvis)
+                .then(response => {
+                    this.avis.unshift(response.data);
+                    this.nouvelAvis = this.newAvis();
+                    this.mesAvis.push(response.data);
+                })
+                .catch(error => {
+                    this.errors = Object.values(error.response.data);
+                });
+        },
+        deleteAvis: function (avis) {
+            axios.delete(this.apiBase + '/avis/' + avis.id)
+                .then(response => {
+                    this.avis.slice(this.avis.indexOf(avis), 1);
+                    this.mesAvis.splice(this.mesAvis.indexOf(avis), 1);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
     },
     mounted() {
         this.getProfesseurs();

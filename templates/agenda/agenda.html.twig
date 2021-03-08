@@ -59,8 +59,11 @@
                                     </v-list-item>
 
                                     <v-card-actions>
-                                        <v-btn outlined rounded text >
+                                        <v-btn outlined rounded text @click="showNotice(professeur)" :disabled="professeur.id === professeurCourant?.id">
                                             Afficher les avis
+                                        </v-btn>
+                                        <v-btn outlined rounded text>
+                                            Noter
                                         </v-btn>
                                     </v-card-actions>
                                 </v-card>
@@ -68,6 +71,10 @@
 
                             </v-col>
                         </v-row>
+
+
+
+
                 </v-sheet>
             </v-col>
         </v-row>
@@ -111,6 +118,38 @@
                 <v-toolbar-title>Information sur le cours "${ currentClassInformations.name }"</v-toolbar-title>
                 <v-spacer></v-spacer>
             </v-toolbar>
+        </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="showNoticeDialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
+        <v-card>
+            <v-toolbar dark color="primary" >
+                <v-btn icon dark @click="showNoticeDialog = false, professeurCourant = {}" >
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title>Avis sur ${ professeurCourant?.prenom } ${ professeurCourant?.nom }</v-toolbar-title>
+                <v-spacer></v-spacer>
+            </v-toolbar>
+            <div class="card mt-1" v-for="avisCourant in avis">
+                <v-card elevation="2" class="my-3 mx-3">
+                    <v-list-item three-line>
+                        <v-list-item-content>
+                            <v-rating
+                                    background-color="green lighten-3"
+                                    color="green"
+                                    readonly
+                                    medium
+                                    v-model="avisCourant.note"
+                            ></v-rating>
+                            <div class="headline mb-1">
+                                ${ avisCourant.commentaire }
+                            </div>
+                            <div>Commentaire de : ${ avisCourant.emailEtudiant } </div>
+
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-card>
+            </div>
         </v-card>
     </v-dialog>
 
