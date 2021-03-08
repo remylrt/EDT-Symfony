@@ -39,6 +39,10 @@ var app = new Vue({
                 "end": "2021-03-08 15:22:00"
             }
         ],
+
+        apiBase: 'http://localhost:8000/api',
+        professeurs: [],
+
     },
     methods: {
         getPreviousDate(){
@@ -70,5 +74,21 @@ var app = new Vue({
 
             nativeEvent.stopPropagation()
         },
+
+
+
+        getProfesseurs: function () {
+            axios.get(this.apiBase + '/professeurs')
+                .then(response => {
+                    this.professeurs = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+
     },
+    mounted() {
+        this.getProfesseurs();
+    }
 })

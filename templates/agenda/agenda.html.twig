@@ -5,9 +5,9 @@
     <link href="{{ asset('css/calendar.css') }}">
 {% endblock %}
 {% block body %}
-<v-container ma-0 pa-0>
+<v-container fluid>
 
-    <v-container ma-0 pa-0 class="hidden-sm-and-down">
+    <v-container fluid class="hidden-sm-and-down">
         <v-app-bar app :value="value" :dark="darkMode" color="primary">
             <v-btn @click="getPreviousDate()">
                 <span>Précédent</span>
@@ -34,38 +34,45 @@
                 </v-sheet>
             </v-col>
             <v-col cols="12"  md="6" lg="6" xl="8" >
-                <v-card class="pa-2" outlined tile :dark="darkMode" >
-                    .col-6 .col-md-4
-                </v-card>
+                <v-sheet style="height: 100vh; padding-top: 64px">
+                    <h1 class="text-center">
+                        Note ton prof !
+                    </h1>
+                    <v-divider class="py-5"></v-divider>
+                        <v-row dense>
+                            <v-col cols="6" sm="12" md="12" lg="6" xl="4" v-for="professeur in professeurs">
+
+
+                                <v-card elevation="2" class="my-3 mx-3">
+                                    <v-list-item three-line>
+                                        <v-list-item-content>
+                                            <div class="overline mb-4">
+                                            <span v-for="matiere in professeur.matieres">
+                                                ${ matiere.titre } (${ matiere.reference }),
+                                            </span> <br>
+                                            </div>
+                                            <v-list-item-title class="headline mb-1">
+                                                ${ professeur.prenom } ${ professeur.nom }
+                                            </v-list-item-title>
+                                            <v-list-item-subtitle>${ professeur.email }</v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+
+                                    <v-card-actions>
+                                        <v-btn outlined rounded text >
+                                            Afficher les avis
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+
+
+                            </v-col>
+                        </v-row>
+                </v-sheet>
             </v-col>
         </v-row>
     </v-container>
 
-    {# <v-card>
-        <v-toolbar
-                dark
-                color="primary"
-        >
-            <v-btn
-                    icon
-                    dark
-                    @click="dialog = false"
-            >
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title>Settings</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-toolbar-items>
-                <v-btn
-                        dark
-                        text
-                        @click="dialog = false"
-                >
-                    Save
-                </v-btn>
-            </v-toolbar-items>
-        </v-toolbar>
-    </v-card>#}
 
     <v-container ma-0 pa-0 class="hidden-md-and-up" >
         <v-row no-gutters>
@@ -76,21 +83,6 @@
                 </v-sheet>
             </v-col>
         </v-row>
-
-        <v-dialog v-model="showSmallSizeDialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
-            <v-card>
-                <v-toolbar dark color="primary" >
-                    <v-btn icon dark @click="showSmallSizeDialog = false, currentClassInformations = {}" >
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title>Information sur le cours "${ currentClassInformations.name }"</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                </v-toolbar>
-
-
-            </v-card>
-        </v-dialog>
-
         <v-bottom-navigation app :value="value" :dark="darkMode" color="primary">
             <v-btn @click="getPreviousDate()">
                 <span>Précédent</span>
@@ -110,6 +102,17 @@
         </v-bottom-navigation>
     </v-container>
 
+    <v-dialog v-model="showSmallSizeDialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
+        <v-card>
+            <v-toolbar dark color="primary" >
+                <v-btn icon dark @click="showSmallSizeDialog = false, currentClassInformations = {}" >
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title>Information sur le cours "${ currentClassInformations.name }"</v-toolbar-title>
+                <v-spacer></v-spacer>
+            </v-toolbar>
+        </v-card>
+    </v-dialog>
 
 </v-container>
 
