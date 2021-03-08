@@ -88,7 +88,7 @@ class Avis implements JsonSerializable{
         return $this->note;
     }
 
-    public function setNote(int $note): self {
+    public function setNote(?int $note): self {
         $this->note = $note;
 
         return $this;
@@ -98,7 +98,7 @@ class Avis implements JsonSerializable{
         return $this->commentaire;
     }
 
-    public function setCommentaire(string $commentaire): self {
+    public function setCommentaire(?string $commentaire): self {
         $this->commentaire = $commentaire;
 
         return $this;
@@ -108,7 +108,7 @@ class Avis implements JsonSerializable{
         return $this->emailEtudiant;
     }
 
-    public function setEmailEtudiant(string $emailEtudiant): self {
+    public function setEmailEtudiant(?string $emailEtudiant): self {
         $this->emailEtudiant = $emailEtudiant;
 
         return $this;

@@ -4,12 +4,12 @@ namespace App\Entity;
 
 use App\Repository\CoursRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CoursRepository::class)
  */
-class Cours
-{
+class Cours {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -18,50 +18,73 @@ class Cours
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner la date de début."
+     * )
      */
     private $dateHeureDebut;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner la date de fin."
+     * )
+     * @Assert\GreaterThan(
+     *      propertyPath = "dateHeureDebut",
+     *      message = "La date de fin doit être ultérieure à la date de début."
+     * )
      */
     private $dateHeureFin;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner le type."
+     * )
+     * @Assert\Choice(
+     *      {"Cours", "TD", "TP"},
+     *      message = "Le type est invalide."
+     * )
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity=Matiere::class, inversedBy="cours")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner la matière."
+     * )
      */
     private $matiere;
 
     /**
      * @ORM\ManyToOne(targetEntity=Professeur::class, inversedBy="cours")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner le professeur."
+     * )
      */
     private $professeur;
 
     /**
      * @ORM\ManyToOne(targetEntity=Salle::class, inversedBy="cours")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner la salle."
+     * )
      */
     private $salle;
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getDateHeureDebut(): ?\DateTimeInterface
-    {
+    public function getDateHeureDebut(): ?\DateTimeInterface {
         return $this->dateHeureDebut;
     }
 
-    public function setDateHeureDebut(\DateTimeInterface $dateHeureDebut): self
-    {
+    public function setDateHeureDebut(?\DateTimeInterface $dateHeureDebut): self {
         $this->dateHeureDebut = $dateHeureDebut;
 
         return $this;
@@ -72,7 +95,7 @@ class Cours
         return $this->dateHeureFin;
     }
 
-    public function setDateHeureFin(\DateTimeInterface $dateHeureFin): self
+    public function setDateHeureFin(?\DateTimeInterface $dateHeureFin): self
     {
         $this->dateHeureFin = $dateHeureFin;
 
@@ -84,7 +107,7 @@ class Cours
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(?string $type): self
     {
         $this->type = $type;
 

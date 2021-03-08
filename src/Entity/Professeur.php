@@ -72,7 +72,11 @@ class Professeur implements JsonSerializable {
     }
 
     public function __toString() {
-        return $this->prenom . ' ' . $this->nom;
+        if ($this->prenom && $this->nom) {
+            return $this->prenom . ' ' . $this->nom;
+        }
+
+        return '';
     }
 
     public function jsonSerialize() {
@@ -93,7 +97,7 @@ class Professeur implements JsonSerializable {
         return $this->nom;
     }
 
-    public function setNom(string $nom): self {
+    public function setNom(?string $nom): self {
         $this->nom = $nom;
 
         return $this;
@@ -103,7 +107,7 @@ class Professeur implements JsonSerializable {
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): self {
+    public function setPrenom(?string $prenom): self {
         $this->prenom = $prenom;
 
         return $this;
@@ -113,7 +117,7 @@ class Professeur implements JsonSerializable {
         return $this->email;
     }
 
-    public function setEmail(string $email): self {
+    public function setEmail(?string $email): self {
         $this->email = $email;
 
         return $this;

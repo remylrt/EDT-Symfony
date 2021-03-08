@@ -55,7 +55,11 @@ class Matiere implements JsonSerializable{
     }
 
     public function __toString() {
-        return $this->reference . ': ' . $this->titre;
+        if ($this->reference && $this->titre) {
+            return $this->reference . ': ' . $this->titre;
+        }
+
+        return '';
     }
 
     public function jsonSerialize() {
@@ -74,7 +78,7 @@ class Matiere implements JsonSerializable{
         return $this->titre;
     }
 
-    public function setTitre(string $titre): self {
+    public function setTitre(?string $titre): self {
         $this->titre = $titre;
 
         return $this;
@@ -84,7 +88,7 @@ class Matiere implements JsonSerializable{
         return $this->reference;
     }
 
-    public function setReference(string $reference): self {
+    public function setReference(?string $reference): self {
         $this->reference = $reference;
 
         return $this;

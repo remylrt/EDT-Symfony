@@ -6,12 +6,12 @@ use App\Repository\SalleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SalleRepository::class)
  */
-class Salle
-{
+class Salle {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,6 +21,9 @@ class Salle
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez renseigner le numéro."
+     * )
      */
     private $numero;
 
@@ -29,23 +32,27 @@ class Salle
      */
     private $cours;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->cours = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function __toString() {
+        if ($this->numero) {
+            return $this->numero;
+        }
+
+        return '';
+    }
+
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getNumero(): ?string
-    {
+    public function getNumero(): ?string {
         return $this->numero;
     }
 
-    public function setNumero(string $numero): self
-    {
+    public function setNumero(?string $numero): self {
         $this->numero = $numero;
 
         return $this;
@@ -54,13 +61,11 @@ class Salle
     /**
      * @return Collection|Cours[]
      */
-    public function getCours(): Collection
-    {
+    public function getCours(): Collection {
         return $this->cours;
     }
 
-    public function addCour(Cours $cour): self
-    {
+    public function addCour(Cours $cour): self {
         if (!$this->cours->contains($cour)) {
             $this->cours[] = $cour;
             $cour->setSalle($this);
@@ -69,8 +74,7 @@ class Salle
         return $this;
     }
 
-    public function removeCour(Cours $cour): self
-    {
+    public function removeCour(Cours $cour): self {
         if ($this->cours->removeElement($cour)) {
             // set the owning side to null (unless already changed)
             if ($cour->getSalle() === $this) {
