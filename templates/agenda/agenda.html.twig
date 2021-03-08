@@ -2,19 +2,15 @@
 
 {% block title %}Agenda{% endblock %}
 {% block stylesheets %}
-
+    <link href="{{ asset('css/calendar.css') }}">
 {% endblock %}
 {% block body %}
     <v-container ma-0 pa-0>
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >
                 <v-sheet style="height: calc(100vh - 56px);">
-                    <v-calendar color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" >
-                        <template v-slot:day-header="{ present }">
-                            <template v-if="present" class="text-center" >
-                                Today
-                            </template>
-                        </template>
+                    <v-calendar color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEvent">
+
                     </v-calendar>
                 </v-sheet>
             </v-col>

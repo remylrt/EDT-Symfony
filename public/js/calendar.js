@@ -12,10 +12,29 @@ var app = new Vue({
         today: new Date(),
         events: [
             {
-                name: 'Weekly Meeting',
-                start: '2021-03-08 09:45',
-                end: '2021-03-08 10:00',
+                "id": 1,
+                "name": "M1102: Introduction à l'algorithmique",
+                "type": "Cours",
+                "salle": "125",
+                "start": "2021-03-08 08:30:00",
+                "end": "2021-03-08 12:30:00"
             },
+            {
+                "id": 2,
+                "name": "M1102: Introduction à l'algorithmique",
+                "type": "TP",
+                "salle": "126",
+                "start": "2021-03-10 12:07:00",
+                "end": "2021-03-24 12:07:00"
+            },
+            {
+                "id": 3,
+                "name": "M1102: Introduction à l'algorithmique",
+                "type": "TP",
+                "salle": "124",
+                "start": "2021-03-08 15:21:00",
+                "end": "2021-03-08 15:22:00"
+            }
         ],
     },
     methods: {
@@ -29,6 +48,11 @@ var app = new Vue({
         },
         backToCurrentDate(){
             this.today = new Date()
-        }
-    }
-    })
+        },
+        showEvent ({ nativeEvent, event }) {
+            console.log(event)
+
+            nativeEvent.stopPropagation()
+        },
+    },
+})
