@@ -10,6 +10,7 @@ var app = new Vue({
         windowsHeigt: window.innerHeight,
         appName: "EDT",
         today: new Date(),
+        darkMode: false,
         events: [
             {
                 "id": 1,

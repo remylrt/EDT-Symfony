@@ -9,13 +9,13 @@
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >
                 <v-sheet style="height: calc(100vh - 56px);">
-                    <v-calendar color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEvent">
+                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEvent">
 
                     </v-calendar>
                 </v-sheet>
             </v-col>
             <v-col cols="12"  md="6" lg="6" xl="8" >
-                <v-card class="pa-2" outlined tile >
+                <v-card class="pa-2" outlined tile :dark="darkMode" >
                     .col-6 .col-md-4
                 </v-card>
             </v-col>
@@ -27,7 +27,7 @@
 
 
 
-    <v-bottom-navigation app :value="value" color="primary">
+    <v-bottom-navigation app :value="value" :dark="darkMode" color="primary">
         <v-btn @click="getPreviousDate()">
             <span>Précédent</span>
 
