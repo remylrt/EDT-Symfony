@@ -5,7 +5,25 @@
     <link href="{{ asset('css/calendar.css') }}">
 {% endblock %}
 {% block body %}
-    <v-container ma-0 pa-0>
+<v-container ma-0 pa-0>
+    <v-container ma-0 pa-0 class="hidden-sm-and-down">
+        <v-app-bar app :value="value" :dark="darkMode" color="primary">
+            <v-btn @click="getPreviousDate()">
+                <span>Précédent</span>
+
+                <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+
+            <v-btn @click="backToCurrentDate()">
+                <span>Aujourd'hui</span>
+            </v-btn>
+
+            <v-btn @click="getNextDate()">
+                <span>Suivant</span>
+
+                <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+        </v-app-bar>
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >
                 <v-sheet style="height: calc(100vh - 56px);">
@@ -20,30 +38,42 @@
                 </v-card>
             </v-col>
         </v-row>
+    </v-container>
 
+    <v-container ma-0 pa-0 class="hidden-md-and-up" >
+        <v-row no-gutters>
+            <v-col cols="12" >
+                <v-sheet style="height: calc(100vh - 56px);">
+                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEvent">
+
+                    </v-calendar>
+                </v-sheet>
+            </v-col>
+        </v-row>
+        <v-bottom-navigation app :value="value" :dark="darkMode" color="primary">
+            <v-btn @click="getPreviousDate()">
+                <span>Précédent</span>
+
+                <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+
+            <v-btn @click="backToCurrentDate()">
+                <span>Aujourd'hui</span>
+            </v-btn>
+
+            <v-btn @click="getNextDate()">
+                <span>Suivant</span>
+
+                <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+        </v-bottom-navigation>
     </v-container>
 
 
+</v-container>
 
 
 
-    <v-bottom-navigation app :value="value" :dark="darkMode" color="primary">
-        <v-btn @click="getPreviousDate()">
-            <span>Précédent</span>
-
-            <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
-
-        <v-btn @click="backToCurrentDate()">
-            <span>Aujourd'hui</span>
-        </v-btn>
-
-        <v-btn @click="getNextDate()">
-            <span>Suivant</span>
-
-            <v-icon>mdi-chevron-right</v-icon>
-        </v-btn>
-    </v-bottom-navigation>
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/calendar.js') }}"></script>

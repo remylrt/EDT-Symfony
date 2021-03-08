@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agenda{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('css/mobile_calendar.css') }}">
+{% endblock %}
+{% block body %}
+    <v-container>
+        <v-row no-gutters>
+            <v-col cols="12" >
+                <v-sheet style="height: calc(100vh - 56px);">
+                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEvent">
+
+                    </v-calendar>
+                </v-sheet>
+            </v-col>
+        </v-row>
+        <v-bottom-navigation app :value="value" :dark="darkMode" color="primary">
+            <v-btn @click="getPreviousDate()">
+                <span>Précédent</span>
+
+                <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+
+            <v-btn @click="backToCurrentDate()">
+                <span>Aujourd'hui</span>
+            </v-btn>
+
+            <v-btn @click="getNextDate()">
+                <span>Suivant</span>
+
+                <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+        </v-bottom-navigation>
+    </v-container>
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/mobile_calendar.js') }}"></script>
+{% endblock %}
