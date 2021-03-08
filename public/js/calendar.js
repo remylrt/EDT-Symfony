@@ -126,6 +126,9 @@ var app = new Vue({
                 .then(response => {
                     this.avis.unshift(response.data);
                     this.nouvelAvis = this.newAvis();
+                    this.showCreateNoticeDialog = false;
+                    this.professeurCourant = {};
+
                     this.mesAvis.push(response.data);
                 })
                 .catch(error => {

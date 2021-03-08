@@ -165,7 +165,10 @@
             <v-container>
                 <v-form ref="form" v-model="valid" lazy-validation >
 
-                     <v-text-field v-model="nouvelAvis.emailEtudiant" :rules="emailRules" label="Email étudiant" required ></v-text-field>
+
+
+                    <v-text-field v-model="nouvelAvis.emailEtudiant" :rules="emailRules" label="Email étudiant" required ></v-text-field>
+
 
                     <v-textarea v-model="nouvelAvis.commentaire"  label="Commentaire" required ></v-textarea>
 
@@ -177,8 +180,14 @@
                             color="green"
                     ></v-rating>
 
+                    <div class="pt-5">
+                        <v-alert dense outlined type="error" v-for="error in errors">
+                            ${ error }
+                        </v-alert>
+                    </div>
+
                     <v-divider class="py-5"></v-divider>
-                    <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate" >
+                    <v-btn :disabled="!valid" color="success" class="mr-4" @click="postAvis()" >
                         Ajouter l'avis
                     </v-btn>
 
