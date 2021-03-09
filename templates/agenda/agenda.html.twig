@@ -8,28 +8,37 @@
 <v-container fluid>
 
     <v-container fluid class="hidden-sm-and-down">
-        <v-app-bar app :value="value" :dark="darkMode" color="primary">
-            <v-btn @click="getPreviousDate()">
-                <span>Précédent</span>
-
-                <v-icon>mdi-chevron-left</v-icon>
-            </v-btn>
-
-            <v-btn @click="backToCurrentDate()">
-                <span>Aujourd'hui</span>
-            </v-btn>
-
-            <v-btn @click="getNextDate()">
-                <span>Suivant</span>
-
-                <v-icon>mdi-chevron-right</v-icon>
-            </v-btn>
-        </v-app-bar>
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >
-                <v-sheet style="height: 100vh; padding-top: 64px">
+                <v-sheet style="height: calc(100vh - 64px);">
                     <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
 
+                        <template v-slot:day-header="{ day }">
+                            <template v-if="day" class="text-center" >
+                                <v-toolbar flat>
+                                    <v-layout justify-center class="pa-0">
+
+                                        <v-btn fab text small color="grey darken-2" @click="getPreviousDate()" >
+                                            <v-icon small>
+                                                mdi-chevron-left
+                                            </v-icon>
+                                        </v-btn>
+
+                                        <v-btn outlined class="mx-4" color="grey darken-2" @click="backToCurrentDate()" >
+                                            Aujourd'hui
+                                        </v-btn>
+
+                                        <v-btn fab text small color="grey darken-2" @click="getNextDate()" >
+                                            <v-icon small>
+                                                mdi-chevron-right
+                                            </v-icon>
+                                        </v-btn>
+
+                                    </v-layout>
+
+                                </v-toolbar>
+                            </template>
+                        </template>
 
                         <template v-slot:event="{event}">
                             <div class="fill-height pl-2">
@@ -41,8 +50,10 @@
                     </v-calendar>
                 </v-sheet>
             </v-col>
+
+
             <v-col cols="12"  md="6" lg="6" xl="8" >
-                <v-sheet style="height: 100vh; padding-top: 64px">
+                <v-sheet style="height: 100vh;">
                     <h1 class="text-center">
                         Note ton prof !
                     </h1>
