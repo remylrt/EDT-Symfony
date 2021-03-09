@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use JsonSerializable;
+
 use App\Repository\SalleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=SalleRepository::class)
  */
-class Salle {
+class Salle implements JsonSerializable {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -42,6 +44,14 @@ class Salle {
         }
 
         return '';
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'salle' => $this->numero,
+            'cours' => $this->cours->toArray(),
+        ];
     }
 
     public function getId(): ?int {
