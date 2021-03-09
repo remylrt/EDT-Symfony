@@ -4,7 +4,10 @@ var app = new Vue({
     vuetify: new Vuetify({
         lang: {
             current: 'fr'
-        }
+        },
+        breakpoint: {
+            mobileBreakpoint: 'sm' // This is equivalent to a value of 960
+        },
         }),
     data: {
         windowsHeigt: window.innerHeight,
