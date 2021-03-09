@@ -18,25 +18,28 @@ var app = new Vue({
                 "id": 1,
                 "name": "M1102: Introduction à l'algorithmique",
                 "type": "Cours",
+                "professeur": "Patrick Etcheverry",
                 "salle": "125",
-                "start": "2021-03-08 08:30:00",
-                "end": "2021-03-08 12:30:00"
+                "start": "2021-03-09 08:30:00",
+                "end": "2021-03-09 12:30:00"
             },
             {
                 "id": 2,
                 "name": "M1102: Introduction à l'algorithmique",
                 "type": "TP",
+                "professeur": "Philippe Roose",
                 "salle": "126",
                 "start": "2021-03-10 12:07:00",
-                "end": "2021-03-10 12:58:00"
+                "end": "2021-03-10 12:37:00"
             },
             {
                 "id": 3,
                 "name": "M1102: Introduction à l'algorithmique",
                 "type": "TP",
+                "professeur": "Christophe Marquesuzaa",
                 "salle": "124",
-                "start": "2021-03-08 15:21:00",
-                "end": "2021-03-08 15:22:00"
+                "start": "2021-03-09 15:00:00",
+                "end": "2021-03-09 15:30:00"
             }
         ],
 

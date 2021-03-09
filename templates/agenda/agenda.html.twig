@@ -30,6 +30,14 @@
                 <v-sheet style="height: 100vh; padding-top: 64px">
                     <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
 
+
+                        <template v-slot:event="{event}">
+                            <div class="fill-height pl-2">
+                                <strong> ${ event.type } de ${ event.name } </strong> ( ${ event.professeur } ) <br/>
+                                Salle ${ event.salle }
+                            </div>
+                        </template>
+
                     </v-calendar>
                 </v-sheet>
             </v-col>
