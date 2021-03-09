@@ -85,7 +85,16 @@ var app = new Vue({
 
             nativeEvent.stopPropagation()
         },
-
+        getOnlyHourseOfDate(date){
+            let newDate = new Date(date);
+            let hours = newDate.getHours();
+            let minute = newDate.getMinutes()
+            if(minute === 0){
+                minute = "00";
+            }
+            let time = `${ hours }:${ minute }`;
+            return time;
+        },
 
 
         getProfesseurs: function () {
