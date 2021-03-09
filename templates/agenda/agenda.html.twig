@@ -5,12 +5,12 @@
     <link href="{{ asset('css/calendar.css') }}">
 {% endblock %}
 {% block body %}
-<v-container fluid>
+<v-container ma-0 pa-0 fluid>
 
-    <v-container fluid class="hidden-sm-and-down">
+    <v-container ma-0 pa-0 fluid class="hidden-sm-and-down">
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >
-                <v-sheet style="height: calc(100vh - 64px);">
+                <v-sheet style="max-height: 100vh; height: 100vh;">
                     <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
 
                         <template v-slot:day-header="{ day }">
@@ -53,7 +53,7 @@
 
 
             <v-col cols="12"  md="6" lg="6" xl="8" >
-                <v-sheet style="height: 100vh;">
+                <v-sheet style="max-height: 100vh; height: 100vh;">
                     <h1 class="text-center">
                         Note ton prof !
                     </h1>
@@ -90,10 +90,6 @@
 
                             </v-col>
                         </v-row>
-
-
-
-
                 </v-sheet>
             </v-col>
         </v-row>
