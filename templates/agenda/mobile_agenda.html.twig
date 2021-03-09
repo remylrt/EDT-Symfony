@@ -9,13 +9,17 @@
         <v-row>
             <v-col cols="12" >
                 <v-sheet style="">
-                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="7" :interval-count="24" interval-minutes="60" :events="events" :value="today" @click:event="showEvent">
+                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEvent">
 
                     </v-calendar>
                 </v-sheet>
             </v-col>
         </v-row>
         <v-bottom-navigation app :value="value" :dark="darkMode" color="primary">
+            <v-btn @click="">
+                <span>Accueil</span>
+            </v-btn>
+
             <v-btn @click="getPreviousDate()">
                 <span>Précédent</span>
 
