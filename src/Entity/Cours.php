@@ -2,14 +2,18 @@
 
 namespace App\Entity;
 
+use JsonSerializable;
+
 use App\Repository\CoursRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator as CustomConstraints;
 
 /**
  * @ORM\Entity(repositoryClass=CoursRepository::class)
+ * @CustomConstraints\DateHeureCours
  */
-class Cours {
+class Cours implements JsonSerializable {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -29,10 +33,6 @@ class Cours {
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(
      *      message = "Veuillez renseigner la date de fin."
-     * )
-     * @Assert\GreaterThan(
-     *      propertyPath = "dateHeureDebut",
-     *      message = "La date de fin doit être ultérieure à la date de début."
      * )
      */
     private $dateHeureFin;
@@ -75,6 +75,18 @@ class Cours {
      * )
      */
     private $salle;
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'name' => $this->matiere->__toString(),
+            'type' => $this->type,
+            'professeur' => $this->professeur->__toString(),
+            'salle' => $this->salle->__toString(),
+            'start' => $this->dateHeureDebut->format('Y-m-d H:i:s'),
+            'end' => $this->dateHeureFin->format('Y-m-d H:i:s'),
+        ];
+    }
 
     public function getId(): ?int {
         return $this->id;
