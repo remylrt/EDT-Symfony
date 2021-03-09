@@ -138,7 +138,7 @@ var app = new Vue({
         deleteAvis: function (avis) {
             axios.delete(this.apiBase + '/avis/' + avis.id)
                 .then(response => {
-                    this.avis.slice(this.avis.indexOf(avis), 1);
+                    this.avis.splice(this.avis.indexOf(avis), 1);
                     this.mesAvis.splice(this.mesAvis.indexOf(avis), 1);
                 })
                 .catch(error => {

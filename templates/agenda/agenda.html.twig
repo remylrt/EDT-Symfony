@@ -146,6 +146,11 @@
                             </div>
                             <div>Commentaire de : ${ avisCourant.emailEtudiant } </div>
 
+                            <v-card-actions>
+                                <v-btn outlined rounded text @click="deleteAvis(avisCourant)" v-if="mesAvis.filter(avis => avis.id === avisCourant.id).length === 1">
+                                    Supprimer
+                                </v-btn>
+                            </v-card-actions>
                         </v-list-item-content>
                     </v-list-item>
                 </v-card>
