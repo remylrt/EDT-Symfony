@@ -7,7 +7,7 @@
 {% block body %}
 <v-container ma-0 pa-0 fluid>
 
-    <v-container ma-0 pa-0 fluid class="hidden-sm-and-down">
+    <v-container ma-0 pa-0 fluid class="">
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >
                 <v-sheet style="max-height: 100vh; height: 100vh;">
@@ -93,35 +93,6 @@
                 </v-sheet>
             </v-col>
         </v-row>
-    </v-container>
-
-
-    <v-container ma-0 pa-0 class="hidden-md-and-up" >
-        <v-row no-gutters>
-            <v-col cols="12" >
-                <v-sheet style="height: calc(100vh - 56px);">
-                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
-                    </v-calendar>
-                </v-sheet>
-            </v-col>
-        </v-row>
-        <v-bottom-navigation app :value="value" :dark="darkMode" color="primary">
-            <v-btn @click="getPreviousDate()">
-                <span>Précédent</span>
-
-                <v-icon>mdi-chevron-left</v-icon>
-            </v-btn>
-
-            <v-btn @click="backToCurrentDate()">
-                <span>Aujourd'hui</span>
-            </v-btn>
-
-            <v-btn @click="getNextDate()">
-                <span>Suivant</span>
-
-                <v-icon>mdi-chevron-right</v-icon>
-            </v-btn>
-        </v-bottom-navigation>
     </v-container>
 
     <v-dialog v-model="showSmallSizeDialog" max-width="800" hide-overlay transition="dialog-bottom-transition" >
