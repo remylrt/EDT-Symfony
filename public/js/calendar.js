@@ -7,40 +7,13 @@ var app = new Vue({
         }
         }),
     data: {
-        windowsHeigt: window.innerHeight,
         appName: "EDT",
         today: new Date(),
         darkMode: false,
         showSmallSizeDialog: false,
         currentClassInformations: {},
         events: [
-            {
-                "id": 1,
-                "name": "M1102: Introduction à l'algorithmique",
-                "type": "Cours",
-                "professeur": "Patrick Etcheverry",
-                "salle": "125",
-                "start": "2021-03-09 08:30:00",
-                "end": "2021-03-09 12:30:00"
-            },
-            {
-                "id": 2,
-                "name": "M1102: Introduction à l'algorithmique",
-                "type": "TP",
-                "professeur": "Philippe Roose",
-                "salle": "126",
-                "start": "2021-03-10 12:07:00",
-                "end": "2021-03-10 12:37:00"
-            },
-            {
-                "id": 3,
-                "name": "M1102: Introduction à l'algorithmique",
-                "type": "TP",
-                "professeur": "Christophe Marquesuzaa",
-                "salle": "124",
-                "start": "2021-03-09 15:00:00",
-                "end": "2021-03-09 15:30:00"
-            }
+
         ],
 
         apiBase: 'http://localhost:8000/api',
@@ -59,13 +32,16 @@ var app = new Vue({
         getPreviousDate(){
            let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() - 1));
+            this.getCours();
         },
         getNextDate(){
             let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() + 1));
+            this.getCours();
         },
         backToCurrentDate(){
             this.today = new Date()
+            this.getCours();
         },
         showEventDetails ({ nativeEvent, event }) {
             console.log(event)
@@ -97,7 +73,26 @@ var app = new Vue({
             let time = `${ hours }:${ minute }`;
             return time;
         },
-
+        getCours(){
+            let year = this.today.getFullYear();
+            let month = this.today.getMonth();
+            month++
+            if(month < 10){
+                month = "0" + month;
+            }
+            let day = this.today.getDate();
+            if(day < 10){
+                day = "0" + day;
+            }
+            let date = `${ year }-${ month }-${ day }`
+            axios.get(this.apiBase + '/cours/' + date )
+                .then(response => {
+                    this.events = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
 
         getProfesseurs: function () {
             axios.get(this.apiBase + '/professeurs')
@@ -164,5 +159,6 @@ var app = new Vue({
     },
     mounted() {
         this.getProfesseurs();
+        this.getCours();
     }
 })
