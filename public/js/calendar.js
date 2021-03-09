@@ -71,6 +71,8 @@ var app = new Vue({
             this.currentClassInformations = {
                 id: event.id,
                 name: event.name,
+                professeur: event.professeur,
+                type: event.type,
                 salle: event.salle,
                 start: event.start,
                 end: event.end,
