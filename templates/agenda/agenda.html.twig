@@ -219,11 +219,11 @@
                 <v-spacer></v-spacer>
             </v-toolbar>
             <v-container>
-                <v-form ref="form" v-model="valid" lazy-validation >
+                <v-form ref="form" lazy-validation >
 
 
 
-                    <v-text-field v-model="nouvelAvis.emailEtudiant" :rules="emailRules" label="Email étudiant" required ></v-text-field>
+                    <v-text-field v-model="nouvelAvis.emailEtudiant" label="Email étudiant" required ></v-text-field>
 
 
                     <v-textarea v-model="nouvelAvis.commentaire"  label="Commentaire" required ></v-textarea>
@@ -243,7 +243,7 @@
                     </div>
 
                     <v-divider class="py-5"></v-divider>
-                    <v-btn :disabled="!valid" color="success" class="mr-4" @click="postAvis()" >
+                    <v-btn color="success" class="mr-4" @click="postAvis()" >
                         Ajouter l'avis
                     </v-btn>
 
