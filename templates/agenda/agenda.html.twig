@@ -7,6 +7,24 @@
 {% block body %}
 <v-container ma-0 pa-0 fluid>
 
+    <v-app-bar
+            :collapse="!collapseNavbar"
+            absolute
+            color="deep-purple accent-4"
+            dark
+            scroll-target="#scrolling-techniques-6"
+    >
+        <v-toolbar-title>EDT</v-toolbar-title>
+        <v-spacer></v-spacer>
+
+        <v-spacer></v-spacer>
+        <v-checkbox
+                v-model="collapseNavbar"
+                color="white"
+                hide-details
+        ></v-checkbox>
+    </v-app-bar>
+
     <v-container ma-0 pa-0 fluid class="">
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >

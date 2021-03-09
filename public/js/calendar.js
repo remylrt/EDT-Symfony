@@ -51,7 +51,9 @@ var app = new Vue({
         errors: [],
         mesAvis: [],
         showNoticeDialog: false,
-        showCreateNoticeDialog: false
+        showCreateNoticeDialog: false,
+
+        collapseNavbar: true,
     },
     methods: {
         getPreviousDate(){
