@@ -45,7 +45,7 @@ var app = new Vue({
         getCours(){
             axios.get(this.apiBase + '/salles/' + this.salle )
                 .then(response => {
-                    this.events = response.data;
+                    this.events = response.data[0].cours;
                 })
                 .catch(error => {
                     console.log(error);
