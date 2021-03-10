@@ -34,7 +34,9 @@ class AgendaController extends AbstractController
      */
     public function getSemaine(): Response
     {
+        return $this->render('agenda/agenda_semaines.html.twig', [
 
+        ]);
 
     }
 
@@ -43,7 +45,9 @@ class AgendaController extends AbstractController
      */
     public function getSalles(): Response
     {
+        return $this->render('agenda/agenda_liste_salles.html.twig', [
 
+        ]);
 
     }
 
@@ -52,7 +56,9 @@ class AgendaController extends AbstractController
      */
     public function getAgendaSalle($id): Response
     {
+        return $this->render('agenda/agenda_salle.html.twig', [
 
+        ]);
 
     }
 
