@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\SalleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,22 +42,11 @@ class AgendaController extends AbstractController
     }
 
     /**
-     * @Route("/salles", name="liste_salles")
+     * @Route("/salles/{numero}", name="salle")
      */
-    public function getSalles(): Response
+    public function getAgendaSalle($numero): Response
     {
-        return $this->render('agenda/agenda_liste_salles.html.twig', [
-
-        ]);
-
-    }
-
-    /**
-     * @Route("/salles/{id}", name="salle")
-     */
-    public function getAgendaSalle($id): Response
-    {
-        return $this->render('agenda/agenda_salle.html.twig', [ "salle" => $id]);
+        return $this->render('agenda/agenda_salle.html.twig', [ "salle" => $numero]);
 
     }
 

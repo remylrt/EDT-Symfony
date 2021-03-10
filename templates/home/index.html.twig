@@ -3,95 +3,97 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <v-app id="app">
-
-        <v-app-bar color="deep-purple accent-4" dark >
-            <v-toolbar-title>Accueil EDT</v-toolbar-title>
-        </v-app-bar>
+    <v-app-bar color="deep-purple accent-4" dark>
+        <v-toolbar-title>Accueil EDT</v-toolbar-title>
+    </v-app-bar>
 
 
 
-        <v-main class="grey lighten-3">
-            <v-container>
-                <v-row>
-                    <v-col cols="12" md="8" lg="9" xl="9">
-                        <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px); overflow-y: scroll; overflow-x: hidden" rounded>
-                            <v-row>
-                                {% for article in articles %}
-                                    <v-col cols="12" sm="6" md="6" lg="6">
-                                        <v-card href="{{ article.link }}" class="mx-auto" max-width="80%">
-                                            {% if article.image is defined %}
-                                                <v-img src="{{ article.image }}" height="200px" ></v-img>
-                                            {% endif %}
-                                            {% if article.video is defined %}
-                                                <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="720" src="{{ article.video }}" width="1280"></iframe>
-                                            {% endif %}
+    <v-main class="grey lighten-3">
+        <v-container>
+            <v-row>
+                <v-col cols="12" md="8" lg="9" xl="9">
+                    <v-sheet
+                            style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px); overflow-y: scroll; overflow-x: hidden"
+                            rounded>
+                        <v-row>
+                            {% for article in articles %}
+                                <v-col cols="12" sm="6" md="6" lg="6">
+                                    <v-card href="{{ article.link }}" class="mx-auto" max-width="80%">
+                                        {% if article.image is defined %}
+                                            <v-img src="{{ article.image }}" height="200px"></v-img>
+                                        {% endif %}
+                                        {% if article.video is defined %}
+                                            <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowfullscreen="" frameborder="0" height="720"
+                                                    src="{{ article.video }}" width="1280"></iframe>
+                                        {% endif %}
 
-                                            <v-card-title href="">
-                                                {{ article.title }}
-                                            </v-card-title>
+                                        <v-card-title href="">
+                                            {{ article.title }}
+                                        </v-card-title>
 
-                                            <v-card-subtitle>
-                                                {{ article.description }}
-                                            </v-card-subtitle>
+                                        <v-card-subtitle>
+                                            {{ article.description }}
+                                        </v-card-subtitle>
 
-                                            <v-card-subtitle>
-                                               Publié le {{ article.pubDate | date('d/m/Y') }}
-                                            </v-card-subtitle>
-                                            <v-card-actions>
-                                                <v-btn color="orange lighten-2" text href="{{ article.link }}">
-                                                    Détails
-                                                </v-btn>
-                                                <v-spacer></v-spacer>
-                                            </v-card-actions>
-                                        </v-card>
-                                    </v-col>
-                                {% endfor %}
+                                        <v-card-subtitle>
+                                            Publié le {{ article.pubDate | date('d/m/Y') }}
+                                        </v-card-subtitle>
+                                        <v-card-actions>
+                                            <v-btn color="orange lighten-2" text href="{{ article.link }}">
+                                                Détails
+                                            </v-btn>
+                                            <v-spacer></v-spacer>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-col>
+                            {% endfor %}
 
-                            </v-row>
-                        </v-sheet>
-                    </v-col>
-                    <v-col cols="12" md="4" lg="3" xl="3">
-                        <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px)" rounded>
-                            <v-list dense>
-                                <v-subheader>Emplois du temps</v-subheader>
-                                <v-list-item-group v-model="selectedItem" color="primary" >
+                        </v-row>
+                    </v-sheet>
+                </v-col>
+                <v-col cols="12" md="4" lg="3" xl="3">
+                    <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px)" rounded>
+                        <v-list dense>
+                            <v-subheader>Emplois du temps</v-subheader>
+                            <v-list-item-group color="primary">
 
-                                    <v-list-item href="{{ path('agenda_jours') }}">
-                                        <v-list-item-icon>
-                                            <v-icon >mdi-calendar</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title>Emplois du temps de la journée</v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
+                                <v-list-item href="{{ path('agenda_jours') }}">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Emplois du temps de la journée</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
 
-                                    <v-list-item href="{{ path('agenda_semaines') }}">
-                                        <v-list-item-icon>
-                                            <v-icon >mdi-calendar</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title>Emplois du temps de la semaine</v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
+                                <v-list-item href="{{ path('agenda_semaines') }}">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Emplois du temps de la semaine</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
 
-                                    <v-list-item href="{{ path('agenda_liste_salles') }}">
-                                        <v-list-item-icon>
-                                            <v-icon >mdi-calendar</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title>Emplois du temps des salles</v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
-                                </v-list-item-group>
-                                <v-divider></v-divider>
+                                <v-list-item @click="showClassrooms">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Emplois du temps des salles</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list-item-group>
+                            <v-divider></v-divider>
 
-                                {% if is_granted('ROLE_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <v-subheader>Administration</v-subheader>
-                                <v-list-item-group v-model="selectedItem" color="primary" >
+                                <v-list-item-group color="primary">
                                     <v-list-item href="{{ path("admin") }}">
                                         <v-list-item-icon>
-                                            <v-icon >mdi-calendar</v-icon>
+                                            <v-icon>mdi-calendar</v-icon>
                                         </v-list-item-icon>
                                         <v-list-item-content>
                                             <v-list-item-title>Administration</v-list-item-title>
@@ -99,73 +101,96 @@
                                     </v-list-item>
                                 </v-list-item-group>
                                 <v-divider></v-divider>
-                                {% endif %}
+                            {% endif %}
 
-                                <v-subheader>IUT</v-subheader>
-                                <v-list-item-group v-model="selectedItem" color="primary" >
+                            <v-subheader>IUT</v-subheader>
+                            <v-list-item-group color="primary">
 
-                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/mes-absences.html">
-                                        <v-list-item-icon>
-                                            <v-icon >mdi-calendar</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title>Mes absences</v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
+                                <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/mes-absences.html">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Mes absences</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
 
-                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/consultation-notes.html">
-                                        <v-list-item-icon>
-                                            <v-icon >mdi-calendar</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title>Mes notes</v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
+                                <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/consultation-notes.html">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Mes notes</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
 
-                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/mon-iut.html">
-                                        <v-list-item-icon>
-                                            <v-icon >mdi-calendar</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title>Mon IUT</v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
+                                <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/mon-iut.html">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Mon IUT</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
 
-                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/offres">
-                                        <v-list-item-icon>
-                                            <v-icon >mdi-calendar</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title>Offres Emploi/Stage/Alternance</v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
+                                <v-list-item href="https://www.iutbayonne.univ-pau.fr/offres">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Offres Emploi/Stage/Alternance</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
 
-                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/microsoft.html">
-                                        <v-list-item-icon>
-                                            <v-icon >mdi-calendar</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title>Offre Microsoft</v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
+                                <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/microsoft.html">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Offre Microsoft</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
 
-                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/plateforme-pedagogique.html">
-                                        <v-list-item-icon>
-                                            <v-icon >mdi-calendar</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title>Plateforme pédagogique</v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
+                                <v-list-item href="https://www.iutbayonne.univ-pau.fr/plateforme-pedagogique.html">
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-calendar</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>Plateforme pédagogique</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
 
-                                </v-list-item-group>
-                            </v-list>
-                        </v-sheet>
+                            </v-list-item-group>
+                        </v-list>
+                    </v-sheet>
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-main>
+    <v-dialog v-model="showClassroomDialog" max-width="800" hide-overlay transition="dialog-bottom-transition">
+        <v-card>
+            <v-card-title>
+                <v-btn icon class="pr-5" @click="showClassroomDialog = false, currentClassInformations = {}">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <span class="headline">Détails</span>
+            </v-card-title>
+            {% for salle in salles %}
+                <a href="{{ path('agenda_salle', {numero: salle.numero}) }}">
+                    <v-col>
+                        <v-card elevation="10" >
+                            <v-card-text>
+                                <p class="display-1 text--primary">
+                                    {{ salle.numero }}
+                                </p>
+                            </v-card-text>
+                        </v-card>
+
                     </v-col>
-                </v-row>
-            </v-container>
-        </v-main>
-    </v-app>
+                </a>
+            {% endfor %}
+        </v-card>
+    </v-dialog>
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/home.js') }}"></script>

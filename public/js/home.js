@@ -7,9 +7,9 @@ var app = new Vue({
         },
     }),
     data: {
-
+        showClassroomDialog: false
     },
     methods: {
-
+       showClassrooms(){ this.showClassroomDialog = true }
     },
 })
