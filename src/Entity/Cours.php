@@ -7,11 +7,13 @@ use JsonSerializable;
 use App\Repository\CoursRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator as CustomConstraints;
+use App\Validator as EDTConstraints;
 
 /**
  * @ORM\Entity(repositoryClass=CoursRepository::class)
- * @CustomConstraints\DateHeureCours
+ * @EDTConstraints\DateHeureCours
+ * @EDTConstraints\ProfesseurDisponible
+ * @EDTConstraints\SalleDisponible
  */
 class Cours implements JsonSerializable {
     /**
