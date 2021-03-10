@@ -39,7 +39,7 @@ class AgendaController extends AbstractController
     }
 
     /**
-     * @Route("/salles", name="semaines")
+     * @Route("/salles", name="liste_salles")
      */
     public function getSalles(): Response
     {
@@ -48,7 +48,7 @@ class AgendaController extends AbstractController
     }
 
     /**
-     * @Route("/salles/{id}", name="semaines")
+     * @Route("/salles/{id}", name="salle")
      */
     public function getAgendaSalle($id): Response
     {
