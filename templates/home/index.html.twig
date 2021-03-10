@@ -167,28 +167,34 @@
             </v-row>
         </v-container>
     </v-main>
-    <v-dialog v-model="showClassroomDialog" max-width="800" hide-overlay transition="dialog-bottom-transition">
+    <v-dialog v-model="showClassroomDialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
         <v-card>
-            <v-card-title>
-                <v-btn icon class="pr-5" @click="showClassroomDialog = false, currentClassInformations = {}">
+            <v-toolbar dark color="primary" >
+                <v-btn icon class="pr-5" @click="showClassroomDialog = false">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
-                <span class="headline">Détails</span>
-            </v-card-title>
-            {% for salle in salles %}
-                <a href="{{ path('agenda_salle', {numero: salle.numero}) }}">
-                    <v-col>
-                        <v-card elevation="10" >
-                            <v-card-text>
-                                <p class="display-1 text--primary">
-                                    {{ salle.numero }}
-                                </p>
-                            </v-card-text>
-                        </v-card>
+                <v-toolbar-title>Liste des classes</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                    <v-btn dark text @click="dialog = false" >
+                        Save
+                    </v-btn>
+                </v-toolbar-items>
+            </v-toolbar>
+            <v-row class="ma-5">
+                {% for salle in salles %}
 
+                    <v-col cols="6" md="4" lg="3" xl="1">
+                            <v-card elevation="10" href="{{ path('agenda_salle', {numero: salle.numero}) }}">
+                                <v-card-text>
+                                    <p class="display-1">
+                                        {{ salle.numero }}
+                                    </p>
+                                </v-card-text>
+                            </v-card>
                     </v-col>
-                </a>
-            {% endfor %}
+                {% endfor %}
+            </v-row>
         </v-card>
     </v-dialog>
 {% endblock %}
