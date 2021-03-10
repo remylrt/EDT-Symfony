@@ -15,13 +15,117 @@
             <v-container>
                 <v-row>
                     <v-col cols="12" md="8" lg="9" xl="9">
-                        <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px)" rounded="lg">
+                        <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px)" rounded>
 
                         </v-sheet>
                     </v-col>
                     <v-col cols="12" md="4" lg="3" xl="3">
-                        <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px)" rounded="lg">
+                        <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px)" rounded>
+                            <v-list dense>
+                                <v-subheader>Emplois du temps</v-subheader>
+                                <v-list-item-group v-model="selectedItem" color="primary" >
 
+                                    <v-list-item href="{{ path('agenda') }}">
+                                        <v-list-item-icon>
+                                            <v-icon >mdi-calendar</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Emplois du temps de la journée</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+
+                                    <v-list-item href="">
+                                        <v-list-item-icon>
+                                            <v-icon >mdi-calendar</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Emplois du temps de la semaine</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+
+                                    <v-list-item href="">
+                                        <v-list-item-icon>
+                                            <v-icon >mdi-calendar</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Emplois du temps des salles</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-list-item-group>
+                                <v-divider></v-divider>
+
+                                <v-subheader>Administration</v-subheader>
+                                <v-list-item-group v-model="selectedItem" color="primary" >
+                                    <v-list-item href="{{ path("admin") }}">
+                                        <v-list-item-icon>
+                                            <v-icon >mdi-calendar</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Administration</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-list-item-group>
+                                <v-divider></v-divider>
+
+                                <v-subheader>IUT</v-subheader>
+                                <v-list-item-group v-model="selectedItem" color="primary" >
+
+                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/mes-absences.html">
+                                        <v-list-item-icon>
+                                            <v-icon >mdi-calendar</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Mes absences</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+
+                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/consultation-notes.html">
+                                        <v-list-item-icon>
+                                            <v-icon >mdi-calendar</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Mes notes</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+
+                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/mon-iut.html">
+                                        <v-list-item-icon>
+                                            <v-icon >mdi-calendar</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Mon IUT</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+
+                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/offres">
+                                        <v-list-item-icon>
+                                            <v-icon >mdi-calendar</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Offtres Emploi/Stage/Alt</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+
+                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/intranet/microsoft.html">
+                                        <v-list-item-icon>
+                                            <v-icon >mdi-calendar</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Offre Microsoft</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+
+                                    <v-list-item href="https://www.iutbayonne.univ-pau.fr/plateforme-pedagogique.html">
+                                        <v-list-item-icon>
+                                            <v-icon >mdi-calendar</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Plateforme pédagogique</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+
+                                </v-list-item-group>
+                            </v-list>
                         </v-sheet>
                     </v-col>
                 </v-row>
