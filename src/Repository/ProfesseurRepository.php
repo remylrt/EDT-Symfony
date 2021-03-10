@@ -19,22 +19,19 @@ class ProfesseurRepository extends ServiceEntityRepository
         parent::__construct($registry, Professeur::class);
     }
 
-    // /**
-    //  * @return Professeur[] Returns an array of Professeur objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+      * @return Professeur[] Returns an array of Professeur objects
+      */
+    public function findByDateCours($date)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->join('p.cours', 'c')
+            ->where('c.dateHeureDebut LIKE :date')
+            ->setParameter('date', $date->format('Y-m-d') . '%')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Professeur

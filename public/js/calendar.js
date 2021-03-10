@@ -15,7 +15,6 @@ var app = new Vue({
         events: [
 
         ],
-
         apiBase: 'http://localhost:8000/api',
         professeurs: [],
         professeurCourant: null,
@@ -25,23 +24,25 @@ var app = new Vue({
         mesAvis: [],
         showNoticeDialog: false,
         showCreateNoticeDialog: false,
-
         collapseNavbar: true,
     },
     methods: {
         getPreviousDate(){
-           let dateStr = this.today;
+            let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() - 1));
             this.getCours();
+            this.getProfesseurs();
         },
         getNextDate(){
             let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() + 1));
             this.getCours();
+            this.getProfesseurs();
         },
         backToCurrentDate(){
             this.today = new Date()
             this.getCours();
+            this.getProfesseurs();
         },
         showEventDetails ({ nativeEvent, event }) {
             console.log(event)
@@ -56,10 +57,7 @@ var app = new Vue({
                 end: event.end,
             }
 
-
-
             this.showSmallSizeDialog = true;
-
 
             nativeEvent.stopPropagation()
         },
@@ -73,18 +71,23 @@ var app = new Vue({
             let time = `${ hours }:${ minute }`;
             return time;
         },
-        getCours(){
+        getFormattedTodaysDate() {
             let year = this.today.getFullYear();
-            let month = this.today.getMonth();
-            month++
-            if(month < 10){
-                month = "0" + month;
-            }
+            let month = this.today.getMonth() + 1;
+
+            if(month < 10){month = "0" + month;}
+
             let day = this.today.getDate();
-            if(day < 10){
-                day = "0" + day;
-            }
-            let date = `${ year }-${ month }-${ day }`
+
+            if(day < 10){day = "0" + day;}
+
+            let formattedDate = `${ year }-${ month }-${ day }`;
+
+            return formattedDate;
+        },
+        getCours(){
+            let date = this.getFormattedTodaysDate();
+
             axios.get(this.apiBase + '/cours/' + date )
                 .then(response => {
                     this.events = response.data;
@@ -94,15 +97,7 @@ var app = new Vue({
                 })
         },
         exportCalendarAsICS: function () {
-            let year = this.today.getFullYear();
-            let month = this.today.getMonth() + 1;
-            if (month < 10) { month = "0" + month; }
-
-            let day = this.today.getDate();
-
-            if (day < 10) { day = "0" + day; }
-
-            let date = `${ year }-${ month }-${ day }`;
+            let date = this.getFormattedTodaysDate();
 
             axios.get(this.apiBase + '/cours/weekly/' + date)
                 .then(response => {
@@ -122,7 +117,9 @@ var app = new Vue({
 
         },
         getProfesseurs: function () {
-            axios.get(this.apiBase + '/professeurs')
+            let date = this.getFormattedTodaysDate();
+
+            axios.get(this.apiBase + '/professeurs/daily/' + date)
                 .then(response => {
                     this.professeurs = response.data;
                 })

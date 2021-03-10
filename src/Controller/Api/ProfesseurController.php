@@ -36,4 +36,21 @@ class ProfesseurController extends AbstractController {
 
         return $this->json($professeur, 200);
     }
+
+    /**
+     * @Route("/daily/{date}", name="show", methods={"GET"})
+     */
+    public function showDaily($date, ProfesseurRepository $professeurRepository): JsonResponse {
+        $dateCours = \DateTime::createFromFormat('Y-m-d', $date);
+
+        if (!$dateCours) {
+            return $this->json([
+                'message' => 'Le format de la date est invalide. Format accepté: AAAA-MM-JJ'
+            ], 404);
+        }
+
+        $professeurs = $professeurRepository->findByDateCours($dateCours);
+
+        return $this->json($professeurs, 200);
+    }
 }
