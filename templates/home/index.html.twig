@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <v-app id="app">
+
+        <v-app-bar color="deep-purple accent-4" dark >
+            <v-toolbar-title>Accueil EDT</v-toolbar-title>
+        </v-app-bar>
+
+
+
+        <v-main class="grey lighten-3">
+            <v-container>
+                <v-row>
+                    <v-col cols="12" md="8" lg="9" xl="9">
+                        <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px)" rounded="lg">
+
+                        </v-sheet>
+                    </v-col>
+                    <v-col cols="12" md="4" lg="3" xl="3">
+                        <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px)" rounded="lg">
+
+                        </v-sheet>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-main>
+    </v-app>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/home.js') }}"></script>
+{% endblock %}
