@@ -19,22 +19,18 @@ class SalleRepository extends ServiceEntityRepository
         parent::__construct($registry, Salle::class);
     }
 
-    // /**
-    //  * @return Salle[] Returns an array of Salle objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+      * @return Salle[] Returns an array of Salle objects
+      */
+    public function findByNumero($numero)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+            ->where('s.numero = :numero')
+            ->setParameter('numero', $numero)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Salle
