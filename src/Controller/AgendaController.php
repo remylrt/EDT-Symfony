@@ -56,9 +56,7 @@ class AgendaController extends AbstractController
      */
     public function getAgendaSalle($id): Response
     {
-        return $this->render('agenda/agenda_salle.html.twig', [
-
-        ]);
+        return $this->render('agenda/agenda_salle.html.twig', [ "salle" => $id]);
 
     }
 

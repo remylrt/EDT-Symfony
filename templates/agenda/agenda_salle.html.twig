@@ -5,8 +5,131 @@
 
 {% endblock %}
 {% block body %}
+    <v-container  ma-0 pa-0 fluid>
+        <v-app-bar :collapse="true" absolute color="deep-purple accent-4" dark scroll-target="#scrolling-techniques-6">
+            <v-spacer></v-spacer>
+            <v-btn icon href="{{ path('home') }}">
+                <v-icon>mdi-home</v-icon>
+            </v-btn>
+            <v-spacer></v-spacer>
+        </v-app-bar>
+        <v-sheet style="max-height: 100vh; height: 100vh;">
+            <v-calendar :dark="darkMode" color="primary" type="week" :first-interval="15" :interval-count="24"
+                        interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
+
+                <template v-slot:day-header="{ present  }">
+                    <template class="text-center">
+                        <v-toolbar flat>
+                            <v-layout justify-center class="pa-0">
+
+                                <v-spacer></v-spacer>
+
+                                <v-btn v-if="present" icon @click="exportCalendarAsICS()">
+                                    <v-icon>mdi-calendar-export</v-icon>
+                                </v-btn>
+
+                                <v-spacer></v-spacer>
+
+
+                            </v-layout>
+                        </v-toolbar>
+                    </template>
+                </template>
+
+                <template v-slot:event="{event}">
+                    <div class="fill-height pl-2">
+                        <strong> ${ event.type } de ${ event.name } </strong> ( ${ event.professeur } ) <br/>
+                        Salle ${ event.salle }
+                    </div>
+                </template>
+
+            </v-calendar>
+        </v-sheet>
+
+
+        <v-dialog v-model="showSmallSizeDialog" max-width="800" hide-overlay transition="dialog-bottom-transition">
+            <v-card>
+                <v-card-title>
+                    <v-btn icon class="pr-5" @click="showSmallSizeDialog = false, currentClassInformations = {}">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <span class="headline">Détails</span>
+                </v-card-title>
+                <div>
+
+                    <v-list two-line>
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon color="indigo">
+                                    mdi-school
+                                </v-icon>
+                            </v-list-item-icon>
+
+                            <v-list-item-content>
+                                <v-list-item-title>Nom du module</v-list-item-title>
+                                <v-list-item-subtitle>${ currentClassInformations.name }</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+
+                        <v-list-item>
+                            <v-list-item-action></v-list-item-action>
+
+                            <v-list-item-content>
+                                <v-list-item-title>Type</v-list-item-title>
+                                <v-list-item-subtitle>${ currentClassInformations.type }</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+
+
+                        <v-list-item>
+                            <v-list-item-action></v-list-item-action>
+
+                            <v-list-item-content>
+                                <v-list-item-title>Salle</v-list-item-title>
+                                <v-list-item-subtitle>${ currentClassInformations.salle }</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+
+                        <v-divider inset></v-divider>
+
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon color="indigo">
+                                    mdi-account
+                                </v-icon>
+                            </v-list-item-icon>
+
+                            <v-list-item-content>
+                                <v-list-item-title>Enseignant</v-list-item-title>
+                                <v-list-item-subtitle>${ currentClassInformations.professeur }</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+
+                        <v-divider inset></v-divider>
+
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon color="indigo">
+                                    mdi-clock
+                                </v-icon>
+                            </v-list-item-icon>
+
+                            <v-list-item-content>
+                                <v-list-item-title>Horaires</v-list-item-title>
+                                <v-list-item-subtitle>${ getOnlyHourseOfDate(currentClassInformations.start) } : ${
+                                    getOnlyHourseOfDate(currentClassInformations.end) }
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+                </div>
+            </v-card>
+        </v-dialog>
+    </v-container>
 
 {% endblock %}
 {% block javascripts %}
-
+    <script src="{{ asset('js/calendar_salle.js') }}"></script>
+    <script src="{{ asset('js/ics-deps.js') }}"></script>
+    <script src="{{ asset('js/ics.js') }}"></script>
 {% endblock %}
