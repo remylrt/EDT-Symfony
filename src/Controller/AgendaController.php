@@ -6,10 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/agenda", name="agenda_")
+ */
 class AgendaController extends AbstractController
 {
     /**
-     * @Route("/agenda", name="agenda")
+     * @Route("", name="jours")
      */
     public function index(): Response
     {
@@ -24,7 +27,33 @@ class AgendaController extends AbstractController
 
             ]);
         }
+    }
+
+    /**
+     * @Route("/semaine", name="semaines")
+     */
+    public function getSemaine(): Response
+    {
 
 
     }
+
+    /**
+     * @Route("/salles", name="semaines")
+     */
+    public function getSalles(): Response
+    {
+
+
+    }
+
+    /**
+     * @Route("/salles/{id}", name="semaines")
+     */
+    public function getAgendaSalle($id): Response
+    {
+
+
+    }
+
 }
