@@ -93,7 +93,34 @@ var app = new Vue({
                     console.log(error);
                 })
         },
+        exportCalendarAsICS: function () {
+            let year = this.today.getFullYear();
+            let month = this.today.getMonth() + 1;
+            if (month < 10) { month = "0" + month; }
 
+            let day = this.today.getDate();
+
+            if (day < 10) { day = "0" + day; }
+
+            let date = `${ year }-${ month }-${ day }`;
+
+            axios.get(this.apiBase + '/cours/weekly/' + date)
+                .then(response => {
+                    coursSemaine = response.data;
+
+                    let cal = ics();
+
+                    coursSemaine.forEach(event => {
+                        cal.addEvent(`${ event.type } de ${ event.name }`, `Avec ${ event.professeur } en salle ${ event.salle }.`, 'IUT de Bayonne et du Pays Basque', event.start, event.end);
+                    });
+
+                    cal.download("EmploiDuTemps");
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+
+        },
         getProfesseurs: function () {
             axios.get(this.apiBase + '/professeurs')
                 .then(response => {

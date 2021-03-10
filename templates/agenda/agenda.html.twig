@@ -35,6 +35,8 @@
                             <template v-if="day" class="text-center" >
                                 <v-toolbar flat>
                                     <v-layout justify-center class="pa-0">
+                                        <v-btn icon disabled></v-btn>
+                                        <v-spacer></v-spacer>
 
                                         <v-btn fab text small color="grey darken-2" @click="getPreviousDate()" >
                                             <v-icon small>
@@ -52,8 +54,12 @@
                                             </v-icon>
                                         </v-btn>
 
-                                    </v-layout>
+                                        <v-spacer></v-spacer>
 
+                                        <v-btn icon @click="exportCalendarAsICS()">
+                                            <v-icon>mdi-calendar-export</v-icon>
+                                        </v-btn>
+                                    </v-layout>
                                 </v-toolbar>
                             </template>
                         </template>
@@ -282,4 +288,6 @@
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/calendar.js') }}"></script>
+    <script src="{{ asset('js/ics-deps.js') }}"></script>
+    <script src="{{ asset('js/ics.js') }}"></script>
 {% endblock %}

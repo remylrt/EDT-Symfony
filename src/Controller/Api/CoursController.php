@@ -39,4 +39,21 @@ class CoursController extends AbstractController {
         return $this->json($cours, 200);
     }
 
+    /**
+     * @Route("/weekly/{date}", name="showWeekly", methods={"GET"})
+     */
+    public function showWeekly($date, CoursRepository $coursRepository): JsonResponse {
+        $dateCours = \DateTime::createFromFormat('Y-m-d', $date);
+
+        if (!$dateCours) {
+            return $this->json([
+                'message' => 'Le format de la date est invalide. Format accepté: AAAA-MM-JJ'
+            ], 404);
+        }
+        
+        $cours = $coursRepository->findByDateWeekly($dateCours);
+
+        return $this->json($cours, 200);
+    }
+
 }
