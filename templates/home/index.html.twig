@@ -15,10 +15,10 @@
             <v-container>
                 <v-row>
                     <v-col cols="12" md="8" lg="9" xl="9">
-                        <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px)" rounded>
+                        <v-sheet style="min-height: calc(100vh - 100px); max-height: calc(100vh - 100px); overflow-y: scroll; overflow-x: hidden" rounded>
                             <v-row>
                                 {% for article in articles %}
-                                    <v-col cols="12" md="6" lg="6">
+                                    <v-col cols="12" sm="6" md="6" lg="6">
                                         <v-card href="{{ article.link }}" class="mx-auto" max-width="80%">
                                             {% if article.image is defined %}
                                                 <v-img src="{{ article.image }}" height="200px" ></v-img>
