@@ -86,6 +86,7 @@
                                 </v-list-item-group>
                                 <v-divider></v-divider>
 
+                                {% if is_granted('ROLE_ADMIN') %}
                                 <v-subheader>Administration</v-subheader>
                                 <v-list-item-group v-model="selectedItem" color="primary" >
                                     <v-list-item href="{{ path("admin") }}">
@@ -98,6 +99,7 @@
                                     </v-list-item>
                                 </v-list-item-group>
                                 <v-divider></v-divider>
+                                {% endif %}
 
                                 <v-subheader>IUT</v-subheader>
                                 <v-list-item-group v-model="selectedItem" color="primary" >
@@ -134,7 +136,7 @@
                                             <v-icon >mdi-calendar</v-icon>
                                         </v-list-item-icon>
                                         <v-list-item-content>
-                                            <v-list-item-title>Offtres Emploi/Stage/Alt</v-list-item-title>
+                                            <v-list-item-title>Offres Emploi/Stage/Alternance</v-list-item-title>
                                         </v-list-item-content>
                                     </v-list-item>
 
