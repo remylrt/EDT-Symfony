@@ -23,10 +23,10 @@ class SalleController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/{numero}", name="show", methods={"GET"})
      */
-    public function show($id, SalleRepository $salleRepository): JsonResponse {
-        $salles = $salleRepository->find($id);
+    public function show($numero, SalleRepository $salleRepository): JsonResponse {
+        $salles = $salleRepository->findByNumero($numero);
 
         return $this->json($salles, 200);
     }
