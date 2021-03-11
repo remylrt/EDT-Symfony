@@ -1096,6 +1096,8 @@ Pour rajouter un peu d'UX pour indiquer que l'application charge des données no
 <br/>
 
 ### Indicateur d'heure
+Pour que l'utilisateur visualise plus facilement quel est le prochain cours nous avons mis en place un indicateur visuel 
+comme sur l'image suivante.
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/indicateurHeure.PNG)
 <br/><br/>
