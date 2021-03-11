@@ -16,6 +16,7 @@ var app = new Vue({
 
         ],
         salle: null,
+        isLoadingClass: true,
         apiBase: 'http://localhost:8000/api',
     },
     methods: {
@@ -46,9 +47,11 @@ var app = new Vue({
             axios.get(this.apiBase + '/salles/' + this.salle )
                 .then(response => {
                     this.events = response.data[0].cours;
+                    this.isLoadingClass = false;
                 })
                 .catch(error => {
                     console.log(error);
+                    this.isLoadingClass = false;
                 })
         },
         exportCalendarAsICS: function () {

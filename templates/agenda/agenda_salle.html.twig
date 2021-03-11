@@ -53,6 +53,15 @@
                     </div>
                 </template>
 
+                <template v-if="isLoadingClass" v-slot:interval="{ hour }">
+                    <div
+                            class="text-center"
+                    >
+                        <v-skeleton-loader
+                                type="list-item"
+                        ></v-skeleton-loader>
+                    </div>
+                </template>
             </v-calendar>
         </v-sheet>
 
