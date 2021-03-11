@@ -15,7 +15,7 @@ var app = new Vue({
         events: [
 
         ],
-
+        isLoadingClass: true,
         apiBase: 'http://localhost:8000/api',
      },
     methods: {
@@ -57,9 +57,11 @@ var app = new Vue({
             axios.get(this.apiBase + '/cours/weekly/' + date )
                 .then(response => {
                     this.events = response.data;
+                    this.isLoadingClass = false;
                 })
                 .catch(error => {
                     console.log(error);
+                    this.isLoadingClass = false;
                 })
         },
         exportCalendarAsICS: function () {
