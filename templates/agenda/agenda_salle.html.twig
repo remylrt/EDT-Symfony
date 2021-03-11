@@ -2,7 +2,7 @@
 
 {% block title %}Agenda de la salle{% endblock %}
 {% block stylesheets %}
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/calendar.css') }}">
 {% endblock %}
 {% block body %}
     <v-container  ma-0 pa-0 fluid>
@@ -19,8 +19,7 @@
             <v-spacer></v-spacer>
         </v-app-bar>
         <v-sheet style="max-height: 100vh; height: 100vh;">
-            <v-calendar :dark="darkMode" color="primary" type="week" :first-interval="15" :interval-count="24"
-                        interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
+            <v-calendar ref="calendar" :dark="darkMode" color="primary" type="week" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
 
                 <template v-slot:day-header="{ present  }">
                     <template class="text-center">
@@ -61,6 +60,10 @@
                                 type="list-item"
                         ></v-skeleton-loader>
                     </div>
+                </template>
+
+                <template v-slot:day-body="{ date, week }">
+                    <div class="v-current-time" :class="{ first: date === week[0].date }" :style="{ top: nowY }" ></div>
                 </template>
             </v-calendar>
         </v-sheet>
