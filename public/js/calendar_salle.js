@@ -33,7 +33,7 @@ var app = new Vue({
             this.showSmallSizeDialog = true;
             nativeEvent.stopPropagation()
         },
-        getOnlyHourseOfDate(date){
+        getOnlyHourOfDate(date){
             let newDate = new Date(date);
             let hours = newDate.getHours();
             let minute = newDate.getMinutes()
