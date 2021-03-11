@@ -752,8 +752,8 @@ var app = new Vue({
 
 #### Affichage des cours d'aujourd'hui et du plus tôt au plus tard
 
-Pour afficher les cours nous avons utilisé le composent `<v-calendar>` de Vuetify.
-Pour ajouter le calendrier il faut simplement ajouter ce code et nous avons une affichage basique 
+Pour afficher les cours nous avons utilisé le composant `<v-calendar>` de Vuetify.
+Pour ajouter le calendrier il faut simplement ajouter ce code et nous avons un affichage basique 
 <br/>
 agenda.html.twig :
 <details>
@@ -859,7 +859,7 @@ Pour ce faire il faut ajouter le code suivant à l'intérieur des balises de `<v
 ```
 </details>
 <br/><br/>
-Il faut également ajouter les méthodes suivante dans le fichier javascript 
+Il faut également ajouter les méthodes suivantes dans le fichier javascript 
 <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -1074,8 +1074,114 @@ foreach ($articles as $key => $article) {
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/edtSemaine.PNG)
 <br/><br/>
 
-### Exportation des calendriers au format ICalendar
+### Exportation des calendriers au format iCalendar
+Nous avons ajouté la possibilité d'exporter les évènements de la semaine courante sous forme de fichier *iCalendar* (.ics) pouvant être importé dans n'importe quel calendrier comme Google Calendar.
 
+Pour cela, nous avions besoin d'un point d'entrée API permettant de récupérer les cours de la semaine à partir d'une date. Voici donc la méthode du contrôleur *CoursController.php* correspondante :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
+```php
+/**
+ * @Route("/weekly/{date}", name="showWeekly", methods={"GET"})
+ */
+public function showWeekly($date, CoursRepository $coursRepository): JsonResponse {
+    $dateCours = \DateTime::createFromFormat('Y-m-d', $date);
+
+    if (!$dateCours) {
+        return $this->json([
+            'message' => 'Le format de la date est invalide. Format accepté: AAAA-MM-JJ'
+        ], 404);
+    }
+        
+    $cours = $coursRepository->findByDateWeekly($dateCours);
+
+    return $this->json($cours, 200);
+}
+```
+
+</details>
+
+On récupère la date passée dans l'URL et on la passe à la méthode `DateTime::createFromFormat()` qui va tenter d'en créer un objet `DateTime`. Si la conversion échoue, `$dateCours` vaut *false* et on peut retourner une erreur 404.
+
+Si la date est correcte, on peut récupérer les cours de la semaine avec le repository en appelant la méthode `findByDateWeekly()` que voici :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
+```php
+/**
+ * @return Cours[] Returns an array of Cours objects
+ */
+public function findByDateWeekly($date) {
+    $anneeChoix = $date->format('Y');
+    $semChoix = $date->format('W');
+
+    $timeStampPremierJanvier = strtotime($anneeChoix . '-01-01');
+    $jourPremierJanvier = date('w', $timeStampPremierJanvier);
+        
+    $numSemainePremierJanvier = date('W', $timeStampPremierJanvier);
+        
+    $decalage = ($numSemainePremierJanvier == 1) ? $semChoix - 1 : $semChoix;
+
+    $timeStampDate = strtotime('+' . $decalage . ' weeks', $timeStampPremierJanvier);
+
+    $dateDebutSemaine = ($jourPremierJanvier == 1) ? date('Y-m-d', $timeStampDate) : date('Y-m-d', strtotime('last monday', $timeStampDate));
+    $dateFinSemaine = ($jourPremierJanvier == 1) ? date('Y-m-d', $timeStampDate) : date('Y-m-d',strtotime('next sunday', $timeStampDate));
+
+    return $this->createQueryBuilder('c')
+        ->where('c.dateHeureDebut BETWEEN :dateDebutSemaine AND :dateFinSemaine')
+        ->setParameter('dateDebutSemaine', $dateDebutSemaine . '%')
+        ->setParameter('dateFinSemaine', $dateFinSemaine . '%')
+        ->orderBy('c.dateHeureDebut', 'ASC')
+        ->getQuery()
+        ->getResult()
+    ;
+}
+```
+
+</details>
+
+Cette méthode va, à partir de la date passée en paramètre, déterminer la date du premier et du dernier jour de la semaine corresponde et ainsi pouvoir rechercher en base de données les cours qui se déroulent entre ces deux dates.
+
+Pour générer le fichier *iCalendar*, nous nous servi d'une bibliothèque JavaScript trouvé sur Github accessible [ici](https://github.com/nwcell/ics.js/).
+
+Après avoir ajouté les fichiers nécessaires dans le dossier *public/js* nous avons pu écrire notre méthode VueJS :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
+```js
+exportCalendarAsICS: function () {
+    let date = this.getFormattedTodaysDate();
+
+    axios.get(this.apiBase + '/cours/weekly/' + date)
+        .then(response => {
+            coursSemaine = response.data;
+
+            let cal = ics();
+
+            coursSemaine.forEach(event => {
+                cal.addEvent(`${ event.type } de ${ event.name }`, `Avec ${ event.professeur } en salle ${ event.salle }.`, 'IUT de Bayonne et du Pays Basque', event.start, event.end);
+            });
+
+            cal.download("EmploiDuTemps");
+        })
+        .catch(error => {
+            console.log(error);
+        })
+
+},
+```
+
+</details>
+
+Cette méthode se contente de faire un appel API précédemment décrite pour récupérer les cours de la semaine courante sous forme de tableau et va, pour chacun d'entre eux, créer un évènement.
+
+Quand cela est fait, on propose à l'utilisateur de télécharger le fichier.
+
+Il ne restait plus qu'à ajouter un bouton dans l'interface pour appeler cette méthode.
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/icalendar.PNG)
 <br/><br/>
@@ -1089,4 +1195,6 @@ foreach ($articles as $key => $article) {
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/indicateurHeure.PNG)
 <br/><br/>
+
+###
 
