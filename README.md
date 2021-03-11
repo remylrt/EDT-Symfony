@@ -81,6 +81,7 @@ class Cours {
     ...
 }
 ```
+
 </details>
 
 Et le résultat dans *Salle.php* :
@@ -482,3 +483,205 @@ Et voici le résultat dans le formulaire de création de **Cours** :
 En ayant au préalable créé un **Cours** identique :
 
 ![Déclenchement validateur](/readmeAssets/img/DeclenchementValidateur3.PNG)
+
+## API
+Il nous était demandé de créer deux points d'entrée API. L'un pour récupérer la liste des **Cours** et l'autre pour récupérer la liste des **Salles**.
+
+Nous avons donc créé deux nouveaux contrôleurs *CoursController.php* et *SalleController.php* dans le dossier *Api* avec la commande `bin/console make:controller`.
+
+Nous nous sommes basé sur les contrôleurs d'API que nous avions fait en TP pour créer ceux là.
+
+*CoursController.php* :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
+```php
+/**
+ * @Route("/api/cours", name="api_cours_")
+ */
+class CoursController extends AbstractController {
+
+    /**
+     * @Route("", name="index", methods={"GET"})
+     */
+    public function index(CoursRepository $coursRepository): JsonResponse {
+        $cours = $coursRepository->findAll();
+
+        return $this->json($cours, 200);
+    }
+}
+```
+
+</details>
+
+*SalleController.php* :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
+```php
+/**
+ * @Route("/api/salles", name="api_salles_")
+ */
+class SalleController extends AbstractController {
+
+    /**
+     * @Route("", name="index", methods={"GET"})
+     */
+    public function index(SalleRepository $salleRepository): JsonResponse {
+        $salles = $salleRepository->findAll();
+
+        return $this->json($salles, 200);
+    }
+}
+```
+
+</details>
+
+Egalement en prenant exemple sur les travaux réalisés en TP, nous avons modifié les entités **Cours** et **Salle** pour les faire implémenter la classe `JsonSerializable` et une méthode `jsonSerialize()` afin d'indiquer comment l'on souhaite formater nos objets en JSON.
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
+```php
+use JsonSerializable;
+
+class Cours implements JsonSerializable {
+
+    ...
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'name' => $this->matiere->__toString(),
+            'type' => $this->type,
+            'professeur' => $this->professeur->__toString(),
+            'salle' => $this->salle->__toString(),
+            'start' => $this->dateHeureDebut->format('Y-m-d H:i:s'),
+            'end' => $this->dateHeureFin->format('Y-m-d H:i:s'),
+        ];
+    }
+
+    ...
+
+}
+```
+
+</details>
+
+*SalleController.php* :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
+```php
+use JsonSerializable;
+
+class Salle implements JsonSerializable {
+
+    ...
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'salle' => $this->numero,
+            'cours' => $this->cours->toArray(),
+        ];
+    }
+
+    public function __toString() {
+        if ($this->numero) {
+            return $this->numero;
+        }
+
+        return '';
+    }
+
+    ...
+
+}
+```
+
+</details>
+
+Voici des extraits des retours obtenus en appelant ces deux points d'entrée.
+
+GET /api/cours :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
+```json
+[
+  {
+    "id": 1,
+    "name": "M1102: Introduction à l'algorithmique",
+    "type": "Cours",
+    "professeur": "Patrick Etcheverry",
+    "salle": "125",
+    "start": "2021-03-08 08:30:00",
+    "end": "2021-03-08 12:30:00"
+  },
+  {
+    "id": 2,
+    "name": "M1102: Introduction à l'algorithmique",
+    "type": "TP",
+    "professeur": "Philippe Roose",
+    "salle": "126",
+    "start": "2021-03-10 12:07:00",
+    "end": "2021-03-10 12:10:00"
+  },
+  {
+    "id": 3,
+    "name": "M1102: Introduction à l'algorithmique",
+    "type": "TP",
+    "professeur": "Christophe Marquesuzaa",
+    "salle": "124",
+    "start": "2021-03-08 15:21:00",
+    "end": "2021-03-08 15:22:00"
+  },
+
+  ...
+]
+```
+
+</details>
+
+GET /api/salles :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
+```json
+[
+  {
+    "id": 1,
+    "salle": "124",
+    "cours": [
+      {
+        "id": 3,
+        "name": "M1102: Introduction à l'algorithmique",
+        "type": "TP",
+        "professeur": "Christophe Marquesuzaa",
+        "salle": "124",
+        "start": "2021-03-08 15:21:00",
+        "end": "2021-03-08 15:22:00"
+      },
+      {
+        "id": 5,
+        "name": "M1102: Introduction à l'algorithmique",
+        "type": "TP",
+        "professeur": "Christophe Marquesuzaa",
+        "salle": "124",
+        "start": "2021-03-09 10:45:00",
+        "end": "2021-03-09 15:15:00"
+      }
+    ]
+  },
+
+  ...
+]
+```
+
+</details>
