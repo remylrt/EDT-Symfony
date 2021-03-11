@@ -58,20 +58,9 @@ var app = new Vue({
                 })
         },
         exportCalendarAsICS: function () {
-            let year = this.today.getFullYear();
-            let month = this.today.getMonth() + 1;
-            if (month < 10) { month = "0" + month; }
-
-            let day = this.today.getDate();
-
-            if (day < 10) { day = "0" + day; }
-
-            let date = `${ year }-${ month }-${ day }`;
-
-            axios.get(this.apiBase + '/cours/weekly/' + date)
+            axios.get(this.apiBase + '/salles/' + this.salle)
                 .then(response => {
-                    coursSemaine = response.data;
-
+                    coursSemaine = response.data[0].cours;
                     let cal = ics();
 
                     coursSemaine.forEach(event => {
@@ -83,7 +72,6 @@ var app = new Vue({
                 .catch(error => {
                     console.log(error);
                 })
-
         },
     },
     mounted() {
