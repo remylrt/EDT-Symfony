@@ -815,6 +815,46 @@ var app = new Vue({
 ```
 </details>
 
+<br/>
+
+La fonction `getCours()` fait un appel à l'API pour récupérer les cours sous forme d'un tableau d'objet qui seront directement affecté à `event`.
+
+Voici un exemple de résultat de l'API pour le `api/cours/2021-03-12`
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```json
+[
+   {
+      "id":41,
+      "name":"M1102: Introduction \u00e0 l\u0027algorithmique",
+      "type":"TP",
+      "professeur":"Yann Carpentier",
+      "salle":"124",
+      "start":"2021-03-12 08:30:00",
+      "end":"2021-03-12 12:30:00"
+   },
+   {
+      "id":42,
+      "name":"WS: M4102C - Webservices",
+      "type":"Cours",
+      "professeur":"Marc Dalmau",
+      "salle":"125",
+      "start":"2021-03-12 14:30:00",
+      "end":"2021-03-12 17:30:00"
+   },
+   {
+      "id":43,
+      "name":"M1102: Introduction \u00e0 l\u0027algorithmique",
+      "type":"Cours",
+      "professeur":"Patrick Etcheverry",
+      "salle":"127",
+      "start":"2021-03-12 17:30:00",
+      "end":"2021-03-12 18:30:00"
+   }
+]
+```
+</details>
 
 ![simpleAgenda](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/coursSimple.PNG)
 
