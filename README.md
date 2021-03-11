@@ -84,6 +84,10 @@ class Cours {
 </details>
 
 Et le résultat dans *Salle.php* :
+
+<details>
+  <summary>Cliquez pour afficher le code</summary>
+
 ```php
 /**
  * @ORM\Entity(repositoryClass=SalleRepository::class)
@@ -109,6 +113,8 @@ class Salle {
     ...
 }
 ```
+</details>
+
 
 Il nous restait alors qu'à mettre à jour le schéma de la base de données en conséquence avec la commande `bin/console doctrine:schema:update --force`.
 
@@ -118,6 +124,10 @@ L'étape suivante était de mettra à jour l'interface d'administration Easy Adm
 Avec la commande `bin/console make:admin:crud` nous avons pu créer les contrôleurs pour le CRUD de nos entités dans Easy Admin.
 
 Cependant, elles n'apparaissent pas encore dans le menu du dashboard. Pour corriger cela, nous avons modifié la méthode `configureMenuItems()` du *DashboardController.php* pour y rajouter les liens comme cela :
+
+<details>
+  <summary>Cliquez pour afficher le code</summary>
+
 ```php
 public function configureMenuItems(): iterable {
     return [
@@ -130,6 +140,10 @@ public function configureMenuItems(): iterable {
      ;
 }
 ```
+
+</details>
+
+
 Voici le menu après cette modification :
 
 ![Menu Easy Admin](/readmeAssets/img/MenuEasyAdmin.PNG)
@@ -146,6 +160,9 @@ Le formulaire de création de **Salle** nous convient mais nous souhaiterions po
 
 Pour cela, nous avons modifié le contrôleur *CoursCrudController.php* pour y ajouter des champs permettant de saisir la **Matiere**, le **Professeur** et la **Salle** ainsi que pour mettre un champ de saisie de type `ChoiceField` sur le type de **Cours** avec les valeurs *Cours*, *TD* et *TP*.
 
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
 ```php
 public function configureFields(string $pageName): iterable {
     return [
@@ -161,6 +178,8 @@ public function configureFields(string $pageName): iterable {
 }
 ```
 
+</details>
+
 Le formulaire de création de **Cours** après ces modifications :
 
 ![Formulaire de création de cours après modifications](/readmeAssets/img/CreateCoursApres.PNG)
@@ -170,6 +189,10 @@ Une fois le formulaires corrects, nous devions mettre en place des validateurs p
 Nous avons donc commencé par mettre des validateurs pour vérifier qu'aucun des champs ne soient vides :
 
 Dans *Cours.php* :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
 ```php
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -239,7 +262,13 @@ class Cours {
 }
 ```
 
+</details>
+
 Dans *Salle.php* :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
 ```php
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -271,7 +300,12 @@ class Salle {
 }
 ```
 
+</details>
+
 Nous avons également ajouté un validateur pour que le type de **Cours** soit bien *Cours*, *TD* ou *TP* :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
 
 ```php
 /**
@@ -287,7 +321,13 @@ Nous avons également ajouté un validateur pour que le type de **Cours** soit b
 private $type;
 ```
 
+</details>
+
 Aussi, nous avons mis en place un validateur `UniqueEntity` sur l'entité **Salle** pour ne pas que l'on puisse avoir deux salles ayant le même numéro :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
 ```php
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -302,6 +342,8 @@ class Salle {
     ...
 }
 ```
+
+</details>
 
 En plus de ces validateurs, nous avons pensé à des cas qui, selon nous, nécessitaient que l'on en mette en place d'autres :
 - Vérifier que la date de début soit ultérieure à la date de fin du **Cours**;
@@ -319,6 +361,10 @@ Elle nous explique que le doit créer un dossier *Validator* dans *src* comme ce
 À l'intérieur, on créé deux fichiers PHP : l'un avec nom libre et l'autre avec le même nom que le premier suivi de "Validator". Ici nous avons *DateHeureCours.php* et *DateHeureCoursValidator.php*.
 
 Dans *DateHeureCours.php* nous avons :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
 ```php
 namespace App\Validator;
 
@@ -336,9 +382,15 @@ class DateHeureCours extends Constraint {
 }
 ```
 
+</details>
+
 Cette classe doit étendre de `Symfony\Component\Validator\Constraint` et contenir un attribut *message* qui sera le message d'erreur affiché dans le formulaire lorsque la validation n'est pas passée.
 
 À côté de ça, dans *DateHeureCoursValidator.php* nous avons :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
 ```php
 namespace App\Validator;
 
@@ -385,6 +437,9 @@ class DateHeureCoursValidator extends ConstraintValidator {
 }
 ```
 
+</details>
+
+
 Cette classe doit étendre de `Symfony\Component\Validator\ConstraintValidator` et doit implémenter une méthode `validate()` qui sera exécutée à chaque fois que l'on soumettra le formulaire. Elle prend en paramètre l'entité que l'on souhaite créer ou modifier donc nous pouvons effectuer dessus des vérifications à notre guise.
 Ici nous vérifions :
 - Que les dates de début et de fin du **Cours** soient définis, sinon on sort de la méthode et on laisse la contrainte `NotBlank` gérer ce cas;
@@ -398,6 +453,10 @@ Comme on le voit, pour générer l'erreur on récupère le contexte dans lequel 
 Les deux autres validateurs, qui vérifient si le professeur et la salle sélectionnés sont disponibles, étant grandement similaires, nous avons fait le choix de ne pas les détailler ici.
 
 Une fois nos validateurs faits, nous avons pu les ajouter à notre entité **Cours** comme ceci :
+
+<details>
+  <summary>Cliquer pour afficher le code</summary>
+
 ```php
 use App\Validator as EDTConstraints;
 
@@ -411,6 +470,8 @@ class Cours {
     ...
 }
 ```
+
+</details>
 
 Et voici le résultat dans le formulaire de création de **Cours** :
 
