@@ -1089,8 +1089,12 @@ Nous avons donc décidé de proposer, depuis la page d'accueil, un accès aux di
 <br/><br/>
 
 ### Skeleton loaders
+Pour rajouter un peu d'UX pour indiquer que l'application charge des données nous avons utilisé le composant 
+`<<v-skeleton-loader>`.
 
-
+![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/skeleton1.PNG)
+<br/><br/>
+![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/skeleton2.PNG)
 <br/><br/>
 
 ### Indicateur d'heure
