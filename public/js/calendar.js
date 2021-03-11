@@ -16,6 +16,8 @@ var app = new Vue({
 
         ],
         isLoadingClass: true,
+        isLoadingTeachers: true,
+        isLoadingNotices: true,
         apiBase: 'http://localhost:8000/api',
         professeurs: [],
         professeurCourant: null,
@@ -30,6 +32,7 @@ var app = new Vue({
     methods: {
         getPreviousDate(){
             this.isLoadingClass = true;
+            this.isLoadingTeachers = true;
             let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() - 1));
             this.getCours();
@@ -37,6 +40,7 @@ var app = new Vue({
         },
         getNextDate(){
             this.isLoadingClass = true;
+            this.isLoadingTeachers = true;
             let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() + 1));
             this.getCours();
@@ -44,6 +48,7 @@ var app = new Vue({
         },
         backToCurrentDate(){
             this.isLoadingClass = true;
+            this.isLoadingTeachers = true;
             this.today = new Date()
             this.getCours();
             this.getProfesseurs();
@@ -128,6 +133,7 @@ var app = new Vue({
             axios.get(this.apiBase + '/professeurs/daily/' + date)
                 .then(response => {
                     this.professeurs = response.data;
+                    this.isLoadingTeachers = false;
                 })
                 .catch(error => {
                     console.log(error);
