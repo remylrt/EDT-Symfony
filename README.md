@@ -685,3 +685,407 @@ GET /api/salles :
 ```
 
 </details>
+
+### Interface VueJS
+
+Pour la partie front nous avons choisi d'utiliser la librairie [Vuetify](https://vuetifyjs.com/en/) pour simplifier le développement et avoir une interface complexe en très peu de lignes de code. Nous l'avons également utilisée car il est possible de l'intégrer grâce à un CDN, plus simple pour éviter tous les problème éventuels avec npm. 
+<br/><br/>
+Pour l'installer il faut simplement ajouter les lignes suivant dans le template de base. 
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```html
+<head>
+  ...
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  ...
+</head>
+<body>
+  ...
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  ...
+</body>
+</html>
+
+```
+</details>
+<br/><br/>
+
+Nous avons fait le choix d'utiliser les templates afin d'avoir des fichier plus organisés que dans le dossier publique mais également pour le pas avoir les extensions des fichiers dans l'URL.
+
+Pour contourner l'incompatibilité de la syntaxe TWIG et VueJS nous avons, dans chaque fichier avec VueJS, redéclaré les délimiteurs avec la ligne `delimiters` afin d'utiliser `${ }` à la place de  `{{ }}`.
+
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```javascript
+var app = new Vue({
+    delimiters: ['${', '}'],
+    el: '#app'
+}
+```
+
+</details> 
+<br/><br/>
+Pour indiquer à vue que nous utilisons vuetify il faut ajouter une ligne `vuetify` la déclaration.
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```javascript
+var app = new Vue({
+    delimiters: ['${', '}'],
+    el: '#app',
+    vuetify: new Vuetify({
+        lang: {
+            current: 'fr'
+        }
+    })
+}
+```
+
+</details>
+<br/><br/>
+
+
+#### Affichage des cours d'aujourd'hui et du plus tôt au plus tard
+
+Pour afficher les cours nous avons utilisé le composent `<v-calendar>` de Vuetify.
+Pour ajouter le calendrier il faut simplement ajouter ce code et nous avons une affichage basique 
+<br/>
+agenda.html.twig :
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```html
+<v-calendar  
+	color="primary" // couleur
+	type="day" //Type de calendrier (semaine, mois, jours)
+	:first-interval="15" //heure de début du calendrier -> 7h30
+	:interval-count="24" //heure de fin du calendrier -> 19h30
+	interval-minutes="30" //intervale de temps à afficher ici 30 minute
+	:events="events" //liste des cours
+	:value="today"  //date du jour à afficher 
+>
+</v-calendar>
+```
+</details>
+<br/><br/>
+calendar.js
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```javascript
+var app = new Vue({
+    delimiters: ['${', '}'],
+    el: '#app',
+    vuetify: new Vuetify({
+        lang: { current: 'fr'}
+    }),
+    data: {
+        appName: "EDT",
+        today: new Date(),
+        events: [],
+    },
+    methods: {
+        //renvoie la date du jour au format YYYY-mm-dd
+        getFormattedTodaysDate() {
+            let year = this.today.getFullYear();
+            let month = this.today.getMonth() + 1;
+            if(month < 10){month = "0" + month;}
+            let day = this.today.getDate();
+            if(day < 10){day = "0" + day;}
+            let formattedDate = `${ year }-${ month }-${ day }`;
+            return formattedDate;
+        },
+        //fait un appel à l'API pour récupérer la liste des cours du jour
+        getCours(){
+            let date = this.getFormattedTodaysDate();
+            axios.get(this.apiBase + '/cours/' + date )
+                .then(response => { this.events = response.data; })
+                .catch(error => { console.log(error); })
+        }
+    },
+    mounted() {
+        this.getCours();
+    }
+})
+```
+</details>
+
+
+![simpleAgenda](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/coursSimple.PNG)
+
+
+
+
+
+#### Boutons jour précédent et jour suivant pour afficher le calendrier des autres jours
+
+Pour pouvoir naviguer entre différents jours nous avons ajouté 3 boutons, un pour aller dans le passé, un dans le futur et un pour revenir à aujourd'hui. 
+<br/><br/>
+
+Pour ce faire il faut ajouter le code suivant à l'intérieur des balises de `<v-calendar> </v-calendar>`
+
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```html
+<template v-slot:day-header="{ day }">
+    <template v-if="day" class="text-center" >
+        <v-toolbar flat>
+            <v-layout justify-center class="pa-0">
+            	<v-spacer></v-spacer>
+            	<v-btnfab text small color="grey darken-2" @click="getPreviousDate()" >
+            	<v-icon small>
+            		mdi-chevron-left
+            	</v-icon>
+            	</v-btn>
+            	<v-btn outlined class="mx-4" color="grey darken-2" @click="backToCurrentDate()" >
+            		Aujourd'hui
+            	</v-btn>
+            	<v-btn fab text small color="grey darken-2" @click="getNextDate()" >
+            		<v-icon small>
+                        mdi-chevron-right
+                    </v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+            </v-layout>
+        </v-toolbar>
+    </template>
+</template>
+```
+</details>
+<br/><br/>
+Il faut également ajouter les méthodes suivante dans le fichier javascript 
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```javascript
+//Permet d'aller au jour précédent
+getPreviousDate(){
+    let dateStr = this.today;
+    this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() - 1));
+    this.getCours();
+},
+//Permet d'aller au jour suivant
+getNextDate(){
+    let dateStr = this.today;
+    this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() + 1));
+    this.getCours();
+},
+//permet de retourner à la date d'aujourd"hui
+backToCurrentDate(){
+    this.today = new Date()
+    this.getCours();
+},
+```
+</details>
+<br/><br/>
+
+![image-20210311164150490](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/boutonsNav.PNG)
+<br/><br/>
+#### Pour chaque cours affichage de l'heure de début, de fin, le type, la salle, la matière et le professeur
+<br/><br/>
+Pour afficher les détails des cours nous avons fait apparaître que le type de cours, le nom du cours, l'enseignant et la salle sur le calendrier en ajoutant le code suivant. 
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```html
+<template v-slot:event="{event}">
+    <div class="fill-height pl-2">
+        <strong> ${ event.type } de ${ event.name } </strong> ( ${ event.professeur } ) <br/>
+        Salle ${ event.salle }
+    </div>
+</template>
+```
+</details>
+![DetailsCours](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/detailCours.PNG)
+<br/><br/>
+
+Nous avons également décidé d'ajouter un modal pour faire apparaitre plus clairement les information si l'écran est trop petit pour tout afficher.
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```html
+<v-dialog v-model="showSmallSizeDialog" max-width="800" hide-overlay transition="dialog-bottom-transition" >
+    <v-card>
+        <v-card-title>
+            <v-btn icon class="pr-5" @click="showSmallSizeDialog = false, currentClassInformations = {}" >
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <span class="headline">Détails</span>
+        </v-card-title>
+        <div>
+            <v-list two-line>
+                <v-list-item>
+                    <v-list-item-icon>
+                        <v-icon color="indigo">
+                            mdi-school
+                        </v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>Nom du module</v-list-item-title>
+                        <v-list-item-subtitle>${ currentClassInformations.name }</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item>
+                    <v-list-item-action></v-list-item-action>
+
+                    <v-list-item-content>
+                        <v-list-item-title>Type</v-list-item-title>
+                        <v-list-item-subtitle>${ currentClassInformations.type }</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item>
+                    <v-list-item-action></v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Salle</v-list-item-title>
+                        <v-list-item-subtitle>${ currentClassInformations.salle }</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-divider inset></v-divider>
+                <v-list-item>
+                    <v-list-item-icon>
+                        <v-icon color="indigo">
+                            mdi-account
+                        </v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>Enseignant</v-list-item-title>
+                        <v-list-item-subtitle>${ currentClassInformations.professeur }</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-divider inset></v-divider>
+                <v-list-item>
+                    <v-list-item-icon>
+                        <v-icon color="indigo">
+                            mdi-clock
+                        </v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                        <v-list-item-title>Horaires</v-list-item-title>
+                        <v-list-item-subtitle>${ getOnlyHourOfDate(currentClassInformations.start) } : ${ getOnlyHourOfDate(currentClassInformations.end) }</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+        </div>
+    </v-card>
+</v-dialog>
+```
+</details>
+<br/><br/>
+
+Ce code génère donc un modal qui est affiché dès qu'on clique sur un cours grâce à la méthode `showEventDetails`
+<details>
+<summary>Cliquez pour afficher le code</summary>
+
+```javascript
+showEventDetails ({ nativeEvent, event }) {
+    this.currentClassInformations = {
+        id: event.id,
+        name: event.name,
+        professeur: event.professeur,
+        type: event.type,
+        salle: event.salle,
+        start: event.start,
+        end: event.end,
+    }
+    this.showSmallSizeDialog = true;
+    nativeEvent.stopPropagation()
+},
+```
+</details>
+<br/><br/>
+
+![modalDetailsCours](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/detailCoursModal.PNG)
+
+
+## Améliorations apportées 
+
+
+<br/><br/>
+
+### Intégration de "Note ton prof!"
+
+Nous avons intégré le travail réalisé durant le module mais uniquement sur la page permetant de consulter l'EDT du jour. Etant donné que ce serait un peu stupide d'afficher à chaque fois tous les enseignants nous n'affichons que les enseignants qui ont un cours durant le jour sélectionné.
+![notetonprof](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/notetonprrof.PNG)
+
+<br/><br/>
+
+Nous avons également modifié l'interface pour consulter les avis et pour donner son avis sur un enseignant. 
+![noter](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/donnercoms.PNG)
+![comms](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/commss.PNG)
+<br/><br/>
+
+### Création d'une page d'accueil
+
+Afin d'avoir une page centrale lorsqu'un utilisateur arrive sur le site nous avons créé une page d'accueil qui centralise les lien utiles et qui propore également les derniers articles de l'IUT.
+![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/home.PNG)
+<br/><br/>
+
+### Récupération des articles de l'IUT de puis le flux RSS de l'IUT
+Pour afficher les dernis articles de l'IUT nous avons utilisé le flux RSS de l'IUT mais nous avons rencontré quelque problèmes car il renvoie du HTML déjà formaté, chose que nous ne voulions pas. Nous avons donc fait un traitement avant d'afficher la page pour récupérer uniquement les informations que nous voulions sans balise html.
+
+Pour se faire nous avons utilisé des exprésions régulières.
+ <details>
+<summary>Cliquez pour afficher le code</summary>
+
+```php
+$xml = simplexml_load_file("https://www.iutbayonne.univ-pau.fr/rss/news");
+$articles = $xml->xpath("//item");
+
+foreach ($articles as $key => $article) {
+    $htmlContent = $article->description;
+
+    //récupération image
+    preg_match('/<img typeof="foaf:Image" class="img-responsive" src="(.*?)" width="100" height="100" alt="" \/>/s', $htmlContent, $matchImage);
+    if(array_key_exists(1, $matchImage)){
+        $article->image = $matchImage[1];
+    }
+
+    //récupération description
+    preg_match('/<p>(.*?)<\/p>/s', $htmlContent, $matchDescription);
+    if(array_key_exists(1, $matchDescription)){
+        $article->description = $matchDescription[1];
+    }
+
+    if(sizeof($matchImage) == 0){
+        unset($articles[$key]);
+    }
+} 
+```
+</details>
+<br/><br/>
+
+### Emplois du temps de la semaine 
+
+
+![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/edtSemaine.PNG)
+<br/><br/>
+
+### Emplois du temps des salles
+
+
+![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/edtSemaine.PNG)
+<br/><br/>
+
+### Exportation des calendriers au format ICalendar
+
+
+![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/icalendar.PNG)
+<br/><br/>
+
+### Skeleton loaders
+
+
+<br/><br/>
+
+### Indicateur d'heure
+
+![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/indicateurHeure.PNG)
+<br/><br/>
+
