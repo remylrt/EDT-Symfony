@@ -1073,8 +1073,13 @@ attribut du `<v-calendar>` pour avoir un affichage par semaine. Le fonctionnemen
 
 ### Emplois du temps des salles
 
+Lorsque nous etions encore en DUT et en présentiel nous avions un problème à chaque fois que nous souhaitions aller 
+dans une salle -> est-elle libre ? <br/>
+Nous avons donc décidé de proposer, depuis la page d'accueil, un accès aux différents emplois du temps des salles.
 
-![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/edtSemaine.PNG)
+![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles.PNG)
+<br/><br/>
+![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles2.PNG)
 <br/><br/>
 
 ### Exportation des calendriers au format ICalendar
