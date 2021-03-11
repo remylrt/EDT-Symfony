@@ -161,7 +161,7 @@ Le formulaire de création de **Salle** nous convient mais nous souhaiterions po
 Pour cela, nous avons modifié le contrôleur *CoursCrudController.php* pour y ajouter des champs permettant de saisir la **Matiere**, le **Professeur** et la **Salle** ainsi que pour mettre un champ de saisie de type `ChoiceField` sur le type de **Cours** avec les valeurs *Cours*, *TD* et *TP*.
 
 <details>
-  <summary>Cliquer pour afficher le code</summary>
+  <summary>Cliquez pour afficher le code</summary>
 
 ```php
 public function configureFields(string $pageName): iterable {
@@ -191,7 +191,7 @@ Nous avons donc commencé par mettre des validateurs pour vérifier qu'aucun des
 Dans *Cours.php* :
 
 <details>
-  <summary>Cliquer pour afficher le code</summary>
+  <summary>Cliquez pour afficher le code</summary>
 
 ```php
 use Symfony\Component\Validator\Constraints as Assert;
@@ -267,7 +267,7 @@ class Cours {
 Dans *Salle.php* :
 
 <details>
-  <summary>Cliquer pour afficher le code</summary>
+  <summary>Cliquez pour afficher le code</summary>
 
 ```php
 use Symfony\Component\Validator\Constraints as Assert;
@@ -305,7 +305,7 @@ class Salle {
 Nous avons également ajouté un validateur pour que le type de **Cours** soit bien *Cours*, *TD* ou *TP* :
 
 <details>
-  <summary>Cliquer pour afficher le code</summary>
+  <summary>Cliquez pour afficher le code</summary>
 
 ```php
 /**
@@ -326,7 +326,7 @@ private $type;
 Aussi, nous avons mis en place un validateur `UniqueEntity` sur l'entité **Salle** pour ne pas que l'on puisse avoir deux salles ayant le même numéro :
 
 <details>
-  <summary>Cliquer pour afficher le code</summary>
+  <summary>Cliquez pour afficher le code</summary>
 
 ```php
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -363,7 +363,7 @@ Elle nous explique que le doit créer un dossier *Validator* dans *src* comme ce
 Dans *DateHeureCours.php* nous avons :
 
 <details>
-  <summary>Cliquer pour afficher le code</summary>
+  <summary>Cliquez pour afficher le code</summary>
 
 ```php
 namespace App\Validator;
@@ -389,7 +389,7 @@ Cette classe doit étendre de `Symfony\Component\Validator\Constraint` et conten
 À côté de ça, dans *DateHeureCoursValidator.php* nous avons :
 
 <details>
-  <summary>Cliquer pour afficher le code</summary>
+  <summary>Cliquez pour afficher le code</summary>
 
 ```php
 namespace App\Validator;
@@ -455,7 +455,7 @@ Les deux autres validateurs, qui vérifient si le professeur et la salle sélect
 Une fois nos validateurs faits, nous avons pu les ajouter à notre entité **Cours** comme ceci :
 
 <details>
-  <summary>Cliquer pour afficher le code</summary>
+  <summary>Cliquez pour afficher le code</summary>
 
 ```php
 use App\Validator as EDTConstraints;
