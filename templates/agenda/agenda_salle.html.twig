@@ -8,9 +8,14 @@
     <v-container  ma-0 pa-0 fluid>
         <v-app-bar :collapse="true" absolute color="deep-purple accent-4" dark scroll-target="#scrolling-techniques-6">
             <v-spacer></v-spacer>
-            <v-btn icon href="{{ path('home') }}">
-                <v-icon>mdi-home</v-icon>
-            </v-btn>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-on="on" v-bind="attrs"  icon href="{{ path('home') }}">
+                        <v-icon>mdi-home</v-icon>
+                    </v-btn>
+                </template>
+                <span>Accueil</span>
+            </v-tooltip>
             <v-spacer></v-spacer>
         </v-app-bar>
         <v-sheet style="max-height: 100vh; height: 100vh;">
@@ -24,9 +29,14 @@
 
                                 <v-spacer></v-spacer>
 
-                                <v-btn v-if="present" icon @click="exportCalendarAsICS()">
-                                    <v-icon>mdi-calendar-export</v-icon>
-                                </v-btn>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn v-on="on" v-bind="attrs" v-if="present" icon @click="exportCalendarAsICS()">
+                                            <v-icon>mdi-calendar-export</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>Télécharger l'agenda de la salle</span>
+                                </v-tooltip>
 
                                 <v-spacer></v-spacer>
 
