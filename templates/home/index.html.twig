@@ -5,6 +5,13 @@
 {% block body %}
     <v-app-bar color="deep-purple accent-4" dark>
         <v-toolbar-title>Accueil EDT</v-toolbar-title>
+        <v-spacer></v-spacer>
+
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <v-btn  elevation="5" href="{{ path("app_logout") }}">Déconnexion</v-btn>
+        {% else %}
+            <v-btn  elevation="5" href="{{ path("app_login") }}">Connexion administrateur</v-btn>
+        {% endif %}
     </v-app-bar>
 
 
