@@ -82,6 +82,17 @@
                             </template>
                         </template>
 
+                        <template v-if="isLoadingClass" v-slot:interval="{ hour }">
+                            <div
+                                    class="text-center"
+                            >
+                                <v-skeleton-loader
+                                        type="list-item"
+                                ></v-skeleton-loader>
+                            </div>
+                        </template>
+
+
                         <template v-slot:event="{event}">
                             <div class="fill-height pl-2">
                                 <strong> ${ event.type } de ${ event.name } </strong> ( ${ event.professeur } ) <br/>

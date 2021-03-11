@@ -15,6 +15,7 @@ var app = new Vue({
         events: [
 
         ],
+        isLoadingClass: true,
         apiBase: 'http://localhost:8000/api',
         professeurs: [],
         professeurCourant: null,
@@ -28,18 +29,21 @@ var app = new Vue({
     },
     methods: {
         getPreviousDate(){
+            this.isLoadingClass = true;
             let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() - 1));
             this.getCours();
             this.getProfesseurs();
         },
         getNextDate(){
+            this.isLoadingClass = true;
             let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() + 1));
             this.getCours();
             this.getProfesseurs();
         },
         backToCurrentDate(){
+            this.isLoadingClass = true;
             this.today = new Date()
             this.getCours();
             this.getProfesseurs();
@@ -91,9 +95,11 @@ var app = new Vue({
             axios.get(this.apiBase + '/cours/' + date )
                 .then(response => {
                     this.events = response.data;
+                    this.isLoadingClass = false;
                 })
                 .catch(error => {
                     console.log(error);
+                    this.isLoadingClass = false;
                 })
         },
         exportCalendarAsICS: function () {
