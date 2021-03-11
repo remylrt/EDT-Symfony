@@ -1007,15 +1007,12 @@ showEventDetails ({ nativeEvent, event }) {
 
 ## Améliorations apportées 
 
-
-<br/><br/>
-
 ### Intégration de "Note ton prof!"
 
 Nous avons intégré le travail réalisé durant le module mais uniquement sur la page permetant de consulter l'EDT du jour. Etant donné que ce serait un peu stupide d'afficher à chaque fois tous les enseignants nous n'affichons que les enseignants qui ont un cours durant le jour sélectionné.
 ![notetonprof](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/notetonprrof.PNG)
 
-<br/><br/>
+<br/>
 
 Nous avons également modifié l'interface pour consulter les avis et pour donner son avis sur un enseignant. 
 ![noter](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/donnercoms.PNG)
@@ -1060,7 +1057,8 @@ foreach ($articles as $key => $article) {
 } 
 ```
 </details>
-<br/><br/>
+
+<br/>
 
 ### Emplois du temps de la semaine 
 
@@ -1069,7 +1067,7 @@ nouvelle page similaire à la page pour l'EDT du jour. Nous avons retiré la par
 attribut du `<v-calendar>` pour avoir un affichage par semaine. Le fonctionnement des détails des cours est identique.
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/edtSemaine.PNG)
-<br/><br/>
+<br/>
 
 ### Emplois du temps des salles
 
@@ -1080,7 +1078,7 @@ Nous avons donc décidé de proposer, depuis la page d'accueil, un accès aux di
 ![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles.PNG)
 <br/><br/>
 ![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles2.PNG)
-<br/><br/>
+<br/>
 
 ### Exportation des calendriers au format ICalendar
 
@@ -1095,7 +1093,7 @@ Pour rajouter un peu d'UX pour indiquer que l'application charge des données no
 ![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/skeleton1.PNG)
 <br/><br/>
 ![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/skeleton2.PNG)
-<br/><br/>
+<br/>
 
 ### Indicateur d'heure
 
