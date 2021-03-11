@@ -17,6 +17,7 @@ var app = new Vue({
         ],
         isLoadingClass: true,
         apiBase: 'http://localhost:8000/api',
+        ready: false
      },
     methods: {
         showEventDetails ({ nativeEvent, event }) {
@@ -96,7 +97,16 @@ var app = new Vue({
 
         }
     },
+    computed: {
+        cal () {
+            return this.ready ? this.$refs.calendar : null
+        },
+        nowY () {
+            return this.cal ? this.cal.timeToY(this.cal.times.now) + 'px' : '-10px'
+        },
+    },
     mounted() {
         this.getCours();
+        this.ready = true;
     }
 })
