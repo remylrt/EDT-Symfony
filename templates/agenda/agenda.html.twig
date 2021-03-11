@@ -9,9 +9,14 @@
 
     <v-app-bar :collapse="true" absolute color="deep-purple accent-4" dark scroll-target="#scrolling-techniques-6" >
         <v-spacer></v-spacer>
-        <v-btn icon href="{{ path('home') }}">
-            <v-icon>mdi-home</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn v-on="on" v-bind="attrs"  icon href="{{ path('home') }}">
+                    <v-icon>mdi-home</v-icon>
+                </v-btn>
+            </template>
+            <span>Accueil</span>
+        </v-tooltip>
         <v-spacer></v-spacer>
     </v-app-bar>
 
@@ -28,27 +33,50 @@
                                         <v-btn icon disabled></v-btn>
                                         <v-spacer></v-spacer>
 
-                                        <v-btn fab text small color="grey darken-2" @click="getPreviousDate()" >
-                                            <v-icon small>
-                                                mdi-chevron-left
-                                            </v-icon>
-                                        </v-btn>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-on="on" v-bind="attrs" fab text small color="grey darken-2" @click="getPreviousDate()" >
+                                                    <v-icon small>
+                                                        mdi-chevron-left
+                                                    </v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Jours précédent</span>
+                                        </v-tooltip>
 
-                                        <v-btn outlined class="mx-4" color="grey darken-2" @click="backToCurrentDate()" >
-                                            Aujourd'hui
-                                        </v-btn>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-on="on" v-bind="attrs" outlined class="mx-4" color="grey darken-2" @click="backToCurrentDate()" >
+                                                    Aujourd'hui
+                                                </v-btn>
+                                            </template>
+                                            <span>Revenir à aujourd'hui</span>
+                                        </v-tooltip>
 
-                                        <v-btn fab text small color="grey darken-2" @click="getNextDate()" >
-                                            <v-icon small>
-                                                mdi-chevron-right
-                                            </v-icon>
-                                        </v-btn>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-on="on" v-bind="attrs" fab text small color="grey darken-2" @click="getNextDate()" >
+                                                    <v-icon small>
+                                                        mdi-chevron-right
+                                                    </v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Jour suivant</span>
+                                        </v-tooltip>
 
                                         <v-spacer></v-spacer>
 
-                                        <v-btn icon @click="exportCalendarAsICS()">
-                                            <v-icon>mdi-calendar-export</v-icon>
-                                        </v-btn>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-on="on" v-bind="attrs" icon @click="exportCalendarAsICS()">
+                                                    <v-icon>mdi-calendar-export</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Télécharger les cours de la semaine</span>
+                                        </v-tooltip>
+
+
+
                                     </v-layout>
                                 </v-toolbar>
                             </template>
