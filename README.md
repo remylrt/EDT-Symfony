@@ -902,6 +902,7 @@ Pour afficher les détails des cours nous avons fait apparaître que le type de 
 </template>
 ```
 </details>
+
 ![DetailsCours](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/detailCours.PNG)
 <br/><br/>
 
