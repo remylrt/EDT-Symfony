@@ -1064,6 +1064,9 @@ foreach ($articles as $key => $article) {
 
 ### Emplois du temps de la semaine 
 
+Nous pensions qu'il était important de proposer un affichage de l'EDT par semaine. Pour se faire nous avons créer une 
+nouvelle page similaire à la page pour l'EDT du jour. Nous avons retiré la partie note ton prof et avons changé les 
+attribut du `<v-calendar>` pour avoir un affichage par semaine. Le fonctionnement des détails des cours est identique.
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/edtSemaine.PNG)
 <br/><br/>
