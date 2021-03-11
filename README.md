@@ -29,6 +29,10 @@ En ce qui concerne les relations, nous avons choisi une ManyToOne entre **Cours*
 - Un **Cours** ne peut se dérouler que dans une **Salle** et une **Salle** peut accueillir plusieurs **Cours**.
 
 Voici le résultat obtenu dans *Cours.php* :
+
+<details>
+  <summary>Cliquez pour afficher le code</summary>
+
 ```php
 /**
  * @ORM\Entity(repositoryClass=CoursRepository::class)
@@ -77,6 +81,7 @@ class Cours {
     ...
 }
 ```
+</details>
 
 Et le résultat dans *Salle.php* :
 ```php
