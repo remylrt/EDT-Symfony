@@ -1007,15 +1007,12 @@ showEventDetails ({ nativeEvent, event }) {
 
 ## Améliorations apportées 
 
-
-<br/><br/>
-
 ### Intégration de "Note ton prof!"
 
 Nous avons intégré le travail réalisé durant le module mais uniquement sur la page permetant de consulter l'EDT du jour. Etant donné que ce serait un peu stupide d'afficher à chaque fois tous les enseignants nous n'affichons que les enseignants qui ont un cours durant le jour sélectionné.
 ![notetonprof](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/notetonprrof.PNG)
 
-<br/><br/>
+<br/>
 
 Nous avons également modifié l'interface pour consulter les avis et pour donner son avis sur un enseignant. 
 ![noter](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/donnercoms.PNG)
@@ -1060,19 +1057,28 @@ foreach ($articles as $key => $article) {
 } 
 ```
 </details>
-<br/><br/>
+
+<br/>
 
 ### Emplois du temps de la semaine 
 
+Nous pensions qu'il était important de proposer un affichage de l'EDT par semaine. Pour se faire nous avons créer une 
+nouvelle page similaire à la page pour l'EDT du jour. Nous avons retiré la partie note ton prof et avons changé les 
+attribut du `<v-calendar>` pour avoir un affichage par semaine. Le fonctionnement des détails des cours est identique.
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/edtSemaine.PNG)
-<br/><br/>
+<br/>
 
 ### Emplois du temps des salles
 
+Lorsque nous etions encore en DUT et en présentiel nous avions un problème à chaque fois que nous souhaitions aller 
+dans une salle -> est-elle libre ? <br/>
+Nous avons donc décidé de proposer, depuis la page d'accueil, un accès aux différents emplois du temps des salles.
 
-![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/edtSemaine.PNG)
+![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles.PNG)
 <br/><br/>
+![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles2.PNG)
+<br/>
 
 ### Exportation des calendriers au format iCalendar
 Nous avons ajouté la possibilité d'exporter les évènements de la semaine courante sous forme de fichier *iCalendar* (.ics) pouvant être importé dans n'importe quel calendrier comme Google Calendar.
@@ -1187,11 +1193,17 @@ Il ne restait plus qu'à ajouter un bouton dans l'interface pour appeler cette m
 <br/><br/>
 
 ### Skeleton loaders
+Pour rajouter un peu d'UX pour indiquer que l'application charge des données nous avons utilisé le composant 
+`<<v-skeleton-loader>`.
 
-
+![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/skeleton1.PNG)
 <br/><br/>
+![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/skeleton2.PNG)
+<br/>
 
 ### Indicateur d'heure
+Pour que l'utilisateur visualise plus facilement quel est le prochain cours nous avons mis en place un indicateur visuel 
+comme sur l'image suivante.
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/indicateurHeure.PNG)
 <br/><br/>
