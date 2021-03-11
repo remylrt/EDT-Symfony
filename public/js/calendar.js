@@ -80,6 +80,9 @@ var app = new Vue({
             if(minute === 0){
                 minute = "00";
             }
+            if(minute < 10){
+                minute = "0" + minute;
+            }
             let time = `${ hours }:${ minute }`;
             return time;
         },
