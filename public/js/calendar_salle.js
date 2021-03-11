@@ -16,7 +16,9 @@ var app = new Vue({
 
         ],
         salle: null,
+        isLoadingClass: true,
         apiBase: 'http://localhost:8000/api',
+        ready: false
     },
     methods: {
         showEventDetails ({ nativeEvent, event }) {
@@ -32,12 +34,15 @@ var app = new Vue({
             this.showSmallSizeDialog = true;
             nativeEvent.stopPropagation()
         },
-        getOnlyHourseOfDate(date){
+        getOnlyHourOfDate(date){
             let newDate = new Date(date);
             let hours = newDate.getHours();
             let minute = newDate.getMinutes()
             if(minute === 0){
                 minute = "00";
+            }
+            if(minute < 10){
+                minute = "0" + minute;
             }
             let time = `${ hours }:${ minute }`;
             return time;
@@ -46,26 +51,17 @@ var app = new Vue({
             axios.get(this.apiBase + '/salles/' + this.salle )
                 .then(response => {
                     this.events = response.data[0].cours;
+                    this.isLoadingClass = false;
                 })
                 .catch(error => {
                     console.log(error);
+                    this.isLoadingClass = false;
                 })
         },
         exportCalendarAsICS: function () {
-            let year = this.today.getFullYear();
-            let month = this.today.getMonth() + 1;
-            if (month < 10) { month = "0" + month; }
-
-            let day = this.today.getDate();
-
-            if (day < 10) { day = "0" + day; }
-
-            let date = `${ year }-${ month }-${ day }`;
-
-            axios.get(this.apiBase + '/cours/weekly/' + date)
+            axios.get(this.apiBase + '/salles/' + this.salle)
                 .then(response => {
-                    coursSemaine = response.data;
-
+                    coursSemaine = response.data[0].cours;
                     let cal = ics();
 
                     coursSemaine.forEach(event => {
@@ -77,11 +73,19 @@ var app = new Vue({
                 .catch(error => {
                     console.log(error);
                 })
-
+        },
+    },
+    computed: {
+        cal () {
+            return this.ready ? this.$refs.calendar : null
+        },
+        nowY () {
+            return this.cal ? this.cal.timeToY(this.cal.times.now) + 'px' : '-10px'
         },
     },
     mounted() {
         this.salle = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1];
         this.getCours();
+        this.ready = true;
     }
 })

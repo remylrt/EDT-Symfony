@@ -15,8 +15,9 @@ var app = new Vue({
         events: [
 
         ],
-
+        isLoadingClass: true,
         apiBase: 'http://localhost:8000/api',
+        ready: false
      },
     methods: {
         showEventDetails ({ nativeEvent, event }) {
@@ -32,12 +33,15 @@ var app = new Vue({
             this.showSmallSizeDialog = true;
             nativeEvent.stopPropagation()
         },
-        getOnlyHourseOfDate(date){
+        getOnlyHourOfDate(date){
             let newDate = new Date(date);
             let hours = newDate.getHours();
             let minute = newDate.getMinutes()
             if(minute === 0){
                 minute = "00";
+            }
+            if(minute < 10){
+                minute = "0" + minute;
             }
             let time = `${ hours }:${ minute }`;
             return time;
@@ -57,9 +61,11 @@ var app = new Vue({
             axios.get(this.apiBase + '/cours/weekly/' + date )
                 .then(response => {
                     this.events = response.data;
+                    this.isLoadingClass = false;
                 })
                 .catch(error => {
                     console.log(error);
+                    this.isLoadingClass = false;
                 })
         },
         exportCalendarAsICS: function () {
@@ -91,7 +97,16 @@ var app = new Vue({
 
         }
     },
+    computed: {
+        cal () {
+            return this.ready ? this.$refs.calendar : null
+        },
+        nowY () {
+            return this.cal ? this.cal.timeToY(this.cal.times.now) + 'px' : '-10px'
+        },
+    },
     mounted() {
         this.getCours();
+        this.ready = true;
     }
 })

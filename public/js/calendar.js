@@ -15,6 +15,9 @@ var app = new Vue({
         events: [
 
         ],
+        isLoadingClass: true,
+        isLoadingTeachers: true,
+        isLoadingNotice: true,
         apiBase: 'http://localhost:8000/api',
         professeurs: [],
         professeurCourant: null,
@@ -25,21 +28,32 @@ var app = new Vue({
         showNoticeDialog: false,
         showCreateNoticeDialog: false,
         collapseNavbar: true,
+
+        ready: false
     },
     methods: {
         getPreviousDate(){
+            this.isLoadingClass = true;
+            this.isLoadingTeachers = true;
+            this.isLoadingNotice = true;
             let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() - 1));
             this.getCours();
             this.getProfesseurs();
         },
         getNextDate(){
+            this.isLoadingClass = true;
+            this.isLoadingTeachers = true;
+            this.isLoadingNotice = true;
             let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() + 1));
             this.getCours();
             this.getProfesseurs();
         },
         backToCurrentDate(){
+            this.isLoadingClass = true;
+            this.isLoadingTeachers = true;
+            this.isLoadingNotice = true;
             this.today = new Date()
             this.getCours();
             this.getProfesseurs();
@@ -61,12 +75,15 @@ var app = new Vue({
 
             nativeEvent.stopPropagation()
         },
-        getOnlyHourseOfDate(date){
+        getOnlyHourOfDate(date){
             let newDate = new Date(date);
             let hours = newDate.getHours();
             let minute = newDate.getMinutes()
             if(minute === 0){
                 minute = "00";
+            }
+            if(minute < 10){
+                minute = "0" + minute;
             }
             let time = `${ hours }:${ minute }`;
             return time;
@@ -91,9 +108,11 @@ var app = new Vue({
             axios.get(this.apiBase + '/cours/' + date )
                 .then(response => {
                     this.events = response.data;
+                    this.isLoadingClass = false;
                 })
                 .catch(error => {
                     console.log(error);
+                    this.isLoadingClass = false;
                 })
         },
         exportCalendarAsICS: function () {
@@ -122,6 +141,7 @@ var app = new Vue({
             axios.get(this.apiBase + '/professeurs/daily/' + date)
                 .then(response => {
                     this.professeurs = response.data;
+                    this.isLoadingTeachers = false;
                 })
                 .catch(error => {
                     console.log(error);
@@ -143,6 +163,7 @@ var app = new Vue({
                 .then(response => {
                     this.professeurCourant = professeur;
                     this.avis = response.data;
+                    this.isLoadingNotice = false;
                 })
                 .catch(error => {
                     console.log(error);
@@ -181,8 +202,17 @@ var app = new Vue({
                 });
         }
     },
+    computed: {
+        cal () {
+            return this.ready ? this.$refs.calendar : null
+        },
+        nowY () {
+            return this.cal ? this.cal.timeToY(this.cal.times.now) + 'px' : '-10px'
+        },
+    },
     mounted() {
         this.getProfesseurs();
         this.getCours();
+        this.ready = true;
     }
 })

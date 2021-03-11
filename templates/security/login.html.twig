@@ -3,40 +3,48 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+<v-content>
+<v-container fluid fill-height>
+   <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md4>
+         <v-card class="elevation-12">
+            <v-toolbar dark color="primary">
+               <v-toolbar-title>Connexion</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+               <form method="post">
+                  <v-row>
+                    <v-col cols="12">
+                        <v-text-field label="Email" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus ></v-text-field>
+                        <v-text-field label="Mot de passe" type="password" name="password" id="inputPassword" class="form-control" required ></v-text-field>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+                    </v-col>
+                    <v-col cols="12" class="text-right">
+                      <v-btn color="primary" href="{{ path("home") }}">Annuler</v-btn>
+                      <button color="primary" to="/" type="submit">
+                         <v-btn color="primary" to="/" type="submit">Connexion</v-btn>
+                      </button>
+                    </v-col>
+                    <v-col cols="12">
+                      {% if error %}
+                            <v-alert dense outlined type="error" >{{ error.messageKey|trans(error.messageData, 'security') }}</v-alert>
+                        {% endif %}
+                    </v-col>
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+
+                  </v-row>
+               </form>
+            </v-card-text>
+         </v-card>
+      </v-flex>
+   </v-layout>
+</v-container>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/login.js') }}"></script>
 {% endblock %}

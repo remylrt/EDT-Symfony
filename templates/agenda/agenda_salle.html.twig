@@ -2,20 +2,24 @@
 
 {% block title %}Agenda de la salle{% endblock %}
 {% block stylesheets %}
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/calendar.css') }}">
 {% endblock %}
 {% block body %}
     <v-container  ma-0 pa-0 fluid>
         <v-app-bar :collapse="true" absolute color="deep-purple accent-4" dark scroll-target="#scrolling-techniques-6">
             <v-spacer></v-spacer>
-            <v-btn icon href="{{ path('home') }}">
-                <v-icon>mdi-home</v-icon>
-            </v-btn>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-on="on" v-bind="attrs"  icon href="{{ path('home') }}">
+                        <v-icon>mdi-home</v-icon>
+                    </v-btn>
+                </template>
+                <span>Accueil</span>
+            </v-tooltip>
             <v-spacer></v-spacer>
         </v-app-bar>
         <v-sheet style="max-height: 100vh; height: 100vh;">
-            <v-calendar :dark="darkMode" color="primary" type="week" :first-interval="15" :interval-count="24"
-                        interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
+            <v-calendar ref="calendar" :dark="darkMode" color="primary" type="week" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
 
                 <template v-slot:day-header="{ present  }">
                     <template class="text-center">
@@ -24,9 +28,14 @@
 
                                 <v-spacer></v-spacer>
 
-                                <v-btn v-if="present" icon @click="exportCalendarAsICS()">
-                                    <v-icon>mdi-calendar-export</v-icon>
-                                </v-btn>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn v-on="on" v-bind="attrs" v-if="present" icon @click="exportCalendarAsICS()">
+                                            <v-icon>mdi-calendar-export</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>Export ICalendar</span>
+                                </v-tooltip>
 
                                 <v-spacer></v-spacer>
 
@@ -43,6 +52,19 @@
                     </div>
                 </template>
 
+                <template v-if="isLoadingClass" v-slot:interval="{ hour }">
+                    <div
+                            class="text-center"
+                    >
+                        <v-skeleton-loader
+                                type="list-item"
+                        ></v-skeleton-loader>
+                    </div>
+                </template>
+
+                <template v-slot:day-body="{ date, week }">
+                    <div class="v-current-time" :class="{ first: date === week[0].date }" :style="{ top: nowY }" ></div>
+                </template>
             </v-calendar>
         </v-sheet>
 
@@ -116,8 +138,8 @@
 
                             <v-list-item-content>
                                 <v-list-item-title>Horaires</v-list-item-title>
-                                <v-list-item-subtitle>${ getOnlyHourseOfDate(currentClassInformations.start) } : ${
-                                    getOnlyHourseOfDate(currentClassInformations.end) }
+                                <v-list-item-subtitle>${ getOnlyHourOfDate(currentClassInformations.start) } : ${
+                                    getOnlyHourOfDate(currentClassInformations.end) }
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>

@@ -2,16 +2,21 @@
 
 {% block title %}Agenda{% endblock %}
 {% block stylesheets %}
-    <link href="{{ asset('css/calendar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/calendar.css') }}">
 {% endblock %}
 {% block body %}
 <v-container ma-0 pa-0 fluid>
 
     <v-app-bar :collapse="true" absolute color="deep-purple accent-4" dark scroll-target="#scrolling-techniques-6" >
         <v-spacer></v-spacer>
-        <v-btn icon href="{{ path('home') }}">
-            <v-icon>mdi-home</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn v-on="on" v-bind="attrs"  icon href="{{ path('home') }}">
+                    <v-icon>mdi-home</v-icon>
+                </v-btn>
+            </template>
+            <span>Accueil</span>
+        </v-tooltip>
         <v-spacer></v-spacer>
     </v-app-bar>
 
@@ -19,7 +24,7 @@
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >
                 <v-sheet style="max-height: 100vh; height: 100vh;">
-                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
+                    <v-calendar ref="calendar" :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
 
                         <template v-slot:day-header="{ day }">
                             <template v-if="day" class="text-center" >
@@ -28,37 +33,75 @@
                                         <v-btn icon disabled></v-btn>
                                         <v-spacer></v-spacer>
 
-                                        <v-btn fab text small color="grey darken-2" @click="getPreviousDate()" >
-                                            <v-icon small>
-                                                mdi-chevron-left
-                                            </v-icon>
-                                        </v-btn>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-on="on" v-bind="attrs" fab text small color="grey darken-2" @click="getPreviousDate()" >
+                                                    <v-icon small>
+                                                        mdi-chevron-left
+                                                    </v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Jours précédent</span>
+                                        </v-tooltip>
 
-                                        <v-btn outlined class="mx-4" color="grey darken-2" @click="backToCurrentDate()" >
-                                            Aujourd'hui
-                                        </v-btn>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-on="on" v-bind="attrs" outlined class="mx-4" color="grey darken-2" @click="backToCurrentDate()" >
+                                                    Aujourd'hui
+                                                </v-btn>
+                                            </template>
+                                            <span>Revenir à aujourd'hui</span>
+                                        </v-tooltip>
 
-                                        <v-btn fab text small color="grey darken-2" @click="getNextDate()" >
-                                            <v-icon small>
-                                                mdi-chevron-right
-                                            </v-icon>
-                                        </v-btn>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-on="on" v-bind="attrs" fab text small color="grey darken-2" @click="getNextDate()" >
+                                                    <v-icon small>
+                                                        mdi-chevron-right
+                                                    </v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Jour suivant</span>
+                                        </v-tooltip>
 
                                         <v-spacer></v-spacer>
 
-                                        <v-btn icon @click="exportCalendarAsICS()">
-                                            <v-icon>mdi-calendar-export</v-icon>
-                                        </v-btn>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-on="on" v-bind="attrs" icon @click="exportCalendarAsICS()">
+                                                    <v-icon>mdi-calendar-export</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Export ICalendar</span>
+                                        </v-tooltip>
+
+
+
                                     </v-layout>
                                 </v-toolbar>
                             </template>
                         </template>
+
+                        <template v-if="isLoadingClass" v-slot:interval="{ hour }">
+                            <div
+                                    class="text-center"
+                            >
+                                <v-skeleton-loader
+                                        type="list-item"
+                                ></v-skeleton-loader>
+                            </div>
+                        </template>
+
 
                         <template v-slot:event="{event}">
                             <div class="fill-height pl-2">
                                 <strong> ${ event.type } de ${ event.name } </strong> ( ${ event.professeur } ) <br/>
                                 Salle ${ event.salle }
                             </div>
+                        </template>
+
+                        <template v-slot:day-body="{ date, week }">
+                            <div class="v-current-time" :class="{ first: date === week[0].date }" :style="{ top: nowY }" ></div>
                         </template>
 
                     </v-calendar>
@@ -73,7 +116,12 @@
                     </h1>
                     <v-divider class="py-5"></v-divider>
                         <v-row dense>
-                            <v-col cols="12" sm="12" md="12" lg="6" xl="4" v-for="professeur in professeurs">
+                            <v-col v-if="isLoadingTeachers" cols="12" sm="12" md="12" lg="6" xl="4" class="pa-2" v-for="n in 6">
+                                <v-skeleton-loader
+                                        type="article, action"
+                                ></v-skeleton-loader>
+                            </v-col>
+                            <v-col v-if="!isLoadingTeachers" cols="12" sm="12" md="12" lg="6" xl="4" v-for="professeur in professeurs">
 
 
                                 <v-card elevation="2" class="my-3 mx-3">
@@ -178,7 +226,7 @@
 
                         <v-list-item-content>
                             <v-list-item-title>Horaires</v-list-item-title>
-                            <v-list-item-subtitle>${ getOnlyHourseOfDate(currentClassInformations.start) } : ${ getOnlyHourseOfDate(currentClassInformations.end) }</v-list-item-subtitle>
+                            <v-list-item-subtitle>${ getOnlyHourOfDate(currentClassInformations.start) } : ${ getOnlyHourOfDate(currentClassInformations.end) }</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list>
@@ -195,7 +243,12 @@
                 <v-toolbar-title>Avis sur ${ professeurCourant?.prenom } ${ professeurCourant?.nom }</v-toolbar-title>
                 <v-spacer></v-spacer>
             </v-toolbar>
-            <div class="card mt-1" v-for="avisCourant in avis">
+            <div v-if="isLoadingNotice" cols="12" sm="12" md="12" lg="6" xl="4" class="pa-2" v-for="n in 6">
+                <v-skeleton-loader
+                        type="article"
+                ></v-skeleton-loader>
+            </div>
+            <div v-if="!isLoadingNotice" class="card mt-1" v-for="avisCourant in avis">
                 <v-card elevation="2" class="my-3 mx-3">
                     <v-list-item three-line>
                         <v-list-item-content>
