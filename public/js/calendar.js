@@ -17,7 +17,7 @@ var app = new Vue({
         ],
         isLoadingClass: true,
         isLoadingTeachers: true,
-        isLoadingNotices: true,
+        isLoadingNotice: true,
         apiBase: 'http://localhost:8000/api',
         professeurs: [],
         professeurCourant: null,
@@ -28,6 +28,8 @@ var app = new Vue({
         showNoticeDialog: false,
         showCreateNoticeDialog: false,
         collapseNavbar: true,
+
+        ready: false
     },
     methods: {
         getPreviousDate(){
@@ -200,8 +202,17 @@ var app = new Vue({
                 });
         }
     },
+    computed: {
+        cal () {
+            return this.ready ? this.$refs.calendar : null
+        },
+        nowY () {
+            return this.cal ? this.cal.timeToY(this.cal.times.now) + 'px' : '-10px'
+        },
+    },
     mounted() {
         this.getProfesseurs();
         this.getCours();
+        this.ready = true;
     }
 })

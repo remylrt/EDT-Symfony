@@ -2,7 +2,7 @@
 
 {% block title %}Agenda{% endblock %}
 {% block stylesheets %}
-    <link href="{{ asset('css/calendar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/calendar.css') }}">
 {% endblock %}
 {% block body %}
 <v-container ma-0 pa-0 fluid>
@@ -24,7 +24,7 @@
         <v-row no-gutters>
             <v-col cols="12" md="6" lg="6" xl="4" >
                 <v-sheet style="max-height: 100vh; height: 100vh;">
-                    <v-calendar :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
+                    <v-calendar ref="calendar" :dark="darkMode" color="primary" type="day" :first-interval="15" :interval-count="24" interval-minutes="30" :events="events" :value="today" @click:event="showEventDetails">
 
                         <template v-slot:day-header="{ day }">
                             <template v-if="day" class="text-center" >
@@ -98,6 +98,10 @@
                                 <strong> ${ event.type } de ${ event.name } </strong> ( ${ event.professeur } ) <br/>
                                 Salle ${ event.salle }
                             </div>
+                        </template>
+
+                        <template v-slot:day-body="{ date, week }">
+                            <div class="v-current-time" :class="{ first: date === week[0].date }" :style="{ top: nowY }" ></div>
                         </template>
 
                     </v-calendar>
