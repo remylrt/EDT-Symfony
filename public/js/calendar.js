@@ -33,6 +33,7 @@ var app = new Vue({
         getPreviousDate(){
             this.isLoadingClass = true;
             this.isLoadingTeachers = true;
+            this.isLoadingNotice = true;
             let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() - 1));
             this.getCours();
@@ -41,6 +42,7 @@ var app = new Vue({
         getNextDate(){
             this.isLoadingClass = true;
             this.isLoadingTeachers = true;
+            this.isLoadingNotice = true;
             let dateStr = this.today;
             this.today = new Date(new Date(dateStr).setDate(new Date(dateStr).getDate() + 1));
             this.getCours();
@@ -49,6 +51,7 @@ var app = new Vue({
         backToCurrentDate(){
             this.isLoadingClass = true;
             this.isLoadingTeachers = true;
+            this.isLoadingNotice = true;
             this.today = new Date()
             this.getCours();
             this.getProfesseurs();
@@ -155,6 +158,7 @@ var app = new Vue({
                 .then(response => {
                     this.professeurCourant = professeur;
                     this.avis = response.data;
+                    this.isLoadingNotice = false;
                 })
                 .catch(error => {
                     console.log(error);

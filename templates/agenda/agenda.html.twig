@@ -239,7 +239,12 @@
                 <v-toolbar-title>Avis sur ${ professeurCourant?.prenom } ${ professeurCourant?.nom }</v-toolbar-title>
                 <v-spacer></v-spacer>
             </v-toolbar>
-            <div class="card mt-1" v-for="avisCourant in avis">
+            <div v-if="isLoadingNotice" cols="12" sm="12" md="12" lg="6" xl="4" class="pa-2" v-for="n in 6">
+                <v-skeleton-loader
+                        type="article"
+                ></v-skeleton-loader>
+            </div>
+            <div v-if="!isLoadingNotice" class="card mt-1" v-for="avisCourant in avis">
                 <v-card elevation="2" class="my-3 mx-3">
                     <v-list-item three-line>
                         <v-list-item-content>
