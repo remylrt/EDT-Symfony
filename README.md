@@ -48,14 +48,15 @@ APP_SECRET=4216e7a8a60c731y6x6t2ad3540940e8
 DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
 ```
 - Vérifier que la base de données est bien lancée
-- Exécuter`php bin/console doctrine:schema:update --force`
+- Exécuter `php bin/console doctrine:database:create`
+- Exécuter `php bin/console doctrine:schema:update --force`
 - Exécuter le script SQL pour peupler la base de données
-- Exécuter`cd public` puis `php -S localhost:8000` sans changer le port
+- Exécuter `cd public` puis `php -S localhost:8000` sans changer le port
 - Accéder à localhost:8000 pour arriver sur la page d'accueil
 - Pour accéder au panel admin il faut se connecter avec les identifiant suivant : 
 
-    email : `admin@edt.com` 
-    mdp : `admin`
+    Email : `admin@edt.com` 
+    Mot de passe : `admin`
 ### Github
 - Exécuter`git clone https://github.com/remylrt/EDT-Symfony.git edt_lartiguelongue_lopes`
 - Exécuter`cd edt_lartiguelongue_lopes`
@@ -67,14 +68,15 @@ APP_SECRET=4216e7a8a60c731y6x6t2ad3540940e8
 DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
 ```
 - Vérifier que la base de données est bien lancée
-- Exécuter`php bin/console doctrine:schema:update`
+- Exécuter `php bin/console doctrine:database:create`
+- Exécuter `php bin/console doctrine:schema:update`
 - Exécuter le script SQL pour peupler la base de données
 - Exécuter `cd public` puis `php -S localhost:8000` sans changer le port
 - Accéder à localhost:8000 pour arriver sur la page d'accueil
 - Pour accéder au panel admin il faut se connecter avec les identifiant suivant :  
 
-    email : `admin@edt.com` 
-    mdp : `admin`
+    Email : `admin@edt.com` 
+    Mot de passe : `admin`
 
 ## Résumé
 
