@@ -1,6 +1,9 @@
 # Rapport de projet EDT Symfony
 
+Sommaire 
+=========
 - [Rapport de projet EDT Symfony](#rapport-de-projet-edt-symfony)
+- [Sommaire](#sommaire)
   - [Introduction](#introduction)
   - [Partie commune](#partie-commune)
     - [Extension du modèle de données](#extension-du-modèle-de-données)
@@ -19,6 +22,7 @@
     - [Exportation des calendriers au format iCalendar](#exportation-des-calendriers-au-format-icalendar)
     - [Skeleton loaders](#skeleton-loaders)
     - [Indicateur d'heure](#indicateur-dheure)
+    - [Authentification au panneau d'administration](#authentification-au-panneau-dadministration)
 
 
 
