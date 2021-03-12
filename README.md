@@ -1,10 +1,19 @@
 # Rapport de projet EDT Symfony
 
+## Introduction
+Ce projet consistait en la réalisation d'une application web permettant aux étudiants de visualiser leurs emplois du temps quotidiens, en utilisant le framework PHP Symfony dans le cadre du module Programmation web avancée de la LP Programmation avancée.
+
+Notre binôme était composé de Nicolas LOPES et de Rémy LARTIGUELONGUE.
+
+Ce rapport sera séparé en deux grandes parties. L'une où nous détaillerons notre travail pour réaliser la partie obligatoire du sujet, commune à tous les groupes et l'autre où nous aborderons les améliorations que nous avons pris l'initiative d'implémenter dans l'application.
+
+
 Sommaire 
 =========
 - [Rapport de projet EDT Symfony](#rapport-de-projet-edt-symfony)
+- [Introduction](#introduction)
 - [Sommaire](#sommaire)
-  - [Introduction](#introduction)
+  - [Installation](#installation)
   - [Partie commune](#partie-commune)
     - [Extension du modèle de données](#extension-du-modèle-de-données)
     - [Interface d'administration](#interface-dadministration)
@@ -26,12 +35,45 @@ Sommaire
 
 
 
-## Introduction
-Ce projet consistait en la réalisation d'une application web permettant aux étudiants de visualiser leurs emplois du temps quotidiens, en utilisant le framework PHP Symfony dans le cadre du module Programmation web avancée de la LP Programmation avancée.
 
-Notre binôme était composé de Nicolas LOPES et de Rémy LARTIGUELONGUE.
+## Installation
+### Archive 
+- Extraire le contenu de l'archive
+- Entrer dans ce dossier
+- Créer un fichier .env.local pour y indiquer les informations suivantes : 
+```dotenv
+APP_ENV=dev
+APP_SECRET=4216e7a8a60c731y6x6t2ad3540940e8
+DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
+```
+- Vérifier que la base de données est bien lancée
+- Exécuter`php bin/console doctrine:schema:update`
+- Exécuter le script sql pour peupler la base de données
+- Exécuter`cd public` `php -S localhost:8000`  sans changer le port
+- Accéder à localhost:8000 pour arriver sur la page d'accueil
+- Pour accéder au panel admin il faut se connecter avec les identifiant suivant : 
+    email : `admin@edt.com` 
+    mdp : `admin`
+### Github
+- Exécuter`git clone https://github.com/remylrt/EDT-Symfony.git edt_lartiguelongue_lopes`
+- Exécuter`cd edt_lartiguelongue_lopes`
+- Exécuter`composer install`
+- Créer un fichier .env.local pour y indiquer les informations suivantes : 
+```dotenv
+APP_ENV=dev
+APP_SECRET=4216e7a8a60c731y6x6t2ad3540940e8
+DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
+```
+- Vérifier que la base de données est bien lancée
+- Exécuter`php bin/console doctrine:schema:update`
+- Exécuter le script sql pour peupler la base de données
+- Exécuter `cd public` et `php -S localhost:8000` sans changer le port
+- Accéder à localhost:8000 pour arriver sur la page d'accueil
+- Pour accéder au panel admin il faut se connecter avec les identifiant suivant : 
+    email : `admin@edt.com` 
+    mdp : `admin`
 
-Ce rapport sera séparé en deux grandes parties. L'une où nous détaillerons notre travail pour réaliser la partie obligatoire du sujet, commune à tous les groupes et l'autre où nous aborderons les améliorations que nous avons pris l'initiative d'implémenter dans l'application.
+## Résumé
 
 ## Partie commune
 ### Extension du modèle de données
