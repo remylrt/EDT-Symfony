@@ -12,26 +12,27 @@ Sommaire
 =========
 - [Rapport de projet EDT Symfony](#rapport-de-projet-edt-symfony)
 - [Introduction](#introduction)
-- [Sommaire](#sommaire)
-  - [Installation](#installation)
-  - [Partie commune](#partie-commune)
-    - [Extension du modèle de données](#extension-du-modèle-de-données)
-    - [Interface d'administration](#interface-dadministration)
+- [Installation](#installation)
+- [Résumé](#résumé)
+  - [Points d'entrée API](#points-dentrée-api)
+- [Partie commune](#partie-commune)
+  - [Extension du modèle de données](#extension-du-modèle-de-données)
+  - [Interface d'administration](#interface-dadministration)
   - [API](#api)
   - [Interface VueJS](#interface-vuejs)
     - [Affichage des cours d'aujourd'hui et du plus tôt au plus tard](#affichage-des-cours-daujourdhui-et-du-plus-tôt-au-plus-tard)
     - [Boutons jour précédent et jour suivant pour afficher le calendrier des autres jours](#boutons-jour-précédent-et-jour-suivant-pour-afficher-le-calendrier-des-autres-jours)
     - [Pour chaque cours affichage de l'heure de début, de fin, le type, la salle, la matière et le professeur](#pour-chaque-cours-affichage-de-lheure-de-début-de-fin-le-type-la-salle-la-matière-et-le-professeur)
-  - [Améliorations apportées](#améliorations-apportées)
-    - [Intégration de "Note ton prof!"](#intégration-de-note-ton-prof)
-    - [Création d'une page d'accueil](#création-dune-page-daccueil)
-    - [Récupération des articles depuis le flux RSS de l'IUT](#récupération-des-articles-depuis-le-flux-rss-de-liut)
-    - [Emplois du temps de la semaine](#emplois-du-temps-de-la-semaine)
-    - [Emplois du temps des salles](#emplois-du-temps-des-salles)
-    - [Exportation des calendriers au format iCalendar](#exportation-des-calendriers-au-format-icalendar)
-    - [Skeleton loaders](#skeleton-loaders)
-    - [Indicateur d'heure](#indicateur-dheure)
-    - [Authentification au panneau d'administration](#authentification-au-panneau-dadministration)
+- [Améliorations apportées](#améliorations-apportées)
+  - [Intégration de "Note ton prof!"](#intégration-de-note-ton-prof)
+  - [Création d'une page d'accueil](#création-dune-page-daccueil)
+  - [Récupération des articles depuis le flux RSS de l'IUT](#récupération-des-articles-depuis-le-flux-rss-de-liut)
+  - [Emplois du temps de la semaine](#emplois-du-temps-de-la-semaine)
+  - [Emplois du temps des salles](#emplois-du-temps-des-salles)
+  - [Exportation des calendriers au format iCalendar](#exportation-des-calendriers-au-format-icalendar)
+  - [Skeleton loaders](#skeleton-loaders)
+  - [Indicateur d'heure](#indicateur-dheure)
+  - [Authentification au panneau d'administration](#authentification-au-panneau-dadministration)
 
 
 
@@ -76,6 +77,43 @@ DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
     mdp : `admin`
 
 ## Résumé
+
+### Points d'entrée API
+#### `GET` */professeurs*
+Retourne la liste des professeurs.
+
+#### `GET` */professeurs/{id}*
+Retourne le professeur correspondant à l'ID passé en paramètre.
+
+#### `GET` */professeurs/daily/{date}*
+Retourne la liste des professeurs dispensant des cours à la date passée en paramètre.
+
+#### `GET` */avis*
+Retourne la liste des avis.
+
+#### `POST` */professeurs/{id}*
+Créé un avis associé au professeur correspondant à l'ID passé en paramètre.
+
+#### `PATCH` */professeurs/{id}*
+Modifie l'avis correspondant à l'ID passé en paramètre.
+
+#### `DELETE` */professeurs/{id}*
+Supprime l'avis correspondant à l'ID passé en paramètre.
+
+#### `GET` */cours*
+Retourne la liste des cours.
+
+#### `GET` */cours/{date}*
+Retourne la liste des cours se déroulant à la date passée en paramètre.
+
+#### `GET` */cours/weekly/{date}*
+Retourne la liste des cours se déroulant durant la semaine qui contient la date passée en paramètre.
+
+#### `GET` */salles*
+Retourne la liste des salles.
+
+#### `GET` */salles/{numero}*
+Retourne la salle correspondant au numéro passé en paramètre.
 
 ## Partie commune
 ### Extension du modèle de données
