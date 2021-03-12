@@ -885,7 +885,7 @@ var app = new Vue({
 
 <br/>
 
-La fonction `getCours()` fait un appel à l'API pour récupérer les cours sous forme d'un tableau d'objet qui seront directement affecté à `event`.
+La méthode `getCours()` fait un appel à l'API pour récupérer les cours du jour sous forme d'un tableau d'objets qui seront directement affectés à la data `event`.
 
 Voici un exemple de résultat de l'API pour le `api/cours/2021-03-12`
 <details>
@@ -1170,28 +1170,13 @@ foreach ($articles as $key => $article) {
 
 ### Emplois du temps de la semaine 
 
-Nous pensions qu'il était important de proposer un affichage de l'EDT par semaine. Pour se faire nous avons créer une 
+Nous pensions qu'il était important de proposer un affichage de l'EDT par semaine. Pour se faire nous avons créé une 
 nouvelle page similaire à la page pour l'EDT du jour. Nous avons retiré la partie note ton prof et avons changé les 
 attribut du `<v-calendar>` pour avoir un affichage par semaine. Le fonctionnement des détails des cours est identique.
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/edtSemaine.PNG)
-<br/>
 
-### Emplois du temps des salles
-
-Lorsque nous etions encore en DUT et en présentiel nous avions un problème à chaque fois que nous souhaitions aller 
-dans une salle -> est-elle libre ? <br/>
-Nous avons donc décidé de proposer, depuis la page d'accueil, un accès aux différents emplois du temps des salles.
-
-![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles.PNG)
-<br/><br/>
-![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles2.PNG)
-<br/>
-
-### Exportation des calendriers au format iCalendar
-Nous avons ajouté la possibilité d'exporter les évènements de la semaine courante sous forme de fichier *iCalendar* (.ics) pouvant être importé dans n'importe quel calendrier comme Google Calendar.
-
-Pour cela, nous avions besoin d'un point d'entrée API permettant de récupérer les cours de la semaine à partir d'une date. Voici donc la méthode du contrôleur *CoursController.php* correspondante :
+Nous avons simplement eu à créer un nouveau point d'entrée API pour récupérer les cours de la semaine à partir d'une date. Voici donc la méthode du contrôleur *CoursController.php* correspondante :
 
 <details>
   <summary>Cliquer pour afficher le code</summary>
@@ -1259,6 +1244,22 @@ public function findByDateWeekly($date) {
 
 Cette méthode va, à partir de la date passée en paramètre, déterminer la date du premier et du dernier jour de la semaine corresponde et ainsi pouvoir rechercher en base de données les cours qui se déroulent entre ces deux dates.
 
+<br/>
+
+### Emplois du temps des salles
+
+Lorsque nous étions encore en DUT et en présentiel nous avions un problème à chaque fois que nous souhaitions aller 
+dans une salle : est-elle libre ? <br/>
+Nous avons donc décidé de proposer, depuis la page d'accueil, un accès aux emplois du temps des différentes salles.
+
+![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles.PNG)
+<br/><br/>
+![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles2.PNG)
+<br/>
+
+### Exportation des calendriers au format iCalendar
+Nous avons ajouté la possibilité d'exporter les évènements de la semaine courante sous forme de fichier *iCalendar* (.ics) pouvant être importé dans n'importe quel calendrier comme Google Calendar.
+
 Pour générer le fichier *iCalendar*, nous nous servi d'une bibliothèque JavaScript trouvé sur Github accessible [ici](https://github.com/nwcell/ics.js/).
 
 Après avoir ajouté les fichiers nécessaires dans le dossier *public/js* nous avons pu écrire notre méthode VueJS :
@@ -1293,6 +1294,8 @@ exportCalendarAsICS: function () {
 
 Cette méthode se contente de faire un appel API précédemment décrite pour récupérer les cours de la semaine courante sous forme de tableau et va, pour chacun d'entre eux, créer un évènement.
 
+Pour récupérer les cours de le semaine, cette méthode fait appel au point d'entrée API `/weekly/{date}`, détaillé plus haut dans la section concernant l'emploi du temps des cours par semaine.
+
 Quand cela est fait, on propose à l'utilisateur de télécharger le fichier.
 
 Il ne restait plus qu'à ajouter un bouton dans l'interface pour appeler cette méthode.
@@ -1316,5 +1319,44 @@ comme sur l'image suivante.
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/indicateurHeure.PNG)
 <br/><br/>
 
-###
+### Authentification au panneau d'administration
+Enfin, nous souhaitions restreindre l'accès au panneau d'administration Easy Admin par une authentification.
 
+Nous avons donc, avec la console Symfony, créé une classe **Admin** qui représentera nos utilisateurs avec la commande `bin/console make:user`.
+
+Puis, nous avons généré le contrôleur et le formulaire d'authentification avec la commande `bin/console make:auth`.
+
+En nous rendant dans le fichier *config/packages/security.yaml*, nous n'avons eu qu'à ajouter dans la section *access_control* la règle suivante :
+
+```yaml
+access_control:
+    - { path: ^/admin, roles: ROLE_ADMIN }
+```
+
+Qui indique à Symfony que l'on souhaite restreindre la route */admin* aux utilisateurs possédant le rôle d'administrateur.
+
+Après avoir mis à jour le schéma de base de données et ajouté un utilisateur (le hash de son mot de passe a été généré avec la commande `bin/console security:encode-password`), l'authentification et le formulaire associé, bien qu'ayant une esthétique sommaire, étaient sommaires.
+
+Nous avons avons alors modifié le template du formulaire pour l'adapter au design de notre application, ajouté un bouton de connexion (qui redirige sur la route */login*) et de déconnexion (qui redirige sur la route */logout*) et mis une condition sur l'affichage du lien vers le pannel d'administration sur la page d'accueil.
+
+```html
+{% if is_granted('ROLE_ADMIN') %}
+    <v-subheader>Administration</v-subheader>
+    <v-list-item-group color="primary">
+        <v-list-item href="{{ path("admin") }}">
+            <v-list-item-icon>
+                <v-icon>mdi-cogs</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title>Administration</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+    </v-list-item-group>
+    <v-divider></v-divider>
+{% endif %}
+
+```
+
+Le formulaire d'authentification :
+
+![Formulaire d'authentification](/readmeAssets/img/LoginForm.PNG)
