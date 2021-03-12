@@ -40,8 +40,10 @@ Sommaire
 ## Installation
 ### Archive 
 - Extraire le contenu de l'archive
-- Entrer dans ce dossier
-- Créer un fichier .env.local pour y indiquer les informations suivantes : 
+- Entrer dans le dossier *edt_lartiguelongue_lopes*
+- Exécuter `composer install`
+- Modifier le fichier .env pour y indiquer les informations suivantes : 
+
 ```dotenv
 APP_ENV=dev
 APP_SECRET=4216e7a8a60c731y6x6t2ad3540940e8
@@ -57,11 +59,13 @@ DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
 
     Email : `admin@edt.com` 
     Mot de passe : `admin`
+    
 ### Github
-- Exécuter`git clone https://github.com/remylrt/EDT-Symfony.git edt_lartiguelongue_lopes`
-- Exécuter`cd edt_lartiguelongue_lopes`
-- Exécuter`composer install`
-- Créer un fichier .env.local pour y indiquer les informations suivantes : 
+- Exécuter `git clone https://github.com/remylrt/EDT-Symfony.git edt_lartiguelongue_lopes`
+- Exécuter `cd edt_lartiguelongue_lopes`
+- Exécuter `composer install`
+- Modifier le fichier .env pour y indiquer les informations suivantes : 
+
 ```dotenv
 APP_ENV=dev
 APP_SECRET=4216e7a8a60c731y6x6t2ad3540940e8
@@ -69,7 +73,7 @@ DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
 ```
 - Vérifier que la base de données est bien lancée
 - Exécuter `php bin/console doctrine:database:create`
-- Exécuter `php bin/console doctrine:schema:update`
+- Exécuter `php bin/console doctrine:schema:update --force`
 - Exécuter le script SQL pour peupler la base de données
 - Exécuter `cd public` puis `php -S localhost:8000` sans changer le port
 - Accéder à localhost:8000 pour arriver sur la page d'accueil
