@@ -1,5 +1,27 @@
 # Rapport de projet EDT Symfony
 
+- [Rapport de projet EDT Symfony](#rapport-de-projet-edt-symfony)
+  - [Introduction](#introduction)
+  - [Partie commune](#partie-commune)
+    - [Extension du modèle de données](#extension-du-modèle-de-données)
+    - [Interface d'administration](#interface-dadministration)
+  - [API](#api)
+  - [Interface VueJS](#interface-vuejs)
+    - [Affichage des cours d'aujourd'hui et du plus tôt au plus tard](#affichage-des-cours-daujourdhui-et-du-plus-tôt-au-plus-tard)
+    - [Boutons jour précédent et jour suivant pour afficher le calendrier des autres jours](#boutons-jour-précédent-et-jour-suivant-pour-afficher-le-calendrier-des-autres-jours)
+    - [Pour chaque cours affichage de l'heure de début, de fin, le type, la salle, la matière et le professeur](#pour-chaque-cours-affichage-de-lheure-de-début-de-fin-le-type-la-salle-la-matière-et-le-professeur)
+  - [Améliorations apportées](#améliorations-apportées)
+    - [Intégration de "Note ton prof!"](#intégration-de-note-ton-prof)
+    - [Création d'une page d'accueil](#création-dune-page-daccueil)
+    - [Récupération des articles de l'IUT de puis le flux RSS de l'IUT](#récupération-des-articles-de-liut-de-puis-le-flux-rss-de-liut)
+    - [Emplois du temps de la semaine](#emplois-du-temps-de-la-semaine)
+    - [Emplois du temps des salles](#emplois-du-temps-des-salles)
+    - [Exportation des calendriers au format iCalendar](#exportation-des-calendriers-au-format-icalendar)
+    - [Skeleton loaders](#skeleton-loaders)
+    - [Indicateur d'heure](#indicateur-dheure)
+
+
+
 ## Introduction
 Ce projet consistait en la réalisation d'une application web permettant aux étudiants de visualiser leurs emplois du temps quotidiens, en utilisant le framework PHP Symfony dans le cadre du module Programmation web avancée de la LP Programmation avancée.
 
