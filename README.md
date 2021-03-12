@@ -13,7 +13,7 @@
   - [Améliorations apportées](#améliorations-apportées)
     - [Intégration de "Note ton prof!"](#intégration-de-note-ton-prof)
     - [Création d'une page d'accueil](#création-dune-page-daccueil)
-    - [Récupération des articles de l'IUT de puis le flux RSS de l'IUT](#récupération-des-articles-de-liut-de-puis-le-flux-rss-de-liut)
+    - [Récupération des articles depuis le flux RSS de l'IUT](#récupération-des-articles-depuis-le-flux-rss-de-liut)
     - [Emplois du temps de la semaine](#emplois-du-temps-de-la-semaine)
     - [Emplois du temps des salles](#emplois-du-temps-des-salles)
     - [Exportation des calendriers au format iCalendar](#exportation-des-calendriers-au-format-icalendar)
@@ -41,9 +41,9 @@ Il nous était demandé, avant de se lancer dans le développement de l'applicat
 
 Nous nous sommes donc servi de la console Symfony pour générer ces nouvelles entités avec la commande `bin/console make:entity`.
 
-Pour l'entité **Cours**, nous avons fait le choix d'implémenter *dateHeureFin* et *dateHeureDebut* en type `DateTime` et le *type* en `String` de taille 255.
+Pour l'entité **Cours**, nous avons fait le choix d'implémenter *dateHeureFin* et *dateHeureDebut* en `DateTime` et le *type* en `String` de taille 255.
 
-Dans l'entité **Salle**, le *numero* a également été implémenté en `String` de taille 255.
+Dans l'entité **Salle**, le *numéro* a également été implémenté en `String` de taille 255.
 
 En ce qui concerne les relations, nous avons choisi une ManyToOne entre **Cours** et **Matière**, entre **Cours** et **Professeur** et entre **Cours** et **Salle** car :
 - Un **Cours** ne peut concerner qu'une **Matière** et une **Matière** peut faire référence à plusieurs **Cours**;
@@ -142,7 +142,7 @@ class Salle {
 Il nous restait alors qu'à mettre à jour le schéma de la base de données en conséquence avec la commande `bin/console doctrine:schema:update --force`.
 
 ### Interface d'administration
-L'étape suivante était de mettra à jour l'interface d'administration Easy Admin pour y ajouter la gestion de nos entités **Cours** et **Salle** nouvellement créées.
+L'étape suivante était de mettre à jour l'interface d'administration Easy Admin pour y ajouter la gestion de nos entités **Cours** et **Salle** nouvellement créées.
 
 Avec la commande `bin/console make:admin:crud` nous avons pu créer les contrôleurs pour le CRUD de nos entités dans Easy Admin.
 
@@ -209,7 +209,7 @@ Le formulaire de création de **Cours** après ces modifications :
 
 Une fois le formulaires corrects, nous devions mettre en place des validateurs pour contrôler les données qui seraient saisies.
 
-Nous avons donc commencé par mettre des validateurs pour vérifier qu'aucun des champs ne soient vides :
+Nous avons donc commencé par mettre des validateurs pour vérifier qu'aucun des champs ne soit vide :
 
 Dans *Cours.php* :
 
@@ -369,13 +369,13 @@ class Salle {
 </details>
 
 En plus de ces validateurs, nous avons pensé à des cas qui, selon nous, nécessitaient que l'on en mette en place d'autres :
-- Vérifier que la date de début soit ultérieure à la date de fin du **Cours**;
-- Vérifier que la date de début et la date de fin du **Cours** soient le même jour;
-- Vérifier que le **Cours** fasse au minimum 15 minutes et au maximum 4 heures 30;
-- Vérifier que le **Professeur** sélectionné pour un **Cours** ne soit pas déjà affecté à un **Cours** au mêmes horaires;
-- Vérifier que la **Salle** sélectionnée pour un **Cours** ne soit pas déjà affectée à un **Cours** au mêmes horaires.
+- Vérifier que la date de début est ultérieure à la date de fin du **Cours**;
+- Vérifier que la date de début et la date de fin du **Cours** sont le même jour;
+- Vérifier que le **Cours** fait au minimum 15 minutes et au maximum 4 heures 30;
+- Vérifier que le **Professeur** sélectionné pour un **Cours** n'est pas déjà affecté à un **Cours** au mêmes horaires;
+- Vérifier que la **Salle** sélectionnée pour un **Cours** n'est pas déjà affectée à un **Cours** aux mêmes horaires.
 
-Ces cas ont nécessité que nous méttions en place des validateurs personnalisés. Pour cela nous nous sommes appuyés sur la documentation de Symfony à ce propos accessible [ici](https://symfony.com/doc/current/validation/custom_constraint.html).
+Ces cas ont nécessité que nous mettions en place des validateurs personnalisés. Pour cela nous nous sommes appuyés sur la documentation de Symfony à ce propos accessible [ici](https://symfony.com/doc/current/validation/custom_constraint.html).
 
 Elle nous explique que le doit créer un dossier *Validator* dans *src* comme cela :
 
@@ -407,7 +407,7 @@ class DateHeureCours extends Constraint {
 
 </details>
 
-Cette classe doit étendre de `Symfony\Component\Validator\Constraint` et contenir un attribut *message* qui sera le message d'erreur affiché dans le formulaire lorsque la validation n'est pas passée.
+Cette classe doit étendre de `Symfony\Component\Validator\Constraint` et contenir un attribut *message* qui sera le message d'erreur affiché dans le formulaire lorsque la validation a échoué.
 
 À côté de ça, dans *DateHeureCoursValidator.php* nous avons :
 
@@ -465,10 +465,10 @@ class DateHeureCoursValidator extends ConstraintValidator {
 
 Cette classe doit étendre de `Symfony\Component\Validator\ConstraintValidator` et doit implémenter une méthode `validate()` qui sera exécutée à chaque fois que l'on soumettra le formulaire. Elle prend en paramètre l'entité que l'on souhaite créer ou modifier donc nous pouvons effectuer dessus des vérifications à notre guise.
 Ici nous vérifions :
-- Que les dates de début et de fin du **Cours** soient définis, sinon on sort de la méthode et on laisse la contrainte `NotBlank` gérer ce cas;
+- Que les dates de début et de fin du **Cours** soient définies, sinon on sort de la méthode et on laisse la contrainte `NotBlank` gérer ce cas;
 - Que la date de fin du **Cours** soit ultérieure à la date de début;
 - Que les dates de début et de fin du **Cours** soient le même jour;
-- Que les dates de début et de fin du **Cours** soient espacés d'au moins 15 minutes;
+- Que les dates de début et de fin du **Cours** soient espacées d'au moins 15 minutes;
 - Que les dates de début et de fin du **Cours** ne soient pas espacés de plus de 4 heures 30.
 
 Comme on le voit, pour générer l'erreur on récupère le contexte dans lequel le validateur est exécuté, on lui indique le message d'erreur souhaité, le champ sur lequel on souhaite voir apparaître le message et on l'ajoute à la liste des violations. Notre méthode `validate()` peut donc retourner plusieurs erreurs de saisie en une seule fois.
@@ -511,7 +511,7 @@ Il nous était demandé de créer deux points d'entrée API. L'un pour récupér
 
 Nous avons donc créé deux nouveaux contrôleurs *CoursController.php* et *SalleController.php* dans le dossier *Api* avec la commande `bin/console make:controller`.
 
-Nous nous sommes basé sur les contrôleurs d'API que nous avions fait en TP pour créer ceux là.
+Nous nous sommes basés sur les contrôleurs d'API que nous avions faits en TP pour créer ceux-là.
 
 *CoursController.php* :
 
@@ -710,9 +710,11 @@ GET /api/salles :
 
 ### Interface VueJS
 
-Pour la partie front nous avons choisi d'utiliser la librairie [Vuetify](https://vuetifyjs.com/en/) pour simplifier le développement et avoir une interface complexe en très peu de lignes de code. Nous l'avons également utilisée car il est possible de l'intégrer grâce à un CDN, plus simple pour éviter tous les problème éventuels avec npm. 
-<br/><br/>
-Pour l'installer il faut simplement ajouter les lignes suivant dans le template de base. 
+Pour la partie front nous avons choisi d'utiliser la librairie [Vuetify](https://vuetifyjs.com/en/) pour simplifier le développement et avoir une interface complexe en très peu de lignes de code. Nous l'avons également utilisée car il est possible de l'intégrer grâce à un CDN, plus simple pour éviter tous les problèmes éventuels avec npm. 
+
+
+Pour l'installer il faut simplement ajouter les lignes suivantes dans le template de base :
+
 <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -734,9 +736,9 @@ Pour l'installer il faut simplement ajouter les lignes suivant dans le template 
 
 ```
 </details>
-<br/><br/>
 
-Nous avons fait le choix d'utiliser les templates afin d'avoir des fichier plus organisés que dans le dossier publique mais également pour le pas avoir les extensions des fichiers dans l'URL.
+
+Nous avons fait le choix d'utiliser les templates afin d'avoir des fichiers plus organisés que dans le dossier *public* mais également pour le pas avoir les extensions des fichiers dans l'URL.
 
 Pour contourner l'incompatibilité de la syntaxe TWIG et VueJS nous avons, dans chaque fichier avec VueJS, redéclaré les délimiteurs avec la ligne `delimiters` afin d'utiliser `${ }` à la place de  `{{ }}`.
 
@@ -751,8 +753,9 @@ var app = new Vue({
 ```
 
 </details> 
-<br/><br/>
-Pour indiquer à vue que nous utilisons vuetify il faut ajouter une ligne `vuetify` la déclaration.
+
+Pour indiquer à Vue que nous utilisons Vuetify il faut ajouter une ligne `vuetify` dans la déclaration.
+
 <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -769,15 +772,16 @@ var app = new Vue({
 ```
 
 </details>
-<br/><br/>
+
 
 
 #### Affichage des cours d'aujourd'hui et du plus tôt au plus tard
 
 Pour afficher les cours nous avons utilisé le composant `<v-calendar>` de Vuetify.
-Pour ajouter le calendrier il faut simplement ajouter ce code et nous avons un affichage basique 
-<br/>
+Pour ajouter le calendrier il faut simplement ajouter ce code et nous avons un affichage basique :
+
 agenda.html.twig :
+
 <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -794,8 +798,9 @@ agenda.html.twig :
 </v-calendar>
 ```
 </details>
-<br/><br/>
+
 calendar.js
+
 <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -837,11 +842,12 @@ var app = new Vue({
 ```
 </details>
 
-<br/>
+
 
 La méthode `getCours()` fait un appel à l'API pour récupérer les cours du jour sous forme d'un tableau d'objets qui seront directement affectés à la data `event`.
 
-Voici un exemple de résultat de l'API pour le `api/cours/2021-03-12`
+Voici un exemple de résultat de l'API pour `api/cours/2021-03-12`
+
 <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -887,9 +893,9 @@ Voici un exemple de résultat de l'API pour le `api/cours/2021-03-12`
 #### Boutons jour précédent et jour suivant pour afficher le calendrier des autres jours
 
 Pour pouvoir naviguer entre différents jours nous avons ajouté 3 boutons, un pour aller dans le passé, un dans le futur et un pour revenir à aujourd'hui. 
-<br/><br/>
 
-Pour ce faire il faut ajouter le code suivant à l'intérieur des balises de `<v-calendar> </v-calendar>`
+
+Pour ce faire il faut ajouter le code suivant à l'intérieur des balises `<v-calendar> </v-calendar>` :
 
 <details>
 <summary>Cliquez pour afficher le code</summary>
@@ -920,8 +926,9 @@ Pour ce faire il faut ajouter le code suivant à l'intérieur des balises de `<v
 </template>
 ```
 </details>
-<br/><br/>
-Il faut également ajouter les méthodes suivantes dans le fichier javascript 
+
+Il faut également ajouter les méthodes suivantes dans le fichier javascript :
+
 <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -945,13 +952,14 @@ backToCurrentDate(){
 },
 ```
 </details>
-<br/><br/>
+
 
 ![image-20210311164150490](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/boutonsNav.PNG)
-<br/><br/>
+
 #### Pour chaque cours affichage de l'heure de début, de fin, le type, la salle, la matière et le professeur
-<br/><br/>
+
 Pour afficher les détails des cours nous avons fait apparaître que le type de cours, le nom du cours, l'enseignant et la salle sur le calendrier en ajoutant le code suivant. 
+
 <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -966,9 +974,10 @@ Pour afficher les détails des cours nous avons fait apparaître que le type de 
 </details>
 
 ![DetailsCours](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/detailCours.PNG)
-<br/><br/>
 
-Nous avons également décidé d'ajouter un modal pour faire apparaitre plus clairement les information si l'écran est trop petit pour tout afficher.
+
+Nous avons également décidé d'ajouter une modal pour faire apparaitre plus clairement les informations si l'écran est trop petit pour tout afficher.
+
 <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -1040,9 +1049,10 @@ Nous avons également décidé d'ajouter un modal pour faire apparaitre plus cla
 </v-dialog>
 ```
 </details>
-<br/><br/>
 
-Ce code génère donc un modal qui est affiché dès qu'on clique sur un cours grâce à la méthode `showEventDetails`
+
+Ce code génère donc une modal qui est affiché dès qu'on clique sur un cours grâce à la méthode `showEventDetails` :
+
 <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -1062,7 +1072,7 @@ showEventDetails ({ nativeEvent, event }) {
 },
 ```
 </details>
-<br/><br/>
+
 
 ![modalDetailsCours](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/detailCoursModal.PNG)
 
@@ -1071,26 +1081,32 @@ showEventDetails ({ nativeEvent, event }) {
 
 ### Intégration de "Note ton prof!"
 
-Nous avons intégré le travail réalisé durant le module mais uniquement sur la page permetant de consulter l'EDT du jour. Etant donné que ce serait un peu stupide d'afficher à chaque fois tous les enseignants nous n'affichons que les enseignants qui ont un cours durant le jour sélectionné.
+Nous avons intégré le travail réalisé durant le module mais uniquement sur la page permettant de consulter l'EDT du jour. Etant donné que ce serait un peu stupide d'afficher à chaque fois tous les enseignants nous n'affichons que les enseignants qui ont un cours durant le jour sélectionné.
+
 ![notetonprof](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/notetonprrof.PNG)
 
-<br/>
 
-Nous avons également modifié l'interface pour consulter les avis et pour donner son avis sur un enseignant. 
+
+Nous avons également modifié l'interface pour consulter les avis et pour donner son avis sur un enseignant.
+
 ![noter](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/donnercoms.PNG)
 ![comms](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/commss.PNG)
-<br/><br/>
+
+
 
 ### Création d'une page d'accueil
 
-Afin d'avoir une page centrale lorsqu'un utilisateur arrive sur le site nous avons créé une page d'accueil qui centralise les lien utiles et qui propore également les derniers articles de l'IUT.
-![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/home.PNG)
-<br/><br/>
+Afin d'avoir une page centrale lorsqu'un utilisateur arrive sur le site nous avons créé une page d'accueil qui centralise les liens utiles et qui propore également les derniers articles de l'IUT.
 
-### Récupération des articles de l'IUT de puis le flux RSS de l'IUT
-Pour afficher les dernis articles de l'IUT nous avons utilisé le flux RSS de l'IUT mais nous avons rencontré quelque problèmes car il renvoie du HTML déjà formaté, chose que nous ne voulions pas. Nous avons donc fait un traitement avant d'afficher la page pour récupérer uniquement les informations que nous voulions sans balise html.
+![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/home.PNG)
+
+
+### Récupération des articles depuis le flux RSS de l'IUT
+
+Pour afficher les derniers articles de l'IUT nous avons utilisé le flux RSS de l'IUT mais nous avons rencontré quelques problèmes car il renvoie du HTML déjà formaté, chose que nous ne voulions pas. Nous avons donc mis en place un traitement avant d'afficher la page pour récupérer uniquement les informations qui nous intéressaient sans balise html.
 
 Pour se faire nous avons utilisé des exprésions régulières.
+
  <details>
 <summary>Cliquez pour afficher le code</summary>
 
@@ -1120,13 +1136,13 @@ foreach ($articles as $key => $article) {
 ```
 </details>
 
-<br/>
+
 
 ### Emplois du temps de la semaine 
 
-Nous pensions qu'il était important de proposer un affichage de l'EDT par semaine. Pour se faire nous avons créé une 
+Nous pensions qu'il était important de proposer un affichage de l'EDT par semaine. Pour ce faire nous avons créé une 
 nouvelle page similaire à la page pour l'EDT du jour. Nous avons retiré la partie note ton prof et avons changé les 
-attribut du `<v-calendar>` pour avoir un affichage par semaine. Le fonctionnement des détails des cours est identique.
+attributs du `<v-calendar>` pour avoir un affichage par semaine. Le fonctionnement des détails des cours est identique.
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/edtSemaine.PNG)
 
@@ -1196,25 +1212,26 @@ public function findByDateWeekly($date) {
 
 </details>
 
-Cette méthode va, à partir de la date passée en paramètre, déterminer la date du premier et du dernier jour de la semaine corresponde et ainsi pouvoir rechercher en base de données les cours qui se déroulent entre ces deux dates.
+Cette méthode va, à partir de la date passée en paramètre, déterminer la date du premier et du dernier jour de la semaine correspondante et ainsi pouvoir rechercher en base de données les cours qui se déroulent entre ces deux dates.
 
-<br/>
+
 
 ### Emplois du temps des salles
 
 Lorsque nous étions encore en DUT et en présentiel nous avions un problème à chaque fois que nous souhaitions aller 
-dans une salle : est-elle libre ? <br/>
+dans une salle : est-elle libre ?
+
 Nous avons donc décidé de proposer, depuis la page d'accueil, un accès aux emplois du temps des différentes salles.
 
 ![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles.PNG)
-<br/><br/>
+
 ![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/salles2.PNG)
-<br/>
+
 
 ### Exportation des calendriers au format iCalendar
-Nous avons ajouté la possibilité d'exporter les évènements de la semaine courante sous forme de fichier *iCalendar* (.ics) pouvant être importé dans n'importe quel calendrier comme Google Calendar.
+Nous avons ajouté la possibilité d'exporter les évènements de la semaine courante sous forme d'un fichier *iCalendar* (.ics) pouvant être importé dans n'importe quel calendrier comme Google Calendar.
 
-Pour générer le fichier *iCalendar*, nous nous servi d'une bibliothèque JavaScript trouvé sur Github accessible [ici](https://github.com/nwcell/ics.js/).
+Pour générer le fichier *iCalendar*, nous nous sommes servis d'une bibliothèque JavaScript trouvé sur Github accessible [ici](https://github.com/nwcell/ics.js/).
 
 Après avoir ajouté les fichiers nécessaires dans le dossier *public/js* nous avons pu écrire notre méthode VueJS :
 
@@ -1248,30 +1265,30 @@ exportCalendarAsICS: function () {
 
 Cette méthode se contente de faire un appel API précédemment décrite pour récupérer les cours de la semaine courante sous forme de tableau et va, pour chacun d'entre eux, créer un évènement.
 
-Pour récupérer les cours de le semaine, cette méthode fait appel au point d'entrée API `/weekly/{date}`, détaillé plus haut dans la section concernant l'emploi du temps des cours par semaine.
+Pour récupérer les cours de la semaine, cette méthode fait appel au point d'entrée API `/weekly/{date}`, détaillé plus haut dans la section concernant l'emploi du temps des cours par semaine.
 
 Quand cela est fait, on propose à l'utilisateur de télécharger le fichier.
 
 Il ne restait plus qu'à ajouter un bouton dans l'interface pour appeler cette méthode.
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/icalendar.PNG)
-<br/><br/>
+
 
 ### Skeleton loaders
 Pour rajouter un peu d'UX pour indiquer que l'application charge des données nous avons utilisé le composant 
-`<<v-skeleton-loader>`.
+`<v-skeleton-loader>`.
 
 ![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/skeleton1.PNG)
-<br/><br/>
+
 ![salles](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/skeleton2.PNG)
-<br/>
+
 
 ### Indicateur d'heure
 Pour que l'utilisateur visualise plus facilement quel est le prochain cours nous avons mis en place un indicateur visuel 
 comme sur l'image suivante.
 
 ![home](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/indicateurHeure.PNG)
-<br/><br/>
+
 
 ### Authentification au panneau d'administration
 Enfin, nous souhaitions restreindre l'accès au panneau d'administration Easy Admin par une authentification.
@@ -1289,9 +1306,9 @@ access_control:
 
 Qui indique à Symfony que l'on souhaite restreindre la route */admin* aux utilisateurs possédant le rôle d'administrateur.
 
-Après avoir mis à jour le schéma de base de données et ajouté un utilisateur (le hash de son mot de passe a été généré avec la commande `bin/console security:encode-password`), l'authentification et le formulaire associé, bien qu'ayant une esthétique sommaire, étaient sommaires.
+Après avoir mis à jour le schéma de base de données et ajouté un utilisateur (le hash de son mot de passe a été généré avec la commande `bin/console security:encode-password`), l'authentification et le formulaire associé, bien qu'ayant une esthétique sommaire, étaient fonctionnels.
 
-Nous avons avons alors modifié le template du formulaire pour l'adapter au design de notre application, ajouté un bouton de connexion (qui redirige sur la route */login*) et de déconnexion (qui redirige sur la route */logout*) et mis une condition sur l'affichage du lien vers le pannel d'administration sur la page d'accueil.
+Nous avons alors modifié le template du formulaire pour l'adapter au design de notre application (voir ci-dessous), ajouté un bouton de connexion (qui redirige sur la route */login*) et de déconnexion (qui redirige sur la route */logout*) et mis une condition sur l'affichage du lien vers le pannel d'administration sur la page d'accueil.
 
 ```html
 {% if is_granted('ROLE_ADMIN') %}
