@@ -427,7 +427,7 @@ Ces cas ont nécessité que nous mettions en place des validateurs personnalisé
 
 Elle nous explique que le doit créer un dossier *Validator* dans *src* comme cela :
 
-![Dossier Validator](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/ValidatorFolder.PNG)
+![Dossier Validator](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/ValidatorFolder.png)
 
 À l'intérieur, on créé deux fichiers PHP : l'un avec nom libre et l'autre avec le même nom que le premier suivi de "Validator". Ici nous avons *DateHeureCours.php* et *DateHeureCoursValidator.php*.
 
@@ -546,13 +546,13 @@ class Cours {
 
 Et voici le résultat dans le formulaire de création de **Cours** :
 
-![Déclenchement validateur](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/DeclenchementValidateur1.PNG)
+![Déclenchement validateur](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/DeclenchementValidateur1.png)
 
-![Déclenchement validateur](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/DeclenchementValidateur2.PNG)
+![Déclenchement validateur](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/DeclenchementValidateur2.png)
 
 En ayant au préalable créé un **Cours** identique :
 
-![Déclenchement validateur](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/DeclenchementValidateur3.PNG)
+![Déclenchement validateur](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/DeclenchementValidateur3.png)
 
 ## API
 Il nous était demandé de créer deux points d'entrée API. L'un pour récupérer la liste des **Cours** et l'autre pour récupérer la liste des **Salles**.
