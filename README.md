@@ -69,7 +69,7 @@ DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
 - Exécuter le script sql pour peupler la base de données
 - Exécuter `cd public` et `php -S localhost:8000` sans changer le port
 - Accéder à localhost:8000 pour arriver sur la page d'accueil
-- Pour accéder au panel admin il faut se connecter avec les identifiant suivant : 
+- Pour accéder au panel admin il faut se connecter avec les identifiant suivant :  
     email : `admin@edt.com` 
     mdp : `admin`
 
@@ -79,11 +79,11 @@ DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
 ### Extension du modèle de données
 Voici à quoi ressemblait notre modèle de données au début du projet :
 
-![Modèle de données existant](/readmeAssets/img/ModeleDonneesAvant.PNG)
+![Modèle de données existant](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/ModeleDonneesAvant.PNG)
 
 Il nous était demandé, avant de se lancer dans le développement de l'application, d'étendre ce modèle en y rajoutant des entités **Cours** et **Salle** comme ci-dessous :
 
-![Modèle de données étendu](/readmeAssets/img/ModeleDonneesApres.PNG)
+![Modèle de données étendu](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/ModeleDonneesApres.PNG)
 
 Nous nous sommes donc servi de la console Symfony pour générer ces nouvelles entités avec la commande `bin/console make:entity`.
 
@@ -215,15 +215,15 @@ public function configureMenuItems(): iterable {
 
 Voici le menu après cette modification :
 
-![Menu Easy Admin](/readmeAssets/img/MenuEasyAdmin.PNG)
+![Menu Easy Admin](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/MenuEasyAdmin.PNG)
 
 Et voici à quoi ressemblent les formulaires de création de **Cours** :
 
-![Formulaire de création de cours](/readmeAssets/img/CreateCoursAvant.PNG)
+![Formulaire de création de cours](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/CreateCoursAvant.PNG)
 
 Et de création de **Salle** :
 
-![Formulaire de création de salle](/readmeAssets/img/CreateSalle.PNG)
+![Formulaire de création de salle](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/CreateSalle.PNG)
 
 Le formulaire de création de **Salle** nous convient mais nous souhaiterions pouvoir sélectionner une **Matiere**, un **Professeur** et une **Salle** dans le formulaire de création de **Cours** et éventuellement de restreindre le type de **Cours** à des valeurs prédéfinies.
 
@@ -251,7 +251,7 @@ public function configureFields(string $pageName): iterable {
 
 Le formulaire de création de **Cours** après ces modifications :
 
-![Formulaire de création de cours après modifications](/readmeAssets/img/CreateCoursApres.PNG)
+![Formulaire de création de cours après modifications](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/CreateCoursApres.PNG)
 
 Une fois le formulaires corrects, nous devions mettre en place des validateurs pour contrôler les données qui seraient saisies.
 
@@ -425,7 +425,7 @@ Ces cas ont nécessité que nous méttions en place des validateurs personnalis�
 
 Elle nous explique que le doit créer un dossier *Validator* dans *src* comme cela :
 
-![Dossier Validator](/readmeAssets/img/ValidatorFolder.PNG)
+![Dossier Validator](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/ValidatorFolder.PNG)
 
 À l'intérieur, on créé deux fichiers PHP : l'un avec nom libre et l'autre avec le même nom que le premier suivi de "Validator". Ici nous avons *DateHeureCours.php* et *DateHeureCoursValidator.php*.
 
@@ -544,13 +544,13 @@ class Cours {
 
 Et voici le résultat dans le formulaire de création de **Cours** :
 
-![Déclenchement validateur](/readmeAssets/img/DeclenchementValidateur1.PNG)
+![Déclenchement validateur](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/DeclenchementValidateur1.PNG)
 
-![Déclenchement validateur](/readmeAssets/img/DeclenchementValidateur2.PNG)
+![Déclenchement validateur](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/DeclenchementValidateur2.PNG)
 
 En ayant au préalable créé un **Cours** identique :
 
-![Déclenchement validateur](/readmeAssets/img/DeclenchementValidateur3.PNG)
+![Déclenchement validateur](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/DeclenchementValidateur3.PNG)
 
 ## API
 Il nous était demandé de créer deux points d'entrée API. L'un pour récupérer la liste des **Cours** et l'autre pour récupérer la liste des **Salles**.
@@ -1359,4 +1359,4 @@ Nous avons avons alors modifié le template du formulaire pour l'adapter au desi
 
 Le formulaire d'authentification :
 
-![Formulaire d'authentification](/readmeAssets/img/LoginForm.PNG)
+![Formulaire d'authentification](http://testsymfonyvues.fxcj3275.odns.fr/imagesReadme/LoginForm.png)
