@@ -55,7 +55,7 @@ DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
 - Exécuter le script SQL pour peupler la base de données
 - Exécuter `cd public` puis `php -S localhost:8000` sans changer le port
 - Accéder à localhost:8000 pour arriver sur la page d'accueil
-- Pour accéder au panel admin il faut se connecter avec les identifiant suivant : 
+- Pour accéder au panel admin il faut se connecter avec les identifiants suivants : 
 
     Email : `admin@edt.com` 
     Mot de passe : `admin`
@@ -77,12 +77,15 @@ DATABASE_URL="mysql://Utilisateur:MotDePasse@localhost:3306/nomDeLaTable"
 - Exécuter le script SQL pour peupler la base de données
 - Exécuter `cd public` puis `php -S localhost:8000` sans changer le port
 - Accéder à localhost:8000 pour arriver sur la page d'accueil
-- Pour accéder au panel admin il faut se connecter avec les identifiant suivant :  
+- Pour accéder au panel admin il faut se connecter avec les identifiants suivants :  
 
     Email : `admin@edt.com` 
     Mot de passe : `admin`
 
 ## Résumé
+Notre objectif dans ce projet était, en plus de répondre aux contraintes du sujet de base, de palier à certains inconvénients que l'on rencontre lors de notre utilisation de l'emploi du temps actuel de l'IUT.
+
+C'est pourquoi la page d'accueil de notre application est une sorte de "hub" permettant d'accéder aux emplois du temps mais également aux autres services de l'IUT que l'on trouve sur leur site, afin que les étudiants puissent tout faire depuis l'application.
 
 ### Points d'entrée API
 #### `GET` */professeurs*
